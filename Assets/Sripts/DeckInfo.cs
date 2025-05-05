@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class DeckInfo : MonoBehaviour
 {
     [System.Serializable]
     public class CardInfo

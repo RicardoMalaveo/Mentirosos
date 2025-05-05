@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class CardDealer : MonoBehaviour
 {
     [Header("Referencia al controlador de cartas")]
-    public GameController gameController;// Referencia al GameController que contiene la lista de cartas
+    public DeckInfo deckInfo;// Referencia al GameController que contiene la lista de cartas
 
     [Header("Configuración de jugadores")]
     public int playerCount = 4;// Número de jugadores
@@ -22,7 +22,7 @@ public class CardDealer : MonoBehaviour
     // Crea visualmente el mazo de cartas a partir de los prefabs definidos en GameController
     void CreateDeck()
     {
-        foreach (var cardInfo in gameController.allCards)
+        foreach (var cardInfo in deckInfo.allCards)
         {
             GameObject cardInstance = Instantiate(cardInfo.prefab); // Crea una copia del prefab
             cardInstance.name = cardInfo.cardName;                  // Asigna el nombre para fácil identificación
