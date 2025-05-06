@@ -7,13 +7,13 @@ public class DeckInfo : MonoBehaviour
     [System.Serializable]
     public class CardInfo
     {
-        public string cardName;           // Nombre único de la carta (por ejemplo: "7 de Copas")
-        public int number;                // Número de la carta (1 al 12, etc.)
-        public string suit;               // Palo (Copas, Espadas, etc.)
-        public GameObject prefab;         // Prefab asociado a esta carta
-        public bool isSpecial = false;    // Marca si esta carta es especial
+        public string cardName;
+        public int number;
+        public string suit; 
+        public GameObject prefab;
+        public bool isSpecial = false;
     }
 
-    [Header("Lista completa de cartas del juego")]
-    public List<CardInfo> allCards = new List<CardInfo>(); // Aquí defines manualmente todas las cartas desde el Inspector
+    [Header("All Cards Info Database")]
+    public List<CardInfo> allCards = new List<CardInfo>(); //Aquí defino manualmente todas las cartas desde el Inspector
 }

@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour //Esta clase es un objeto en el juego, es la que añadimos como instancias en el juego
 {
-    public int cardNumber; // 1 al 12
-    public string cardSuits; // Oros, Bastos, Copas y Espadas (Lo vamos a cambiar)
-    public bool cardIsSpecial; // Para saber si es una carta especial, vamos a introducir en estas los ases también
+    public int cardNumber;
+    public string cardSuits;
+    public bool cardIsSpecial;
     public Card(int cardNumber, string cardSuits, bool cardIsSpecial = false)
     {
         this.cardNumber = cardNumber;

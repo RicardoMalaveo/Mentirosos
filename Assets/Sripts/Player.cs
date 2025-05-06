@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class Player //Clase de Player
 {
@@ -17,7 +14,7 @@ public class Player //Clase de Player
 
     public virtual List<Card> JugarCartas(int quantity, int declaredNumber, bool lie)
     {
-        // lógica simple para devolver cartas
+        //Lógica simple para devolver cartas
         return new List<Card>();
     }
 }
