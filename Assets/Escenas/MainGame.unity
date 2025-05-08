@@ -517,6 +517,186 @@ MonoBehaviour:
     suit: Swords
     prefab: {fileID: 7286924348413757574, guid: 2be82a9efe1bfda4ab5b8e5ff34786a8, type: 3}
     isSpecial: 0
+  - cardName: 1_Gold
+    number: 1
+    suit: Gold
+    prefab: {fileID: 8868605993084135996, guid: 607d1e048a654714cb459bea836cc971, type: 3}
+    isSpecial: 1
+  - cardName: 2_Gold
+    number: 2
+    suit: Gold
+    prefab: {fileID: 6468703722282104952, guid: 5e9571c99f10c534b81150c8e729a47d, type: 3}
+    isSpecial: 0
+  - cardName: 3_Gold
+    number: 3
+    suit: Gold
+    prefab: {fileID: 5959093600653330072, guid: d0eaa6bc46cafee41957da7871327e65, type: 3}
+    isSpecial: 0
+  - cardName: 4_Gold
+    number: 4
+    suit: Gold
+    prefab: {fileID: 5758347067162828646, guid: 1e5ddb8623a60f04faae3939a1d8aa3e, type: 3}
+    isSpecial: 0
+  - cardName: 5_Gold
+    number: 5
+    suit: Gold
+    prefab: {fileID: 2887634897758329892, guid: 739cc33e968d3ee42a2e854e0659f22d, type: 3}
+    isSpecial: 0
+  - cardName: 6_Gold
+    number: 6
+    suit: Gold
+    prefab: {fileID: 6250000013766939657, guid: 6691971e5ed97ed4085724570bdac187, type: 3}
+    isSpecial: 0
+  - cardName: 7_Gold
+    number: 7
+    suit: Gold
+    prefab: {fileID: 356404840784412356, guid: b0bd2b8300d5d114d870e4cb5899cad0, type: 3}
+    isSpecial: 0
+  - cardName: 8_Gold
+    number: 8
+    suit: Gold
+    prefab: {fileID: 8225909462910893350, guid: 54daa95172e45314ab1bcb8075ecf593, type: 3}
+    isSpecial: 0
+  - cardName: 9_Gold
+    number: 9
+    suit: Gold
+    prefab: {fileID: 7524647354845829148, guid: 9a22023a368c9c94f8ea7916436494d7, type: 3}
+    isSpecial: 0
+  - cardName: 10_Gold
+    number: 10
+    suit: Gold
+    prefab: {fileID: 2874730821321330845, guid: 135415756c319234bad57ae822ae6a80, type: 3}
+    isSpecial: 0
+  - cardName: 11_Gold
+    number: 11
+    suit: Gold
+    prefab: {fileID: 3523297561824525153, guid: e71f9f4a52ff42746a40275507613f18, type: 3}
+    isSpecial: 0
+  - cardName: 12_Gold
+    number: 12
+    suit: Gold
+    prefab: {fileID: 5722737937787795715, guid: ab870942a9798f2408941053ffb10148, type: 3}
+    isSpecial: 0
+  - cardName: 1_Goblets
+    number: 1
+    suit: Goblets
+    prefab: {fileID: 119863895636503687, guid: 8e50f868278bdd04ebaccf66ae5064d3, type: 3}
+    isSpecial: 1
+  - cardName: 2_Goblets
+    number: 2
+    suit: Goblets
+    prefab: {fileID: 740654046283514327, guid: d3a468a4bea5b134c8ff44f41fe1a781, type: 3}
+    isSpecial: 0
+  - cardName: 3_Goblets
+    number: 3
+    suit: Goblets
+    prefab: {fileID: 2060754783967985717, guid: 92a66fcbd749b5a42a723b83f9a2b9d6, type: 3}
+    isSpecial: 0
+  - cardName: 4_Goblets
+    number: 4
+    suit: Goblets
+    prefab: {fileID: 1252718195429102349, guid: 8156f94fab86c9c4f926728cd2e2c5e0, type: 3}
+    isSpecial: 0
+  - cardName: 5_Goblets
+    number: 5
+    suit: Goblets
+    prefab: {fileID: 3896239639875501575, guid: afc5470c37ee3d541921b68cd417b86c, type: 3}
+    isSpecial: 0
+  - cardName: 6_Goblets
+    number: 6
+    suit: Goblets
+    prefab: {fileID: 5737070011120112827, guid: 342c41695fd2aca468037b178c6b9004, type: 3}
+    isSpecial: 0
+  - cardName: 7_Goblets
+    number: 7
+    suit: Goblets
+    prefab: {fileID: 5646614792308282342, guid: 2b289d9826d5df54e883af9e1022fff2, type: 3}
+    isSpecial: 0
+  - cardName: 8_Goblets
+    number: 8
+    suit: Goblets
+    prefab: {fileID: 3895630718968230920, guid: 4579c74702bc01c4eb4583c70ae1a9ce, type: 3}
+    isSpecial: 0
+  - cardName: 9_Goblets
+    number: 9
+    suit: Goblets
+    prefab: {fileID: 5121804451168888419, guid: e8d349f079472db4c990509cac943323, type: 3}
+    isSpecial: 0
+  - cardName: 10_Goblets
+    number: 10
+    suit: Goblets
+    prefab: {fileID: 4786567863324189411, guid: 00d0f873701e3de44b849a8fe4434aea, type: 3}
+    isSpecial: 0
+  - cardName: 11_Goblets
+    number: 11
+    suit: Goblets
+    prefab: {fileID: 1489716269761940889, guid: 2138fcfbb7667c149bf86f2da1dcdf2b, type: 3}
+    isSpecial: 0
+  - cardName: 12_Goblets
+    number: 12
+    suit: Goblets
+    prefab: {fileID: 5170766886706092658, guid: 054cf7c930d1ce94f95e356f47573cd3, type: 3}
+    isSpecial: 0
+  - cardName: 1_Wands
+    number: 1
+    suit: Goblets
+    prefab: {fileID: 4093190056883775710, guid: e100c79749c448a49baeb2c3e8d2046b, type: 3}
+    isSpecial: 1
+  - cardName: 2_Wands
+    number: 2
+    suit: Goblets
+    prefab: {fileID: 4538136755403285978, guid: 7dd1eeee2ae7cc444bf4cc6485214882, type: 3}
+    isSpecial: 0
+  - cardName: 3_Wands
+    number: 3
+    suit: Goblets
+    prefab: {fileID: 6006950869008884443, guid: ad17391c954b04e499e3cab30532163a, type: 3}
+    isSpecial: 0
+  - cardName: 4_Wands
+    number: 4
+    suit: Goblets
+    prefab: {fileID: 7049019044618485939, guid: 3ba34672a17fa5c4ea7e6eaf0a16af62, type: 3}
+    isSpecial: 0
+  - cardName: 5_Wands
+    number: 5
+    suit: Goblets
+    prefab: {fileID: 1476675848335680493, guid: 39e81707addb73048b108a0638e53646, type: 3}
+    isSpecial: 0
+  - cardName: 6_Wands
+    number: 6
+    suit: Goblets
+    prefab: {fileID: 4724055007100518955, guid: 34ca8eed5e627374ca13082971407a7e, type: 3}
+    isSpecial: 0
+  - cardName: 7_Wands
+    number: 7
+    suit: Goblets
+    prefab: {fileID: 8720399936986023126, guid: 62b80164983a56247a5cc7a9a29a5e69, type: 3}
+    isSpecial: 0
+  - cardName: 8_Wands
+    number: 8
+    suit: Goblets
+    prefab: {fileID: 2389309803509352299, guid: 2e6acc7bc6129f84a83e4519b04ca61f, type: 3}
+    isSpecial: 0
+  - cardName: 9_Wands
+    number: 9
+    suit: Goblets
+    prefab: {fileID: 2790338673397027570, guid: 127d83e391fc67d49815746f6786d9e3, type: 3}
+    isSpecial: 0
+  - cardName: 10_Wands
+    number: 10
+    suit: Goblets
+    prefab: {fileID: 8964773809591310576, guid: c1a5594d1a4c4b64095cfe12abafdd6f, type: 3}
+    isSpecial: 0
+  - cardName: 11_Wands
+    number: 11
+    suit: Goblets
+    prefab: {fileID: 3269469590989723380, guid: dc075efa504d5184a8279dc0a1d79fca, type: 3}
+    isSpecial: 0
+  - cardName: 12_Wands
+    number: 12
+    suit: Goblets
+    prefab: {fileID: 7013628960859146898, guid: 87e8696d2b9cdb14080a15a07bf9b40c, type: 3}
+    isSpecial: 0
 --- !u!4 &517464722
 Transform:
   m_ObjectHideFlags: 0
@@ -526,7 +706,7 @@ Transform:
   m_GameObject: {fileID: 517464720}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.84508127, y: -0.21563108, z: -0.2606692}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
