@@ -8,10 +8,12 @@ public class CardDealer : MonoBehaviour
     public DeckInfo deckInfo;
 
     [Header("Player Configuration")]
-    public int playerCount = 3;
+    public int playerCount = 4;
     public Transform[] playerHands;//Transforms donde se colocan las cartas visualmente para cada jugador
 
-    private List<Player> CurrrentGamePlayers = new List<Player>(); //lista total de juegos actuales
+    [Header("Player List")]
+    public List<Player> CurrrentGamePlayers = new List<Player>(); //lista total de juegos actuales
+
     private List<GameObject> instantiatedDeck = new List<GameObject>(); //Lista de cartas instanciadas en escena, estará vacia hasta que se cree el deck
     private List<CardInfo> CurrentGamePile = new List<CardInfo>(); //Lista de cartas en la pila del juego actual.
     private List<CardInfo> DiscardedGamePile = new List<CardInfo>(); //Lista de cartas descartadas definitivamente en el juego.
@@ -20,17 +22,23 @@ public class CardDealer : MonoBehaviour
 
     void Start()
     {
-        CreateCurrentPlayers();
+        //CreateCurrentPlayers();
         CreateDeck();
         ShuffleDeck();
         DealCards();
+        //MostrarInfoJugadoresDevMode();
     }
     //Crea multiples player dependiendo de la cantidad de jugadores estipulados en playercount
     void CreateCurrentPlayers()
     {
-        for(int i = 0; i <= playerCount; i++)
+
+        for (int i = 0; i <= playerCount; i++)
         {
             CurrrentGamePlayers.Add(new Player(i));
+            //Lista:
+            //Player(0)
+            //Player(1)
+            //Player(2)
         }
 
     }
@@ -66,6 +74,13 @@ public class CardDealer : MonoBehaviour
         foreach (GameObject card in instantiatedDeck)
         {
             card.transform.SetParent(playerHands[currentPlayer]);
+            //Lista:
+            //Player(0)
+            //Player(1)
+            //Player(2)
+
+            Card cardComponent = card.GetComponent<Card>();
+            CurrrentGamePlayers[currentPlayer].AddCarta(cardComponent);
 
             //Aquí falta por añadir a donde se traslada la carta y el añadirla a la mano del jugador
 
@@ -103,4 +118,15 @@ public class CardDealer : MonoBehaviour
         //aqui se agregan elementos a la pila de cartas descartadas finalmente.
         //cada turno verifica si el jugador que esta de turno tiene grupos de 4 cartas para descartar automaticamente.
     }
+    /*public void MostrarInfoJugadoresDevMode()
+    {
+        foreach (Player player in CurrrentGamePlayers)
+        {
+            Debug.Log($"Jugador {player.playerID}:");
+            foreach (Card card in player.playerHand)
+            {
+                Debug.Log($"    Carta: {card.cardNumber} de {card.cardSuits}, Especial: {card.cardIsSpecial}");
+            }
+        }
+    }*/
 }

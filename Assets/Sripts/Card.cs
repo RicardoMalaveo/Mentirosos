@@ -5,10 +5,10 @@ public class Card : MonoBehaviour //Esta clase es un objeto en el juego, es la q
     public int cardNumber;
     public string cardSuits;
     public bool cardIsSpecial;
-    public Card(int cardNumber, string cardSuits, bool cardIsSpecial = false)
+    public void GetCard(int number, string suits, bool isSpecial = false)
     {
-        this.cardNumber = cardNumber;
-        this.cardSuits = cardSuits;
-        this.cardIsSpecial = cardIsSpecial;
+        cardNumber = number;
+        cardSuits = suits;
+        cardIsSpecial = isSpecial;
     }
 }
