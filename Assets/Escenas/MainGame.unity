@@ -680,15 +680,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deckInfo: {fileID: 517464721}
+  playerInfo:
+    playerID: 0
+    playerHand: []
+    isHumanPlayer: 0
   playerCount: 3
   playerHands:
   - {fileID: 1855756575}
   - {fileID: 241988742}
   - {fileID: 244682605}
   CurrentGamePlayers:
-  - playerID: 0
-    playerHand: []
-    isHumanPlayer: 0
   - playerID: 0
     playerHand: []
     isHumanPlayer: 0

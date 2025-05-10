@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.GPUSort;
 [System.Serializable]
 public class Player //Clase de Player
 {
@@ -23,9 +24,11 @@ public class Player //Clase de Player
         this.playerID = playerID;
     }
 
-    public virtual List<Card> JugarCartas(int quantity, int declaredNumber, bool lie)
+    void start()
     {
-        //Lógica simple para devolver cartas
-        return new List<Card>();
+        foreach (Card card in playerHand)
+        {
+            Debug.Log($" | Number: {playerHand[playerID].cardNumber} | Suit: {playerHand[playerID].cardSuits}");
+        }
     }
 }

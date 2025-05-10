@@ -7,6 +7,9 @@ public class CardDealer : MonoBehaviour
     [Header("Deck Info Database Reference")]
     public DeckInfo deckInfo;
 
+    [Header("Player script reference")]
+    public Player playerInfo;
+
     [Header("Player Configuration")]
     public int playerCount = 3;
     public Transform[] playerHands;//Transforms donde se colocan las cartas visualmente para cada jugador
@@ -54,18 +57,30 @@ public class CardDealer : MonoBehaviour
     //Reparte las cartas de forma equitativa entre los jugadores
     void DealCards()
     {
-        int currentPlayer = 0;
-
-        foreach (GameObject card in instantiatedDeck)
+        for (int i = 0; i < instantiatedDeck.Count; i++)
         {
+            int currentPlayer = i % playerCount; // Automatically cycles through players
+            GameObject card = instantiatedDeck[i];
+
             card.transform.SetParent(playerHands[currentPlayer]);
             Card cardComponent = card.GetComponent<Card>();
             card.transform.localPosition = Vector3.zero;
             card.transform.localRotation = Quaternion.identity;
             CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
-
-            currentPlayer = (currentPlayer + 1) % playerCount; //Cambiamos entre los jugadores
         }
+
+        //int currentPlayer = 0;
+
+        //foreach (GameObject card in instantiatedDeck)
+        //{
+        //    card.transform.SetParent(playerHands[currentPlayer]);
+        //    Card cardComponent = card.GetComponent<Card>();
+        //    card.transform.localPosition = Vector3.zero;
+        //    card.transform.localRotation = Quaternion.identity;
+        //    CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
+
+        //    currentPlayer = (currentPlayer + 1) % playerCount; //Cambiamos entre los jugadores
+        //}
     }
     void CurrentPlay()
     {
