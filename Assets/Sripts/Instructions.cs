@@ -21,8 +21,5 @@ public class Instructions : MonoBehaviour
             -Falta: Posicionamiento espacial de las cartas (posición/rotación). Registro lógico en las playerHand del Player.
 
     -Tenemos también una lista de players para controlar las rondas, es una representación lógica (Interna del programa) no visual.
-     
-     
-     
      */
 }

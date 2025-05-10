@@ -1,31 +1,30 @@
-using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using static DeckInfo;
+using UnityEngine;
 
-public class ManoloAI : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    //Estas variables permiten calcular si se quiere tomar una decision o no, "1" es 100% ¡SI! y "0" es 100% ¡NO!
-    private float ManoloRisk = 0.5f; // a este numero se suma o se resta, este numero representa un rango de 100%, siempre empieza en 50% "neutral".
-
-    [Header("Player Info")]
+    [Header("Player Configuration")]
     [SerializeField] private int controlledPlayerID = 0;
     [SerializeField] private CardDealer cardDealer;
 
-    [Header("Card Spacing")]
+    [Header("Interaction Settings")]
     [SerializeField] private float cardSpacingX = 1.5f;
     [SerializeField] private float cardSpacingZ = 0.001f;
+    [SerializeField] private LayerMask cardLayer;
 
     public Player controlledPlayer;
+    public Camera mainCamera;
     void Awake()
     {
+        mainCamera = Camera.main;
         InitializeController();
+        ArrangeCards();
     }
 
     void Update()
     {
-            ManoloBehavior();
-              ArrangeCards();
+        PlayerInput();
+        ArrangeCards();
     }
 
     private void InitializeController()
@@ -34,28 +33,29 @@ public class ManoloAI : MonoBehaviour
         ArrangeCards();
     }
 
-    private void ManoloBehavior()
+    private void PlayerInput()
     {
-        if (cardDealer.IsAITurn(controlledPlayerID))
+        if (Input.GetMouseButtonDown(0))
         {
-            List<Card> playableCards = GetPlayableCards();
-            if (playableCards.Count > 0)
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, cardLayer))
             {
-                Card aiChoice = playableCards[Random.Range(0, playableCards.Count)];
-                PlayCard(aiChoice);
-            }
-            else
-            {
+                Card selectedCard = hit.collider.GetComponent<Card>();
+                if (selectedCard != null && controlledPlayer.playerHand.Contains(selectedCard))
+                {
+                    PlayCard(selectedCard);
+                    ArrangeCards();
+                }
             }
         }
     }
-
     public void PlayCard(Card card)
     {
             controlledPlayer.RemoveCarta(card);
             cardDealer.SubmitPlay(card);
             ArrangeCards();
     }
+
     private void ArrangeCards()
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
@@ -63,6 +63,7 @@ public class ManoloAI : MonoBehaviour
             float xPos = i * cardSpacingX;
             float ZPos = i * cardSpacingZ;
             controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0);
+            controlledPlayer.playerHand[i].SetInteractable(controlledPlayer.isHumanPlayer);
         }
     }
 
@@ -70,10 +71,11 @@ public class ManoloAI : MonoBehaviour
     {
         List<Card> playable = new List<Card>();
         int currentNumber = cardDealer.GetCurrentDeclaredNumber();
+        string currentSuit = cardDealer.GetCurrentDeclaredSuit();
 
         foreach (Card card in controlledPlayer.playerHand)
         {
-            if (card.cardNumber == currentNumber + 1 || card.cardNumber == currentNumber)
+            if (card.cardNumber == currentNumber || card.cardSuits == currentSuit)
             {
                 playable.Add(card);
             }

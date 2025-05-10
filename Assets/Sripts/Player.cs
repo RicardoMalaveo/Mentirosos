@@ -8,7 +8,7 @@ public class Player //Clase de Player
     [Header("All Player Info")]
     public int playerID;
     public List<Card> playerHand = new List<Card>();
-    public bool isHumanPlayer = false;
+    public bool isHumanPlayer;
 
     public void AddCarta(Card card)
     {
@@ -23,12 +23,13 @@ public class Player //Clase de Player
     {
         this.playerID = playerID;
     }
-
-    void start()
+    public bool CanPlayCard(Card card)
     {
-        foreach (Card card in playerHand)
-        {
-            Debug.Log($" | Number: {playerHand[playerID].cardNumber} | Suit: {playerHand[playerID].cardSuits}");
-        }
+        return true;
+    }
+
+    public void ClearHand()
+    {
+        playerHand.Clear();
     }
 }

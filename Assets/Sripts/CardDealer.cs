@@ -4,6 +4,10 @@ using static DeckInfo;
 
 public class CardDealer : MonoBehaviour
 {
+    private int currentDeclaredNumber;
+    private string currentDeclaredSuit;
+    private CardInfo currentTopCard;
+
     [Header("Deck Info Database Reference")]
     public DeckInfo deckInfo;
 
@@ -21,7 +25,6 @@ public class CardDealer : MonoBehaviour
     private List<CardInfo> CurrentGamePile = new List<CardInfo>(); //Lista de cartas en la pila del juego actual.
     private List<CardInfo> DiscardedGamePile = new List<CardInfo>(); //Lista de cartas descartadas definitivamente en el juego.
 
-    private int currentDeclaredNumber;
 
     void Start()
     {
@@ -68,20 +71,8 @@ public class CardDealer : MonoBehaviour
             card.transform.localRotation = Quaternion.identity;
             CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
         }
-
-        //int currentPlayer = 0;
-
-        //foreach (GameObject card in instantiatedDeck)
-        //{
-        //    card.transform.SetParent(playerHands[currentPlayer]);
-        //    Card cardComponent = card.GetComponent<Card>();
-        //    card.transform.localPosition = Vector3.zero;
-        //    card.transform.localRotation = Quaternion.identity;
-        //    CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
-
-        //    currentPlayer = (currentPlayer + 1) % playerCount; //Cambiamos entre los jugadores
-        //}
     }
+
     void CurrentPlay()
     {
         //se decide de quien es el turno
@@ -113,4 +104,41 @@ public class CardDealer : MonoBehaviour
         //aqui se agregan elementos a la pila de cartas descartadas finalmente.
         //cada turno verifica si el jugador que esta de turno tiene grupos de 4 cartas para descartar automaticamente.
     }
+    public int GetCurrentDeclaredNumber()
+    {
+        return currentDeclaredNumber;
+    }
+    public bool ValidatePlay(Card card, Player player)
+    {
+        // Implement your game's rule validation
+        return true;
+    }
+    public string GetCurrentDeclaredSuit()
+    {
+        return currentDeclaredSuit;
+    }
+    public void SubmitPlay(Card card)
+    {
+        // Handle card submission to discard pile
+        currentTopCard = new CardInfo
+        {
+            number = card.cardNumber,
+            suit = card.cardSuits,
+            prefab = card.gameObject
+        };
+
+        // Update declared values (for truthful plays)
+        currentDeclaredNumber = card.cardNumber;
+        currentDeclaredSuit = card.cardSuits;
+
+        // Move card to discard pile
+        DiscardedGamePile.Add(currentTopCard);
+        card.gameObject.SetActive(false);
+    }
+    public bool IsAITurn(int playerID)
+    {
+        // Implement turn management logic
+        return true;
+    }
+
 }

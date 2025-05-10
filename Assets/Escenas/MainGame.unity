@@ -128,8 +128,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 241988742}
+  - component: {fileID: 241988743}
   m_Layer: 0
-  m_Name: PosicionJugador1
+  m_Name: Manolo 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,6 +151,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 80, y: -45, z: 0}
+--- !u!114 &241988743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241988741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3542be80a0ffe6f4f853cd4c16c5913e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlledPlayerID: 1
+  cardDealer: {fileID: 517464723}
+  cardSpacingX: 0.025
+  cardSpacingZ: -0.001
+  controlledPlayer:
+    playerID: 1
+    playerHand: []
+    isHumanPlayer: 0
 --- !u!1 &244682604
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,8 +180,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 244682605}
+  - component: {fileID: 244682606}
   m_Layer: 0
-  m_Name: PosicionJugador2
+  m_Name: Manolo 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,12 +197,32 @@ Transform:
   m_GameObject: {fileID: 244682604}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5938583, y: 0.29315254, z: -0.24598415, w: 0.70773286}
-  m_LocalPosition: {x: 0.521, y: 0.41, z: 0.517}
+  m_LocalPosition: {x: 0.521, y: 0.32, z: 0.517}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 80, y: 45, z: 0}
+--- !u!114 &244682606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244682604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3542be80a0ffe6f4f853cd4c16c5913e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlledPlayerID: 2
+  cardDealer: {fileID: 517464723}
+  cardSpacingX: 0.025
+  cardSpacingZ: -0.001
+  controlledPlayer:
+    playerID: 2
+    playerHand: []
+    isHumanPlayer: 0
 --- !u!1 &265809005
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +734,7 @@ MonoBehaviour:
   CurrentGamePlayers:
   - playerID: 0
     playerHand: []
-    isHumanPlayer: 0
+    isHumanPlayer: 1
   - playerID: 1
     playerHand: []
     isHumanPlayer: 0
@@ -881,8 +923,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1855756575}
+  - component: {fileID: 1855756576}
   m_Layer: 0
-  m_Name: PosicionJugador0
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -897,12 +940,36 @@ Transform:
   m_GameObject: {fileID: 1855756574}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.8433915, z: 0.53729963, w: 0}
-  m_LocalPosition: {x: 0, y: 0.32, z: -0.87}
+  m_LocalPosition: {x: 0.1825, y: 0.32, z: -0.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 115, y: 0, z: 180}
+--- !u!114 &1855756576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855756574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de0e08491a688f45b7851c6f6f500d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlledPlayerID: 0
+  cardDealer: {fileID: 517464723}
+  cardSpacingX: 0.025
+  cardSpacingZ: -0.001
+  cardLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  controlledPlayer:
+    playerID: 0
+    playerHand: []
+    isHumanPlayer: 1
+  mainCamera: {fileID: 2000399916}
 --- !u!1 &2000399914
 GameObject:
   m_ObjectHideFlags: 0
