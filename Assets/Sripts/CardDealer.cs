@@ -22,8 +22,8 @@ public class CardDealer : MonoBehaviour
     public List<Player> CurrentGamePlayers = new List<Player>(); //lista total de juegos actuales
 
     private List<GameObject> instantiatedDeck = new List<GameObject>(); //Lista de cartas instanciadas en escena, estará vacia hasta que se cree el deck
-    private List<CardInfo> CurrentGamePile = new List<CardInfo>(); //Lista de cartas en la pila del juego actual.
-    private List<CardInfo> DiscardedGamePile = new List<CardInfo>(); //Lista de cartas descartadas definitivamente en el juego.
+    [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
+    private List<Card> DiscardedGamePile = new List<Card>(); //Lista de cartas descartadas definitivamente en el juego.
 
 
     void Start()
@@ -33,15 +33,14 @@ public class CardDealer : MonoBehaviour
         DealCards();
     }
 
-    //Crea visualmente el mazo de cartas a partir de los prefabs definidos en GameController
+    //Crea visualmente el mazo de cartas a partir de los prefabs definidos
     void CreateDeck()
     {
-        //Si en un futuro queremos añadir 2 cartas identicas por el motivo que fuera podemos hacerlo a través de esta función
         foreach (var cardInfo in deckInfo.allCards)
         {
-            GameObject cardInstance = Instantiate(cardInfo.prefab); 
-            cardInstance.name = cardInfo.cardName;                  
-            instantiatedDeck.Add(cardInstance);                     
+            GameObject cardInstance = Instantiate(cardInfo.prefab);
+            cardInstance.name = cardInfo.cardName;
+            instantiatedDeck.Add(cardInstance);
         }
     }
 
@@ -62,9 +61,8 @@ public class CardDealer : MonoBehaviour
     {
         for (int i = 0; i < instantiatedDeck.Count; i++)
         {
-            int currentPlayer = i % playerCount; // Automatically cycles through players
+            int currentPlayer = i % playerCount;
             GameObject card = instantiatedDeck[i];
-
             card.transform.SetParent(playerHands[currentPlayer]);
             Card cardComponent = card.GetComponent<Card>();
             card.transform.localPosition = Vector3.zero;
@@ -72,7 +70,10 @@ public class CardDealer : MonoBehaviour
             CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
         }
     }
-
+    public void GetCurrentGamePile(Card cardsToPlay)
+    {
+                CurrentGamePile.Add(cardsToPlay);
+    }
     void CurrentPlay()
     {
         //se decide de quien es el turno
@@ -120,19 +121,19 @@ public class CardDealer : MonoBehaviour
     public void SubmitPlay(Card card)
     {
         // Handle card submission to discard pile
-        currentTopCard = new CardInfo
-        {
-            number = card.cardNumber,
-            suit = card.cardSuits,
-            prefab = card.gameObject
-        };
+        //currentTopCard = new Card
+        //{
+        //    number = card.cardNumber,
+        //    suit = card.cardSuits,
+        //    prefab = card.gameObject
+        //};
 
         // Update declared values (for truthful plays)
         currentDeclaredNumber = card.cardNumber;
         currentDeclaredSuit = card.cardSuits;
 
         // Move card to discard pile
-        DiscardedGamePile.Add(currentTopCard);
+        //DiscardedGamePile.Add(currentTopCard);
         card.gameObject.SetActive(false);
     }
     public bool IsAITurn(int playerID)

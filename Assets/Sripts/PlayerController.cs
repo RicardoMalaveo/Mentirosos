@@ -9,14 +9,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int controlledPlayerID = 0;
     [SerializeField] private CardDealer cardDealer;
 
-    [Header("Interaction Settings")]
+    [Header("Card Spacing")]
     [SerializeField] private float cardSpacingX = 1.5f;
     [SerializeField] private float cardSpacingZ = 0.001f;
     [SerializeField] private LayerMask cardLayer;
 
-    [Header("Card Movement")]
+    [Header("Card Selection")]
     [SerializeField] private float raiseHeight = 0.000001f;
     [SerializeField] private float moveDuration = 0.2f;
+
+    [Header("Pile")]
+    public Transform mainPile;
+    public Vector3 mainPilePosition;
+    public Vector3 cardStackOffSet = new Vector3(0.1f, 0.1f, -0.05f);
+    public float pileMoveDuration = 0.3f;
 
     public List<Card> cardsToPlay;
 
@@ -35,6 +41,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerInput();
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            PlaySelectedCards();
+        }
     }
 
     private void InitializeController()
@@ -53,22 +63,29 @@ public class PlayerController : MonoBehaviour
                 selectedCard = hit.collider.GetComponent<Card>();
                 if (selectedCard != null && controlledPlayer.playerHand.Contains(selectedCard))
                 {
-                    //PlayCard(selectedCard);
                     TogglePosition();
                 }
             }
         }
     }
+    void PlaySelectedCards()
+    {
+        for (int i = cardsToPlay.Count - 1; i >= 0; i--)
+        {
+            Debug.Log(cardsToPlay.Count +" Cards to play");
+            cardDealer.GetCurrentGamePile(cardsToPlay[i]);
+            controlledPlayer.playerHand.Remove(cardsToPlay[i]);
+            cardsToPlay.RemoveAt(i);
+            Debug.Log("Remove Cards from hand");
+            Debug.Log(i);
+        }
 
+    }
     public void PlayCard(Card card)
     {
         controlledPlayer.RemoveCarta(card);
         cardDealer.SubmitPlay(card);
         ArrangeCards();
-    }
-    public void SelectCard()
-    {
-
     }
     public void AddCardToHand(Card card)
     {
@@ -82,32 +99,10 @@ public class PlayerController : MonoBehaviour
         controlledPlayer.RemoveCarta(card);
         ArrangeCards();
     }
-
-    //private void UpdateSelectedCards(Card card)
-    //{
-    //    if (selectedCard.isRaised)
-    //    {
-    //        if (cardsToPlay.Count >= 3)
-    //        {
-    //            Debug.Log("list is full");
-    //            cardsToPlay.RemoveAt(0);
-    //            selectedCard = cardsToPlay[2];
-    //            TogglePosition();
-    //            cardsToPlay.Add(card);
-    //        }
-    //        cardsToPlay.Add(card);
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("removing card");
-    //        cardsToPlay.Remove(card);
-    //    }
-
-    //    Debug.Log($"Current selected cards: {cardsToPlay.Count}");
-    //}
     public void TogglePosition()
     {
         Vector3 targetPosition;
+        Vector3 automaticTargetPosition;
 
         if ( selectedCard.isRaised)
         {
@@ -120,11 +115,10 @@ public class PlayerController : MonoBehaviour
         {
             if (cardsToPlay.Count >= 3)
             {
-
-                targetPosition = cardsToPlay[0].initialLocalPosition + Vector3.back * raiseHeight;
-                StartCoroutine(MoveCard(targetPosition));
-                cardsToPlay[0].isRaised = false;
-                cardsToPlay.Remove(cardsToPlay[0]);
+                autoSelectedCard = cardsToPlay[0];
+                automaticTargetPosition = autoSelectedCard.initialLocalPosition;
+                StartCoroutine(AutomaticMoveCard(automaticTargetPosition));
+                autoSelectedCard.isRaised = false;
 
                 cardsToPlay.Add(selectedCard);
                 selectedCard.isRaised = true;
@@ -139,8 +133,6 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(MoveCard(targetPosition));
             }
         }
-        Debug.Log($"Current selected cards: {cardsToPlay.Count}");
-        Debug.Log("toggling card");
     }
 
     private void ArrangeCards()
@@ -157,7 +149,6 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator MoveCard(Vector3 targetPosition)
     {
-        yield return new WaitForSeconds(0.1f);
         float timeElapsed = 0f;
         Vector3 startPosition = selectedCard.transform.localPosition;
         while (timeElapsed < moveDuration)
@@ -167,5 +158,19 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         selectedCard.transform.localPosition = targetPosition;
+    }
+
+    private IEnumerator AutomaticMoveCard(Vector3 automaticTargetPosition)
+    {
+        float timeElapsed = 0f;
+        Vector3 startPosition = autoSelectedCard.transform.localPosition;
+        while (timeElapsed < moveDuration)
+        {
+            autoSelectedCard.transform.localPosition = Vector3.Lerp(startPosition, automaticTargetPosition, timeElapsed / moveDuration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        cardsToPlay.Remove(autoSelectedCard);
+        autoSelectedCard.transform.localPosition = automaticTargetPosition;
     }
 }

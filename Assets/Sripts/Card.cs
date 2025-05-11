@@ -7,8 +7,8 @@ public class Card : MonoBehaviour //Esta clase es un objeto en el juego, es la q
     public int cardValue;
     public bool cardIsSpecial;
     public bool isRaised = false;
+    public bool isInPlay = false;
     public Vector3 initialLocalPosition;
-    public Coroutine moveCoroutine;
 
     void Start()
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.GPUSort;
 [System.Serializable]
-public class Player //Clase de Player
+public class Player
 {
     [Header("All Player Info")]
     public int playerID;
