@@ -965,10 +965,14 @@ MonoBehaviour:
   cardLayer:
     serializedVersion: 2
     m_Bits: 4294967295
+  raiseHeight: 0.02
+  moveDuration: 0.2
+  cardsToPlay: []
   controlledPlayer:
     playerID: 0
     playerHand: []
     isHumanPlayer: 1
+  selectedCard: {fileID: 0}
   mainCamera: {fileID: 2000399916}
 --- !u!1 &2000399914
 GameObject:
