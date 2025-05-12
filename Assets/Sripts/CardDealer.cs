@@ -1,18 +1,29 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using static DeckInfo;
 
 public class CardDealer : MonoBehaviour
 {
-    private int currentDeclaredNumber;
-    private string currentDeclaredSuit;
-    private CardInfo currentTopCard;
+    [Header("Game State Info")]
+    [SerializeField] private bool IsFirstTurn;
 
-    [Header("Deck Info Database Reference")]
+    [Header("Players")]
+    [SerializeField] private Player playerInfo;
+    [SerializeField] private int CurrentPlayer;
+    [SerializeField] private int LastPlayer;
+
+
+    [Header("Deck")]
     public DeckInfo deckInfo;
+    public Transform mainPile;
 
-    [Header("Player script reference")]
-    public Player playerInfo;
+    [Header("Game Pile")]
+    [SerializeField] private Card LastCardInf;
+    [SerializeField] private Card CurrentCardInf;
+    [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
+    [SerializeField] private bool didLastPlayerLied;
+
 
     [Header("Player Configuration")]
     public int playerCount = 3;
@@ -20,14 +31,13 @@ public class CardDealer : MonoBehaviour
 
     [Header("Player List")]
     public List<Player> CurrentGamePlayers = new List<Player>();
-
     private List<GameObject> instantiatedDeck = new List<GameObject>(); //Lista de cartas instanciadas en escena, estará vacia hasta que se cree el deck
-    [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
-    private List<Card> DiscardedGamePile = new List<Card>(); //Lista de cartas descartadas definitivamente en el juego.
+    [SerializeField] private List<Card> DiscardedGamePile = new List<Card>(); //Lista de cartas descartadas definitivamente en el juego.
 
 
     void Start()
     {
+        IsFirstTurn = true;
         CreateAndShuffleDeck();
         DealCards();
     }
@@ -66,24 +76,34 @@ public class CardDealer : MonoBehaviour
             CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
         }
     }
-    public void AddToCurrentGamePile(Card cardsToPlay)
+    public void AddCardsToCurrentGamePile(Card cardsToPlay, Player player)
     {
         CurrentGamePile.Add(cardsToPlay);
-    }
-    public void GetCardsPlayed(Card card, Player player)
-    {
+        cardsToPlay.transform.SetParent(mainPile);
+        cardsToPlay.transform.localPosition = Vector3.zero;
+        cardsToPlay.transform.localRotation = Quaternion.identity;
+        CurrentCardInf = CurrentGamePile.Last();
+        LastCardInf = CurrentGamePile.Last();
     }
 
-
-    void CurrentPlay()
+    public void PlayerTurnControl()
     {
         //se decide de quien es el turno
-        //se decide si se va a acusar o a jugar(primer turno la corrutina no se ejecuta, solo se puede jugar)
-        //en caso de acusar se ejecuta resolver acusacion
-        //finalmente se juega, seleccionas las cartas a jugar y en caso de ser el primer jugador de la ronda, decide si mentir o no y decides el numero de la carta 
-        //junto a la cantidad, en caso de no ser el primer jugador de la ronda, solo se puede acusar y mentir o no, seleccionando las cartas en mano.
-
-        //se ejecuta currentgamepile
+        if(IsFirstTurn)
+        {
+            CurrentPlayer = 0;
+            IsFirstTurn = false;
+        }
+        else if(CurrentPlayer >= CurrentGamePlayers.Count -1)
+        {
+            CurrentPlayer = 0;
+            LastPlayer += 1;
+        }
+        else
+        {
+            CurrentPlayer++;
+            LastPlayer = CurrentPlayer - 1;
+        }
     }
 
     void GetCurrentGamePile() //añade elementos a la pila descartada y la pila de valores reales
@@ -106,8 +126,8 @@ public class CardDealer : MonoBehaviour
         //aqui se agregan elementos a la pila de cartas descartadas finalmente.
         //cada turno verifica si el jugador que esta de turno tiene grupos de 4 cartas para descartar automaticamente.
     }
-    public int GetCurrentDeclaredNumber()
-    {
-        return currentDeclaredNumber;
-    }
+    //public int GetCurrentDeclaredNumber()
+    //{
+    //    return currentDeclaredNumber;
+    //}
 }

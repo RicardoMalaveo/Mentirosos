@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         InitializeController();
+        cardDealer.PlayerTurnControl();
+
     }
     void Update()
     {
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             PlaySelectedCards();
+            cardDealer.PlayerTurnControl();
         }
     }
 
@@ -82,7 +85,7 @@ public class PlayerController : MonoBehaviour
         for (int i = cardsToPlay.Count - 1; i >= 0; i--)
         {
             Debug.Log(cardsToPlay.Count +" Cards to play");
-            cardDealer.AddToCurrentGamePile(cardsToPlay[i]);
+            cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i], controlledPlayer);
             controlledPlayer.playerHand.Remove(cardsToPlay[i]);
             cardsToPlay.RemoveAt(i);
             Debug.Log("Remove Cards from hand");
