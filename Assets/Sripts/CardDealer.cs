@@ -16,10 +16,10 @@ public class CardDealer : MonoBehaviour
 
     [Header("Player Configuration")]
     public int playerCount = 3;
-    public Transform[] playerHands;//Transforms donde se colocan las cartas visualmente para cada jugador
+    public Transform[] playerHands;
 
     [Header("Player List")]
-    public List<Player> CurrentGamePlayers = new List<Player>(); //lista total de juegos actuales
+    public List<Player> CurrentGamePlayers = new List<Player>();
 
     private List<GameObject> instantiatedDeck = new List<GameObject>(); //Lista de cartas instanciadas en escena, estará vacia hasta que se cree el deck
     [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
@@ -28,13 +28,13 @@ public class CardDealer : MonoBehaviour
 
     void Start()
     {
-        CreateDeck();
-        ShuffleDeck();
+        CreateAndShuffleDeck();
         DealCards();
     }
 
     //Crea visualmente el mazo de cartas a partir de los prefabs definidos
-    void CreateDeck()
+    //Mezcla el mazo instanciado usando el algoritmo Fisher–Yates
+    void CreateAndShuffleDeck()
     {
         foreach (var cardInfo in deckInfo.allCards)
         {
@@ -42,11 +42,7 @@ public class CardDealer : MonoBehaviour
             cardInstance.name = cardInfo.cardName;
             instantiatedDeck.Add(cardInstance);
         }
-    }
 
-    //Mezcla el mazo instanciado usando el algoritmo Fisher–Yates
-    void ShuffleDeck()
-    {
         for (int i = 0; i < instantiatedDeck.Count; i++)
         {
             int rand = Random.Range(i, instantiatedDeck.Count);
@@ -70,10 +66,15 @@ public class CardDealer : MonoBehaviour
             CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
         }
     }
-    public void GetCurrentGamePile(Card cardsToPlay)
+    public void AddToCurrentGamePile(Card cardsToPlay)
     {
-                CurrentGamePile.Add(cardsToPlay);
+        CurrentGamePile.Add(cardsToPlay);
     }
+    public void GetCardsPlayed(Card card, Player player)
+    {
+    }
+
+
     void CurrentPlay()
     {
         //se decide de quien es el turno
@@ -109,37 +110,4 @@ public class CardDealer : MonoBehaviour
     {
         return currentDeclaredNumber;
     }
-    public bool ValidatePlay(Card card, Player player)
-    {
-        // Implement your game's rule validation
-        return true;
-    }
-    public string GetCurrentDeclaredSuit()
-    {
-        return currentDeclaredSuit;
-    }
-    public void SubmitPlay(Card card)
-    {
-        // Handle card submission to discard pile
-        //currentTopCard = new Card
-        //{
-        //    number = card.cardNumber,
-        //    suit = card.cardSuits,
-        //    prefab = card.gameObject
-        //};
-
-        // Update declared values (for truthful plays)
-        currentDeclaredNumber = card.cardNumber;
-        currentDeclaredSuit = card.cardSuits;
-
-        // Move card to discard pile
-        //DiscardedGamePile.Add(currentTopCard);
-        card.gameObject.SetActive(false);
-    }
-    public bool IsAITurn(int playerID)
-    {
-        // Implement turn management logic
-        return true;
-    }
-
 }

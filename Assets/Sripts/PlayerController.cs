@@ -30,6 +30,15 @@ public class PlayerController : MonoBehaviour
     public Card selectedCard;
     public Card autoSelectedCard;
     public Camera mainCamera;
+
+
+
+
+
+
+
+
+
     void Awake()
     {
         mainCamera = Camera.main;
@@ -73,18 +82,16 @@ public class PlayerController : MonoBehaviour
         for (int i = cardsToPlay.Count - 1; i >= 0; i--)
         {
             Debug.Log(cardsToPlay.Count +" Cards to play");
-            cardDealer.GetCurrentGamePile(cardsToPlay[i]);
+            cardDealer.AddToCurrentGamePile(cardsToPlay[i]);
             controlledPlayer.playerHand.Remove(cardsToPlay[i]);
             cardsToPlay.RemoveAt(i);
             Debug.Log("Remove Cards from hand");
             Debug.Log(i);
         }
-
     }
     public void PlayCard(Card card)
     {
         controlledPlayer.RemoveCarta(card);
-        cardDealer.SubmitPlay(card);
         ArrangeCards();
     }
     public void AddCardToHand(Card card)
@@ -134,7 +141,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
     private void ArrangeCards()
     {
         Dictionary<int, int> numberFrequency = controlledPlayer.playerHand.GroupBy(card => card.cardNumber).ToDictionary(group => group.Key, group => group.Count());
@@ -159,7 +165,6 @@ public class PlayerController : MonoBehaviour
         }
         selectedCard.transform.localPosition = targetPosition;
     }
-
     private IEnumerator AutomaticMoveCard(Vector3 automaticTargetPosition)
     {
         float timeElapsed = 0f;
