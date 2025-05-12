@@ -40,7 +40,7 @@ public class ManoloAI : MonoBehaviour
 
     public void PlayCard(Card card)
     {
-        controlledPlayer.RemoveCarta(card);
+        controlledPlayer.RemoveCard(card);
         ArrangeCards();
     }
     private void ArrangeCards()
@@ -54,14 +54,14 @@ public class ManoloAI : MonoBehaviour
     }
     public void AddCardToHand(Card card)
     {
-        controlledPlayer.AddCarta(card);
+        controlledPlayer.AddCard(card);
         card.transform.SetParent(transform);
         ArrangeCards();
     }
 
     public void RemoveCardFromHand(Card card)
     {
-        controlledPlayer.RemoveCarta(card);
+        controlledPlayer.RemoveCard(card);
         ArrangeCards();
     }
 }

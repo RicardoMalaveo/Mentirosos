@@ -14,6 +14,11 @@ public class Card : MonoBehaviour //Esta clase es un objeto en el juego, es la q
     {
         initialLocalPosition = transform.localPosition;
     }
+
+    public void UpdateLocalPosition()
+    {
+        initialLocalPosition = transform.localPosition;
+    }
     public void SetInteractable(bool state)
     {
         GetComponent<Collider>().enabled = state;

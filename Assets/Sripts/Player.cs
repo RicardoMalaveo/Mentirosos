@@ -10,12 +10,12 @@ public class Player
     public List<Card> playerHand = new List<Card>();
     public bool isHumanPlayer;
 
-    public void AddCarta(Card card)
+    public void AddCard(Card card)
     {
         playerHand.Add(card);
     }
 
-    public void RemoveCarta(Card card)
+    public void RemoveCard(Card card)
     {
         playerHand.Remove(card);
     }

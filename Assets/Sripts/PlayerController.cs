@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask cardLayer;
 
     [Header("Card Selection")]
-    [SerializeField] private float raiseHeight = 0.000001f;
-    [SerializeField] private float moveDuration = 0.2f;
+    [SerializeField] private float cardRaise = 0.015f;
+    [SerializeField] private float moveDuration = 0.1f;
 
     [Header("Pile")]
     public Transform mainPile;
@@ -24,17 +24,13 @@ public class PlayerController : MonoBehaviour
     public Vector3 cardStackOffSet = new Vector3(0.1f, 0.1f, -0.05f);
     public float pileMoveDuration = 0.3f;
 
-    public List<Card> cardsToPlay;
+    [Header("Hand")]
+    [SerializeField] private List<Card> cardsToPlay;
 
     public Player controlledPlayer;
     public Card selectedCard;
     public Card autoSelectedCard;
     public Camera mainCamera;
-
-
-
-
-
 
 
 
@@ -84,29 +80,22 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = cardsToPlay.Count - 1; i >= 0; i--)
         {
-            Debug.Log(cardsToPlay.Count +" Cards to play");
             cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i], controlledPlayer);
-            controlledPlayer.playerHand.Remove(cardsToPlay[i]);
+            controlledPlayer.RemoveCard(cardsToPlay[i]);
             cardsToPlay.RemoveAt(i);
-            Debug.Log("Remove Cards from hand");
-            Debug.Log(i);
+            ArrangeCards();
         }
-    }
-    public void PlayCard(Card card)
-    {
-        controlledPlayer.RemoveCarta(card);
-        ArrangeCards();
     }
     public void AddCardToHand(Card card)
     {
-        controlledPlayer.AddCarta(card);
+        controlledPlayer.AddCard(card);
         card.transform.SetParent(transform);
         ArrangeCards();
     }
 
     public void RemoveCardFromHand(Card card)
     {
-        controlledPlayer.RemoveCarta(card);
+        controlledPlayer.RemoveCard(card);
         ArrangeCards();
     }
     public void TogglePosition()
@@ -132,13 +121,13 @@ public class PlayerController : MonoBehaviour
 
                 cardsToPlay.Add(selectedCard);
                 selectedCard.isRaised = true;
-                targetPosition = selectedCard.initialLocalPosition + Vector3.back * raiseHeight;
+                targetPosition = selectedCard.initialLocalPosition + Vector3.back * cardRaise;
                 StartCoroutine(MoveCard(targetPosition));
             }
             else
             {
                 cardsToPlay.Add(selectedCard);
-                targetPosition = selectedCard.initialLocalPosition + Vector3.back * raiseHeight;
+                targetPosition = selectedCard.initialLocalPosition + Vector3.back * cardRaise;
                 selectedCard.isRaised = true;
                 StartCoroutine(MoveCard(targetPosition));
             }
@@ -154,6 +143,7 @@ public class PlayerController : MonoBehaviour
             float ZPos = i * cardSpacingZ;
             controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0);
             controlledPlayer.playerHand[i].SetInteractable(controlledPlayer.isHumanPlayer);
+            controlledPlayer.playerHand[i].UpdateLocalPosition();
         }
     }
     private IEnumerator MoveCard(Vector3 targetPosition)

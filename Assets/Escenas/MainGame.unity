@@ -600,14 +600,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291634fea065b9f4ea134cff55dd0d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastDeclaredCard: {fileID: 0}
-  actualCurrentDeclaredCard: {fileID: 0}
-  deckInfo: {fileID: 517464721}
-  mainPile: {fileID: 1002698207}
+  IsFirstTurn: 0
   playerInfo:
     playerID: 0
     playerHand: []
     isHumanPlayer: 0
+  CurrentPlayer: 0
+  LastPlayer: 0
+  deckInfo: {fileID: 517464721}
+  mainPile: {fileID: 1002698207}
+  LastCardInf: {fileID: 0}
+  CurrentCardInf: {fileID: 0}
+  CurrentGamePile: []
+  didLastPlayerLied: 0
   playerCount: 3
   playerHands:
   - {fileID: 1855756575}
@@ -623,7 +628,6 @@ MonoBehaviour:
   - playerID: 2
     playerHand: []
     isHumanPlayer: 0
-  CurrentGamePile: []
   DiscardedGamePile: []
 --- !u!1 &568576298
 GameObject:
@@ -922,7 +926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9022340827354833486, guid: 4b07ddc341cda964d99a2be9eac76435, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.4
+      value: 1.2581124
       objectReference: {fileID: 0}
     - target: {fileID: 9022340827354833486, guid: 4b07ddc341cda964d99a2be9eac76435, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1555,7 +1559,7 @@ MonoBehaviour:
   cardLayer:
     serializedVersion: 2
     m_Bits: 4294967295
-  raiseHeight: 0.02
+  cardRaise: 0.015
   moveDuration: 0.2
   mainPile: {fileID: 1002698207}
   mainPilePosition: {x: 0, y: 0, z: 0}
@@ -2019,7 +2023,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8517164742755522597, guid: 3a7c8fb891049ab4c92597bafcd25362, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.13888754
+      value: 0.997
       objectReference: {fileID: 0}
     - target: {fileID: 8517164742755522597, guid: 3a7c8fb891049ab4c92597bafcd25362, type: 3}
       propertyPath: m_LocalPosition.y

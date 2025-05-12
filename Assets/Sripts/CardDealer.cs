@@ -13,7 +13,6 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private int CurrentPlayer;
     [SerializeField] private int LastPlayer;
 
-
     [Header("Deck")]
     public DeckInfo deckInfo;
     public Transform mainPile;
@@ -21,6 +20,10 @@ public class CardDealer : MonoBehaviour
     [Header("Game Pile")]
     [SerializeField] private Card LastCardInf;
     [SerializeField] private Card CurrentCardInf;
+    [SerializeField] private int amountOfCardsPlayed;
+    [SerializeField] private int totalAmountOfCardsInThePile;
+
+
     [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
     [SerializeField] private bool didLastPlayerLied;
 
@@ -73,7 +76,7 @@ public class CardDealer : MonoBehaviour
             Card cardComponent = card.GetComponent<Card>();
             card.transform.localPosition = Vector3.zero;
             card.transform.localRotation = Quaternion.identity;
-            CurrentGamePlayers[currentPlayer].AddCarta(cardComponent);
+            CurrentGamePlayers[currentPlayer].AddCard(cardComponent);
         }
     }
     public void AddCardsToCurrentGamePile(Card cardsToPlay, Player player)
@@ -126,8 +129,4 @@ public class CardDealer : MonoBehaviour
         //aqui se agregan elementos a la pila de cartas descartadas finalmente.
         //cada turno verifica si el jugador que esta de turno tiene grupos de 4 cartas para descartar automaticamente.
     }
-    //public int GetCurrentDeclaredNumber()
-    //{
-    //    return currentDeclaredNumber;
-    //}
 }
