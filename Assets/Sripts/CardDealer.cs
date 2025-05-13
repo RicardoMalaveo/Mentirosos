@@ -23,10 +23,8 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private int amountOfCardsPlayed;
     [SerializeField] private int totalAmountOfCardsInThePile;
 
-
     [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
     [SerializeField] private bool didLastPlayerLied;
-
 
     [Header("Player Configuration")]
     public int playerCount = 3;
@@ -44,7 +42,6 @@ public class CardDealer : MonoBehaviour
         CreateAndShuffleDeck();
         DealCards();
     }
-
     //Crea visualmente el mazo de cartas a partir de los prefabs definidos
     //Mezcla el mazo instanciado usando el algoritmo Fisher–Yates
     void CreateAndShuffleDeck()

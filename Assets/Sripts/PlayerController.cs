@@ -10,13 +10,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CardDealer cardDealer;
 
     [Header("Card Spacing")]
-    [SerializeField] private float cardSpacingX = 1.5f;
-    [SerializeField] private float cardSpacingZ = 0.001f;
+    [SerializeField] private float cardSpacingX = 0.05f;
+    [SerializeField] private float cardSpacingZ = -0.001f;
     [SerializeField] private LayerMask cardLayer;
 
     [Header("Card Selection")]
     [SerializeField] private float cardRaise = 0.015f;
-    [SerializeField] private float moveDuration = 0.1f;
+    [SerializeField] private float moveDuration = 0.5f;
 
     [Header("Pile")]
     public Transform mainPile;
@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
         {
             float xPos = i * cardSpacingX;
             float ZPos = i * cardSpacingZ;
-            controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0);
+            controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0F);
             controlledPlayer.playerHand[i].SetInteractable(controlledPlayer.isHumanPlayer);
             controlledPlayer.playerHand[i].UpdateLocalPosition();
         }

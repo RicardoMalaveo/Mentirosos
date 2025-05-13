@@ -611,6 +611,8 @@ MonoBehaviour:
   mainPile: {fileID: 1002698207}
   LastCardInf: {fileID: 0}
   CurrentCardInf: {fileID: 0}
+  amountOfCardsPlayed: 0
+  totalAmountOfCardsInThePile: 0
   CurrentGamePile: []
   didLastPlayerLied: 0
   playerCount: 3
@@ -1534,7 +1536,7 @@ Transform:
   m_GameObject: {fileID: 1855756574}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.8433915, z: 0.53729963, w: 0}
-  m_LocalPosition: {x: 0.1825, y: 0.177, z: -0.705}
+  m_LocalPosition: {x: 0.3693, y: 0.177, z: -0.705}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1554,13 +1556,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledPlayerID: 0
   cardDealer: {fileID: 517464723}
-  cardSpacingX: 0.025
+  cardSpacingX: 0.05
   cardSpacingZ: -0.001
   cardLayer:
     serializedVersion: 2
     m_Bits: 4294967295
-  cardRaise: 0.015
-  moveDuration: 0.2
+  cardRaise: 0.1225
+  moveDuration: 0.25
   mainPile: {fileID: 1002698207}
   mainPilePosition: {x: 0, y: 0, z: 0}
   cardStackOffSet: {x: 0.1, y: 0.1, z: -0.05}
