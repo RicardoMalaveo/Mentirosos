@@ -6,17 +6,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Configuration")]
-    [SerializeField] private int controlledPlayerID = 0;
     [SerializeField] private CardDealer cardDealer;
 
     [Header("Card Spacing")]
-    [SerializeField] private float cardSpacingX = 0.05f;
-    [SerializeField] private float cardSpacingZ = -0.001f;
+    [SerializeField] private float cardSpacingY = 0.05f;
+    [SerializeField] private Vector3 direction = new Vector3(0,0,0);
     [SerializeField] private LayerMask cardLayer;
 
     [Header("Card Selection")]
-    [SerializeField] private float cardRaise = 0.015f;
-    [SerializeField] private float moveDuration = 0.5f;
+    [SerializeField] private float cardRaise = 0.1225f;
+    [SerializeField] private float moveDuration = 0.25f;
 
     [Header("Pile")]
     public Transform mainPile;
@@ -55,9 +54,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     private void InitializeController()
     {
-        controlledPlayer = cardDealer.CurrentGamePlayers.Find(player => player.playerID == controlledPlayerID);
+        controlledPlayer = cardDealer.CurrentGamePlayers.Find(player => player.playerID == controlledPlayer.playerID);
         ArrangeCards();
     }
 
@@ -80,12 +80,13 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = cardsToPlay.Count - 1; i >= 0; i--)
         {
-            cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i], controlledPlayer);
+            cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i]);
             controlledPlayer.RemoveCard(cardsToPlay[i]);
             cardsToPlay.RemoveAt(i);
             ArrangeCards();
         }
     }
+
     public void AddCardToHand(Card card)
     {
         controlledPlayer.AddCard(card);
@@ -98,18 +99,19 @@ public class PlayerController : MonoBehaviour
         controlledPlayer.RemoveCard(card);
         ArrangeCards();
     }
+
     public void TogglePosition()
     {
         Vector3 targetPosition;
         Vector3 automaticTargetPosition;
 
-        if ( selectedCard.isRaised)
+        if (selectedCard.isRaised)
         {
             cardsToPlay.Remove(selectedCard);
             targetPosition = selectedCard.initialLocalPosition;
             selectedCard.isRaised = false;
             StartCoroutine(MoveCard(targetPosition));
-        } 
+        }
         else
         {
             if (cardsToPlay.Count >= 3)
@@ -137,11 +139,18 @@ public class PlayerController : MonoBehaviour
     {
         Dictionary<int, int> numberFrequency = controlledPlayer.playerHand.GroupBy(card => card.cardNumber).ToDictionary(group => group.Key, group => group.Count());
         controlledPlayer.playerHand = controlledPlayer.playerHand.OrderBy(card => numberFrequency[card.cardNumber]).ThenBy(card => card.cardNumber).ToList();
+
+        float totalSpread = (controlledPlayer.playerHand.Count - 1) * cardSpacingY;
+        float startOffset = - totalSpread / 2f;
+
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
-            float xPos = i * cardSpacingX;
-            float ZPos = i * cardSpacingZ;
-            controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0F);
+            if (controlledPlayer.playerHand[i] == null) continue;
+
+            float positionOffset = startOffset + i * cardSpacingY;
+            Vector3 newPosition = cardDealer.playerHands[controlledPlayer.playerID].localPosition + direction * positionOffset;
+            controlledPlayer.playerHand[i].transform.position = newPosition;
+            controlledPlayer.playerHand[i].transform.localRotation = Quaternion.identity;
             controlledPlayer.playerHand[i].SetInteractable(controlledPlayer.isHumanPlayer);
             controlledPlayer.playerHand[i].UpdateLocalPosition();
         }

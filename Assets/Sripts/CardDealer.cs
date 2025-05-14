@@ -12,19 +12,20 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private Player playerInfo;
     [SerializeField] private int CurrentPlayer;
     [SerializeField] private int LastPlayer;
+    [SerializeField] private bool didLastPlayerLied;
 
     [Header("Deck")]
     public DeckInfo deckInfo;
     public Transform mainPile;
 
     [Header("Game Pile")]
-    [SerializeField] private Card LastCardInf;
+    [SerializeField] private Card actualPlayedCard;
+    [SerializeField] private int cardDeclared;
     [SerializeField] private Card CurrentCardInf;
     [SerializeField] private int amountOfCardsPlayed;
     [SerializeField] private int totalAmountOfCardsInThePile;
-
     [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
-    [SerializeField] private bool didLastPlayerLied;
+
 
     [Header("Player Configuration")]
     public int playerCount = 3;
@@ -42,49 +43,50 @@ public class CardDealer : MonoBehaviour
         CreateAndShuffleDeck();
         DealCards();
     }
-    //Crea visualmente el mazo de cartas a partir de los prefabs definidos
-    //Mezcla el mazo instanciado usando el algoritmo Fisher–Yates
-    void CreateAndShuffleDeck()
-    {
-        foreach (var cardInfo in deckInfo.allCards)
-        {
-            GameObject cardInstance = Instantiate(cardInfo.prefab);
-            cardInstance.name = cardInfo.cardName;
-            instantiatedDeck.Add(cardInstance);
-        }
 
-        for (int i = 0; i < instantiatedDeck.Count; i++)
-        {
-            int rand = Random.Range(i, instantiatedDeck.Count);
-            GameObject temp = instantiatedDeck[i];
-            instantiatedDeck[i] = instantiatedDeck[rand];
-            instantiatedDeck[rand] = temp;
-        }
-    }
-
-    //Reparte las cartas de forma equitativa entre los jugadores
-    void DealCards()
-    {
-        for (int i = 0; i < instantiatedDeck.Count; i++)
-        {
-            int currentPlayer = i % playerCount;
-            GameObject card = instantiatedDeck[i];
-            card.transform.SetParent(playerHands[currentPlayer]);
-            Card cardComponent = card.GetComponent<Card>();
-            card.transform.localPosition = Vector3.zero;
-            card.transform.localRotation = Quaternion.identity;
-            CurrentGamePlayers[currentPlayer].AddCard(cardComponent);
-        }
-    }
-    public void AddCardsToCurrentGamePile(Card cardsToPlay, Player player)
+    public void AddCardsToCurrentGamePile(Card cardsToPlay)
     {
         CurrentGamePile.Add(cardsToPlay);
         cardsToPlay.transform.SetParent(mainPile);
         cardsToPlay.transform.localPosition = Vector3.zero;
         cardsToPlay.transform.localRotation = Quaternion.identity;
         CurrentCardInf = CurrentGamePile.Last();
-        LastCardInf = CurrentGamePile.Last();
+
+        if(actualPlayedCard == null /*&& cardDeclared == CurrentCardInf.cardNumber*/)
+        {
+            actualPlayedCard = CurrentCardInf;
+            didLastPlayerLied = false;
+
+        }
+        else if (actualPlayedCard.cardNumber == CurrentCardInf.cardNumber/*|| cardDeclared == actualPlayedCard.cardNumber*/)
+        {
+            didLastPlayerLied = false;
+        }
+        else
+        {
+            didLastPlayerLied = true;
+        }
     }
+
+    //void ResolveAcusation(int playerId, Card cardsToPlay, Player player)
+    //{
+    //    //aqui se verifica si el ultimo jugador a mentido
+    //    if (didLastPlayerLied)
+    //    {
+    //        didLastPlayerLied = false;
+    //        LastCardInf = null;
+    //        LastPlayer = CurrentPlayer;
+    //        for (int i = CurrentGamePile.Count - 1; i >= 0; i--)
+    //        {
+    //            cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i], controlledPlayer);
+    //            controlledPlayer.RemoveCard(cardsToPlay[i]);
+    //            cardsToPlay.RemoveAt(i);
+    //            ArrangeCards();
+    //        }
+    //    }
+
+    //    //encualquier caso la piladeclarada se resetea ".Clear(); y se devuelve un true or false a la bool de acusation.
+    //}
 
     public void PlayerTurnControl()
     {
@@ -105,7 +107,6 @@ public class CardDealer : MonoBehaviour
             LastPlayer = CurrentPlayer - 1;
         }
     }
-
     void GetCurrentGamePile() //añade elementos a la pila descartada y la pila de valores reales
     {
         //aqui se toman dos valores, la cantidad de cartas descartadas declaradas por el ultimo jugador y el valor de las cartas
@@ -113,17 +114,47 @@ public class CardDealer : MonoBehaviour
 
         //hay dos listas declaradas previamente piladeclarada y la piladevaloresreales
     }
-
-    void ResolveAcusation()
-    {
-        //aqui se comparan los valores de la pila declarada y la piladevaloresreales
-
-        //encualquier caso la piladeclarada se resetea ".Clear(); y se devuelve un true or false a la bool de acusation.
-    }
-
     void AddToDiscardedGamePile()
     {
         //aqui se agregan elementos a la pila de cartas descartadas finalmente.
         //cada turno verifica si el jugador que esta de turno tiene grupos de 4 cartas para descartar automaticamente.
+    }
+
+
+
+
+
+    //Crea visualmente el mazo de cartas a partir de los prefabs definidos
+    //Mezcla el mazo instanciado usando el algoritmo Fisher–Yates
+    void CreateAndShuffleDeck()
+    {
+        foreach (var cardInfo in deckInfo.allCards)
+        {
+            GameObject cardInstance = Instantiate(cardInfo.prefab);
+            cardInstance.name = cardInfo.cardName;
+            instantiatedDeck.Add(cardInstance);
+        }
+
+        for (int i = 0; i < instantiatedDeck.Count; i++)
+        {
+            int rand = Random.Range(i, instantiatedDeck.Count);
+            GameObject temp = instantiatedDeck[i];
+            instantiatedDeck[i] = instantiatedDeck[rand];
+            instantiatedDeck[rand] = temp;
+        }
+    }
+    //Reparte las cartas de forma equitativa entre los jugadores
+    void DealCards()
+    {
+        for (int i = 0; i < instantiatedDeck.Count; i++)
+        {
+            int currentPlayer = i % playerCount;
+            GameObject card = instantiatedDeck[i];
+            card.transform.SetParent(playerHands[currentPlayer]);
+            Card cardComponent = card.GetComponent<Card>();
+            card.transform.localPosition = Vector3.zero;
+            card.transform.localRotation = Quaternion.identity;
+            CurrentGamePlayers[currentPlayer].AddCard(cardComponent);
+        }
     }
 }
