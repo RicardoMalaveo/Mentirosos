@@ -50,6 +50,12 @@ public class PlayerController : MonoBehaviour
             PlaySelectedCards();
             cardDealer.PlayerTurnControl();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            cardDealer.ResolveAcusation();
+        }
+            
     }
 
     private void InitializeController()

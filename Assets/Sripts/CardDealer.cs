@@ -54,7 +54,6 @@ public class CardDealer : MonoBehaviour
     }
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
-
         if (IsFirstTurn)
         {
             CurrentPlayer = 1;
@@ -85,10 +84,26 @@ public class CardDealer : MonoBehaviour
             totalAmountOfCardsInThePile = CurrentGamePile.Count;
         }
     }
-    void ResolveAcusation()
+
+
+    public void ResolveAcusation()
     {
-        //aqui se comparan los valores de la pila declarada y la piladevaloresreales
-        //encualquier caso la piladeclarada se resetea ".Clear(); y se devuelve un true or false a la bool de acusation.
+
+        for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
+        {
+            Debug.Log(CurrentGamePile[i]);
+            CurrentCard = CurrentGamePile[i];
+            if (actualPlayedCard.cardNumber != CurrentCard.cardNumber)
+            {
+                didLastPlayerLied = true;
+                i= CurrentGamePile.Count-1;
+            }
+            else
+            {
+                didLastPlayerLied = false;
+            }
+            Debug.Log(CurrentCard);
+        }
     }
     void AddToDiscardedGamePile()
     {
