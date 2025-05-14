@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
     {
         InitializeController();
         cardDealer.PlayerTurnControl();
-
     }
     void Update()
     {
