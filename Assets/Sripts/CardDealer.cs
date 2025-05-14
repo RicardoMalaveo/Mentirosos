@@ -36,18 +36,14 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private List<Card> DiscardedGamePile = new List<Card>(); //Lista de cartas descartadas definitivamente en el juego.
 
 
+
+
     void Start()
     {
         IsFirstTurn = true;
         CreateAndShuffleDeck();
         DealCards();
     }
-
-    public void Update()
-    {
-
-    }
-
     public void AddCardsToCurrentGamePile(Card cardsToPlay)
     {
         CurrentGamePile.Add(cardsToPlay);
@@ -56,7 +52,6 @@ public class CardDealer : MonoBehaviour
         cardsToPlay.transform.localRotation = Quaternion.identity;
         actualPlayedCard = CurrentGamePile.First();
     }
-
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
 
@@ -77,7 +72,6 @@ public class CardDealer : MonoBehaviour
         }
         GetCurrentGamePileAmounts();
     }
-
     void GetCurrentGamePileAmounts()
     {
         if (IsFirstTurn)
@@ -91,14 +85,11 @@ public class CardDealer : MonoBehaviour
             totalAmountOfCardsInThePile = CurrentGamePile.Count;
         }
     }
-
     void ResolveAcusation()
     {
         //aqui se comparan los valores de la pila declarada y la piladevaloresreales
-
         //encualquier caso la piladeclarada se resetea ".Clear(); y se devuelve un true or false a la bool de acusation.
     }
-
     void AddToDiscardedGamePile()
     {
         //aqui se agregan elementos a la pila de cartas descartadas finalmente.
@@ -123,8 +114,7 @@ public class CardDealer : MonoBehaviour
             instantiatedDeck[rand] = temp;
         }
     }
-    //Reparte las cartas de forma equitativa entre los jugadores
-    void DealCards()
+    void DealCards()  //Reparte las cartas de forma equitativa entre los jugadores
     {
         for (int i = 0; i < instantiatedDeck.Count; i++)
         {

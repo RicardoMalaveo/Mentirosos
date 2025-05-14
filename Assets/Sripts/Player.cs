@@ -10,11 +10,15 @@ public class Player
     public List<Card> playerHand = new List<Card>();
     public bool isHumanPlayer;
 
+
+
+
+
+
     public void AddCard(Card card)
     {
         playerHand.Add(card);
     }
-
     public void RemoveCard(Card card)
     {
         playerHand.Remove(card);
@@ -27,7 +31,6 @@ public class Player
     {
         return true;
     }
-
     public void ClearHand()
     {
         playerHand.Clear();

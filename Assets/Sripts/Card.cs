@@ -10,11 +10,15 @@ public class Card : MonoBehaviour //Esta clase es un objeto en el juego, es la q
     public bool isInPlay = false;
     public Vector3 initialLocalPosition;
 
+
+
+
+
+
     void Start()
     {
         initialLocalPosition = transform.localPosition;
     }
-
     public void UpdateLocalPosition()
     {
         initialLocalPosition = transform.localPosition;
@@ -23,7 +27,6 @@ public class Card : MonoBehaviour //Esta clase es un objeto en el juego, es la q
     {
         GetComponent<Collider>().enabled = state;
     }
-
     public void GetCard(int number, string suits, bool isSpecial = false)
     {
         cardNumber = number;
