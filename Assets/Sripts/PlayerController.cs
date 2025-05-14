@@ -10,12 +10,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Card Spacing")]
     [SerializeField] private float cardSpacingY = 0.05f;
-    [SerializeField] private Vector3 direction = new Vector3(0,0,0);
+    [SerializeField] private Vector3 direction = new Vector3(0, 0, 0);
     [SerializeField] private LayerMask cardLayer;
 
     [Header("Card Selection")]
-    [SerializeField] private float cardRaise = 0.1225f;
-    [SerializeField] private float moveDuration = 0.25f;
+    [SerializeField] private float cardRaise = 0.015f;
+    [SerializeField] private float moveDuration = 0.1f;
 
     [Header("Pile")]
     public Transform mainPile;
@@ -41,18 +41,16 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         InitializeController();
-        cardDealer.PlayerTurnControl();
     }
     void Update()
     {
         PlayerInput();
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             PlaySelectedCards();
             cardDealer.PlayerTurnControl();
         }
     }
-
 
     private void InitializeController()
     {
@@ -85,7 +83,6 @@ public class PlayerController : MonoBehaviour
             ArrangeCards();
         }
     }
-
     public void AddCardToHand(Card card)
     {
         controlledPlayer.AddCard(card);
@@ -98,7 +95,6 @@ public class PlayerController : MonoBehaviour
         controlledPlayer.RemoveCard(card);
         ArrangeCards();
     }
-
     public void TogglePosition()
     {
         Vector3 targetPosition;
@@ -140,7 +136,7 @@ public class PlayerController : MonoBehaviour
         controlledPlayer.playerHand = controlledPlayer.playerHand.OrderBy(card => numberFrequency[card.cardNumber]).ThenBy(card => card.cardNumber).ToList();
 
         float totalSpread = (controlledPlayer.playerHand.Count - 1) * cardSpacingY;
-        float startOffset = - totalSpread / 2f;
+        float startOffset = -totalSpread / 2f;
 
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {

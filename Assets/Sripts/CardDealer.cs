@@ -20,12 +20,11 @@ public class CardDealer : MonoBehaviour
 
     [Header("Game Pile")]
     [SerializeField] private Card actualPlayedCard;
-    [SerializeField] private int cardDeclared;
-    [SerializeField] private Card CurrentCardInf;
+    [SerializeField] public int cardDeclared;
+    [SerializeField] private Card CurrentCard;
     [SerializeField] private int amountOfCardsPlayed;
     [SerializeField] private int totalAmountOfCardsInThePile;
     [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
-
 
     [Header("Player Configuration")]
     public int playerCount = 3;
@@ -44,59 +43,29 @@ public class CardDealer : MonoBehaviour
         DealCards();
     }
 
+    public void Update()
+    {
+
+    }
+
     public void AddCardsToCurrentGamePile(Card cardsToPlay)
     {
         CurrentGamePile.Add(cardsToPlay);
         cardsToPlay.transform.SetParent(mainPile);
         cardsToPlay.transform.localPosition = Vector3.zero;
         cardsToPlay.transform.localRotation = Quaternion.identity;
-        CurrentCardInf = CurrentGamePile.Last();
-
-        if(actualPlayedCard == null /*&& cardDeclared == CurrentCardInf.cardNumber*/)
-        {
-            actualPlayedCard = CurrentCardInf;
-            didLastPlayerLied = false;
-
-        }
-        else if (actualPlayedCard.cardNumber == CurrentCardInf.cardNumber/*|| cardDeclared == actualPlayedCard.cardNumber*/)
-        {
-            didLastPlayerLied = false;
-        }
-        else
-        {
-            didLastPlayerLied = true;
-        }
+        actualPlayedCard = CurrentGamePile.First();
     }
 
-    //void ResolveAcusation(int playerId, Card cardsToPlay, Player player)
-    //{
-    //    //aqui se verifica si el ultimo jugador a mentido
-    //    if (didLastPlayerLied)
-    //    {
-    //        didLastPlayerLied = false;
-    //        LastCardInf = null;
-    //        LastPlayer = CurrentPlayer;
-    //        for (int i = CurrentGamePile.Count - 1; i >= 0; i--)
-    //        {
-    //            cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i], controlledPlayer);
-    //            controlledPlayer.RemoveCard(cardsToPlay[i]);
-    //            cardsToPlay.RemoveAt(i);
-    //            ArrangeCards();
-    //        }
-    //    }
-
-    //    //encualquier caso la piladeclarada se resetea ".Clear(); y se devuelve un true or false a la bool de acusation.
-    //}
-
-    public void PlayerTurnControl()
+    public void PlayerTurnControl()        //se decide de quien es el turno
     {
-        //se decide de quien es el turno
-        if(IsFirstTurn)
+
+        if (IsFirstTurn)
         {
-            CurrentPlayer = 0;
+            CurrentPlayer = 1;
             IsFirstTurn = false;
         }
-        else if(CurrentPlayer >= CurrentGamePlayers.Count -1)
+        else if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
         {
             CurrentPlayer = 0;
             LastPlayer += 1;
@@ -106,24 +75,35 @@ public class CardDealer : MonoBehaviour
             CurrentPlayer++;
             LastPlayer = CurrentPlayer - 1;
         }
+        GetCurrentGamePileAmounts();
     }
-    void GetCurrentGamePile() //añade elementos a la pila descartada y la pila de valores reales
-    {
-        //aqui se toman dos valores, la cantidad de cartas descartadas declaradas por el ultimo jugador y el valor de las cartas
-        //aqui se toman dos valores mas, estos son los valores actuales de las cartas, el palo y el numero actual de cada carta
 
-        //hay dos listas declaradas previamente piladeclarada y la piladevaloresreales
+    void GetCurrentGamePileAmounts()
+    {
+        if (IsFirstTurn)
+        {
+            totalAmountOfCardsInThePile = CurrentGamePile.Count;
+            amountOfCardsPlayed = totalAmountOfCardsInThePile;
+        }
+        else
+        {
+            amountOfCardsPlayed = CurrentGamePile.Count - totalAmountOfCardsInThePile;
+            totalAmountOfCardsInThePile = CurrentGamePile.Count;
+        }
     }
+
+    void ResolveAcusation()
+    {
+        //aqui se comparan los valores de la pila declarada y la piladevaloresreales
+
+        //encualquier caso la piladeclarada se resetea ".Clear(); y se devuelve un true or false a la bool de acusation.
+    }
+
     void AddToDiscardedGamePile()
     {
         //aqui se agregan elementos a la pila de cartas descartadas finalmente.
         //cada turno verifica si el jugador que esta de turno tiene grupos de 4 cartas para descartar automaticamente.
     }
-
-
-
-
-
     //Crea visualmente el mazo de cartas a partir de los prefabs definidos
     //Mezcla el mazo instanciado usando el algoritmo Fisher–Yates
     void CreateAndShuffleDeck()
