@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public float pileMoveDuration = 0.3f;
 
     [Header("Hand")]
-    [SerializeField] private List<Card> cardsToPlay;
+    [SerializeField] public List<Card> cardsToPlay;
 
     public Player controlledPlayer;
     public Card selectedCard;
@@ -38,10 +38,14 @@ public class PlayerController : MonoBehaviour
     {
         mainCamera = Camera.main;
     }
+
+
     public void Start()
     {
         InitializeController();
     }
+
+
     void Update()
     {
         PlayerInput();
@@ -53,16 +57,20 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            cardDealer.ResolveAcusation();
+            DiscardSelectCards();
         }
-            
     }
+
+
 
     private void InitializeController()
     {
         controlledPlayer = cardDealer.CurrentGamePlayers.Find(player => player.playerID == controlledPlayer.playerID);
         ArrangeCards();
     }
+
+
+
 
     public void PlayerInput()
     {
@@ -79,6 +87,31 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+
+    public void AddCardToHand(Card card)
+    {
+        controlledPlayer.AddCard(card);
+        card.transform.SetParent(transform);
+        ArrangeCards();
+    }
+
+
+
+
+
+    void DiscardSelectCards()
+    {
+        cardDealer.AddToDiscardedGamePile(cardsToPlay);
+        for (int i = cardsToPlay.Count - 1; i >= 0; i--)
+        {
+            cardsToPlay[i].isRaised = false;
+            cardsToPlay.RemoveAt(i);
+            //ArrangeCards();
+        }
+    }
+
+
     void PlaySelectedCards()
     {
         for (int i = cardsToPlay.Count - 1; i >= 0; i--)
@@ -89,18 +122,9 @@ public class PlayerController : MonoBehaviour
             ArrangeCards();
         }
     }
-    public void AddCardToHand(Card card)
-    {
-        controlledPlayer.AddCard(card);
-        card.transform.SetParent(transform);
-        ArrangeCards();
-    }
 
-    public void RemoveCardFromHand(Card card)
-    {
-        controlledPlayer.RemoveCard(card);
-        ArrangeCards();
-    }
+
+
     public void TogglePosition()
     {
         Vector3 targetPosition;
@@ -115,7 +139,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (cardsToPlay.Count >= 3)
+            if (cardsToPlay.Count >= 4)
             {
                 autoSelectedCard = cardsToPlay[0];
                 automaticTargetPosition = autoSelectedCard.initialLocalPosition;
@@ -136,7 +160,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    private void ArrangeCards()
+
+
+
+
+
+    public void ArrangeCards()
     {
         Dictionary<int, int> numberFrequency = controlledPlayer.playerHand.GroupBy(card => card.cardNumber).ToDictionary(group => group.Key, group => group.Count());
         controlledPlayer.playerHand = controlledPlayer.playerHand.OrderBy(card => numberFrequency[card.cardNumber]).ThenBy(card => card.cardNumber).ToList();
@@ -156,6 +185,10 @@ public class PlayerController : MonoBehaviour
             controlledPlayer.playerHand[i].UpdateLocalPosition();
         }
     }
+
+
+
+
     private IEnumerator MoveCard(Vector3 targetPosition)
     {
         float timeElapsed = 0f;
@@ -168,6 +201,11 @@ public class PlayerController : MonoBehaviour
         }
         selectedCard.transform.localPosition = targetPosition;
     }
+
+
+
+
+
     private IEnumerator AutomaticMoveCard(Vector3 automaticTargetPosition)
     {
         float timeElapsed = 0f;

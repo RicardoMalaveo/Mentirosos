@@ -1411,6 +1411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsFirstTurn: 0
+  playerController: {fileID: 1855756576}
   playerInfo:
     playerID: 0
     playerHand: []
@@ -1420,6 +1421,7 @@ MonoBehaviour:
   didLastPlayerLied: 0
   deckInfo: {fileID: 517464721}
   mainPile: {fileID: 1002698207}
+  discardedPile: {fileID: 669734069}
   actualPlayedCard: {fileID: 0}
   cardDeclared: 0
   CurrentCard: {fileID: 0}
@@ -1938,6 +1940,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 659317953}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &669734068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 669734069}
+  m_Layer: 0
+  m_Name: DIscardedGamePile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &669734069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669734068}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.584, y: 0.078, z: -0.001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &691985687 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8538292190886852852, guid: 4b07ddc341cda964d99a2be9eac76435, type: 3}
@@ -5451,3 +5484,4 @@ SceneRoots:
   - {fileID: 1706149461}
   - {fileID: 568576301}
   - {fileID: 882612911}
+  - {fileID: 669734069}

@@ -9,6 +9,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private bool IsFirstTurn;
 
     [Header("Players")]
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private Player playerInfo;
     [SerializeField] private int CurrentPlayer;
     [SerializeField] private int LastPlayer;
@@ -17,6 +18,8 @@ public class CardDealer : MonoBehaviour
     [Header("Deck")]
     public DeckInfo deckInfo;
     public Transform mainPile;
+    public Transform discardedPile;
+
 
     [Header("Game Pile")]
     [SerializeField] private Card actualPlayedCard;
@@ -44,6 +47,10 @@ public class CardDealer : MonoBehaviour
         CreateAndShuffleDeck();
         DealCards();
     }
+
+
+
+
     public void AddCardsToCurrentGamePile(Card cardsToPlay)
     {
         CurrentGamePile.Add(cardsToPlay);
@@ -52,6 +59,11 @@ public class CardDealer : MonoBehaviour
         cardsToPlay.transform.localRotation = Quaternion.identity;
         actualPlayedCard = CurrentGamePile.First();
     }
+
+
+
+
+
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
         if (IsFirstTurn)
@@ -71,45 +83,59 @@ public class CardDealer : MonoBehaviour
         }
         GetCurrentGamePileAmounts();
     }
-    void GetCurrentGamePileAmounts()
+
+
+
+
+
+    public void AddToDiscardedGamePile(List<Card> discardedCards) //envia 4 cartas seleccionadas con el mismo numero a la pila descartada.
     {
-        if (IsFirstTurn)
+        if(playerController.cardsToPlay.Count >3)
         {
-            totalAmountOfCardsInThePile = CurrentGamePile.Count;
-            amountOfCardsPlayed = totalAmountOfCardsInThePile;
+            bool validDiscardedGroup = false;
+            for (int i = 0; i < playerController.cardsToPlay.Count; i++)
+            {
+                if (playerController.cardsToPlay[0].cardNumber == playerController.cardsToPlay[i].cardNumber)
+                {
+                    validDiscardedGroup = true;
+                }
+                else
+                {
+                    validDiscardedGroup = false;
+                    Debug.Log("Not all cards are the same");
+                }
+            }
+
+            if (validDiscardedGroup)
+            {
+                DiscardedGamePile.AddRange(discardedCards);
+                for (int i = 0; i < DiscardedGamePile.Count; i++)
+                {
+                    DiscardedGamePile[i].transform.SetParent(discardedPile);
+                    DiscardedGamePile[i].transform.localPosition = Vector3.zero;
+                    DiscardedGamePile[i].transform.localRotation = Quaternion.identity;
+                }
+
+                for (int x = playerController.cardsToPlay.Count - 1; x >= 0; x--)
+                {
+                   CurrentGamePlayers[CurrentPlayer].RemoveCard(playerController.cardsToPlay[x]);
+                   //playerController.cardsToPlay.RemoveAt(x);
+                }
+                Debug.Log("cards added to the discarded pile");
+            }
         }
         else
         {
-            amountOfCardsPlayed = CurrentGamePile.Count - totalAmountOfCardsInThePile;
-            totalAmountOfCardsInThePile = CurrentGamePile.Count;
+            Debug.Log("Not enough cards in hand");
         }
+        playerController.ArrangeCards();
     }
 
 
-    public void ResolveAcusation()
-    {
 
-        for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
-        {
-            Debug.Log(CurrentGamePile[i]);
-            CurrentCard = CurrentGamePile[i];
-            if (actualPlayedCard.cardNumber != CurrentCard.cardNumber)
-            {
-                didLastPlayerLied = true;
-                i= CurrentGamePile.Count-1;
-            }
-            else
-            {
-                didLastPlayerLied = false;
-            }
-            Debug.Log(CurrentCard);
-        }
-    }
-    void AddToDiscardedGamePile()
-    {
-        //aqui se agregan elementos a la pila de cartas descartadas finalmente.
-        //cada turno verifica si el jugador que esta de turno tiene grupos de 4 cartas para descartar automaticamente.
-    }
+
+
+
     //Crea visualmente el mazo de cartas a partir de los prefabs definidos
     //Mezcla el mazo instanciado usando el algoritmo Fisher–Yates
     void CreateAndShuffleDeck()
@@ -129,6 +155,11 @@ public class CardDealer : MonoBehaviour
             instantiatedDeck[rand] = temp;
         }
     }
+
+
+
+
+
     void DealCards()  //Reparte las cartas de forma equitativa entre los jugadores
     {
         for (int i = 0; i < instantiatedDeck.Count; i++)
@@ -140,6 +171,48 @@ public class CardDealer : MonoBehaviour
             card.transform.localPosition = Vector3.zero;
             card.transform.localRotation = Quaternion.identity;
             CurrentGamePlayers[currentPlayer].AddCard(cardComponent);
+        }
+    }
+
+
+
+
+
+
+    void GetCurrentGamePileAmounts() //indica el total de cartas en la pila en juego, indica cuantas cartas jugo el ultimo jugador, indica si el ultimo jugador a mentido
+    {
+        if (IsFirstTurn)
+        {
+            totalAmountOfCardsInThePile = CurrentGamePile.Count;
+            amountOfCardsPlayed = totalAmountOfCardsInThePile;
+        }
+        else
+        {
+            amountOfCardsPlayed = CurrentGamePile.Count - totalAmountOfCardsInThePile;
+            totalAmountOfCardsInThePile = CurrentGamePile.Count;
+        }
+
+        for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
+        {
+            Debug.Log(CurrentGamePile[i]);
+            CurrentCard = CurrentGamePile[i];
+            if (actualPlayedCard.cardNumber != CurrentCard.cardNumber || cardDeclared != 0)
+            {
+                if (cardDeclared != CurrentCard.cardNumber)
+                {
+                    didLastPlayerLied = true;
+                    i = CurrentGamePile.Count - 1;
+                }
+                else
+                {
+                    didLastPlayerLied = false;
+                }
+            }
+            else
+            {
+                didLastPlayerLied = false;
+            }
+            Debug.Log(CurrentCard);
         }
     }
 }
