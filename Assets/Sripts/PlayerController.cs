@@ -59,6 +59,12 @@ public class PlayerController : MonoBehaviour
         {
             DiscardSelectCards();
         }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            cardDealer.GetGamePileToLiar(controlledPlayer.playerID);
+        }
+            
     }
 
 
@@ -107,7 +113,6 @@ public class PlayerController : MonoBehaviour
         {
             cardsToPlay[i].isRaised = false;
             cardsToPlay.RemoveAt(i);
-            //ArrangeCards();
         }
     }
 

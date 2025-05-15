@@ -86,6 +86,45 @@ public class CardDealer : MonoBehaviour
 
 
 
+    public void GetGamePileToLiar(int playerId)
+    {
+        if (didLastPlayerLied)
+        {
+            CurrentGamePlayers[LastPlayer].playerHand.AddRange(CurrentGamePile);
+            for (int i = 0; i < CurrentGamePile.Count; i++)
+            {
+                CurrentGamePile[i].transform.SetParent(playerHands[LastPlayer]);
+                CurrentGamePile[i].transform.localPosition = Vector3.zero;
+                CurrentGamePile[i].transform.localRotation = Quaternion.identity;
+            }
+
+            if (LastPlayer == 0)
+            {
+                playerController.ArrangeCards();
+            }
+        }
+        else
+        {
+            CurrentGamePlayers[playerId].playerHand.AddRange(CurrentGamePile);
+            for (int i = 0; i < CurrentGamePile.Count; i++)
+            {
+                CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
+                CurrentGamePile[i].transform.localPosition = Vector3.zero;
+                CurrentGamePile[i].transform.localRotation = Quaternion.identity;
+            }
+        }
+
+        if (LastPlayer == 0 && didLastPlayerLied)
+        {
+            playerController.ArrangeCards();
+        }
+
+        CurrentGamePile.Clear();
+        ResetTable(playerId);
+    }
+
+
+
 
 
     public void AddToDiscardedGamePile(List<Card> discardedCards) //envia 4 cartas seleccionadas con el mismo numero a la pila descartada.
@@ -119,7 +158,6 @@ public class CardDealer : MonoBehaviour
                 for (int x = playerController.cardsToPlay.Count - 1; x >= 0; x--)
                 {
                    CurrentGamePlayers[CurrentPlayer].RemoveCard(playerController.cardsToPlay[x]);
-                   //playerController.cardsToPlay.RemoveAt(x);
                 }
                 Debug.Log("cards added to the discarded pile");
             }
@@ -133,7 +171,22 @@ public class CardDealer : MonoBehaviour
 
 
 
-
+    void ResetTable(int playerId)
+    {
+        actualPlayedCard = null;
+        cardDeclared = 0;
+        CurrentCard = null;
+        amountOfCardsPlayed = 0;
+        totalAmountOfCardsInThePile = 0;
+        if(didLastPlayerLied)
+        {
+            CurrentPlayer =LastPlayer;
+        }
+        else
+        {
+            CurrentPlayer = playerId;
+        }
+    }
 
 
     //Crea visualmente el mazo de cartas a partir de los prefabs definidos
