@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// mainplayer 
         }
-            
+
     }
 
 
@@ -93,15 +93,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-
-    public void AddCardToHand(Card card)
-    {
-        controlledPlayer.AddCard(card);
-        card.transform.SetParent(transform);
-        ArrangeCards();
-    }
-
 
 
 

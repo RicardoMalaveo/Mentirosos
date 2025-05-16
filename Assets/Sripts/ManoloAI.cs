@@ -22,10 +22,19 @@ public class ManoloAI : MonoBehaviour
         InitializeController();
     }
 
+    void Start()
+    {
+        ArrangeCards();
+    }
+
     void Update()
     {
-        //ManoloBehavior();
-        ArrangeCards();
+        if (cardDealer.CurrentPlayer == controlledPlayerID)
+        {
+            ManoloRiskCalculator();
+            ManolosTurn();
+        }
+
     }
 
     private void InitializeController()
@@ -34,15 +43,92 @@ public class ManoloAI : MonoBehaviour
         ArrangeCards();
     }
 
-    private void ManoloBehavior()
+    private void ManoloRiskCalculator()
     {
+        ManoloBehavior(manoloRisk);
+        Debug.Log(ManoloBehavior(manoloRisk));
     }
 
-    public void PlayCard(Card card)
+    public static bool ManoloBehavior(float manoloRisk)
     {
-        controlledPlayer.RemoveCard(card);
-        ArrangeCards();
+        float clampedProb = Mathf.Clamp01(manoloRisk);
+        return Random.Range(0f, 1f) < clampedProb;
     }
+
+    private void ManolosTurn()
+    {
+        int randomNumb;
+        if (cardDealer.IsFirstTurn)
+        {
+            if (ManoloBehavior(manoloRisk))
+            {
+                randomNumb = Mathf.Min(Random.Range(1, 16), controlledPlayer.playerHand.Count);
+                for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+                {
+                    if (controlledPlayer.playerHand[randomNumb].cardNumber == controlledPlayer.playerHand[i].cardNumber)
+                    {
+                        cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                        controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
+                        controlledPlayer.playerHand.RemoveAt(i);
+                    }
+                }
+
+            }
+
+        }
+        else
+        {
+            if (ManoloBehavior(manoloRisk))
+            {
+                if (ManoloBehavior(manoloRisk))
+                {
+                    if (cardDealer.cardDeclared == 0)
+                    {
+                        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+                        {
+                            if (cardDealer.actualPlayedCard.cardNumber == controlledPlayer.playerHand[i].cardNumber)
+                            {
+                                cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                                controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
+                                controlledPlayer.playerHand.RemoveAt(i);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+                        {
+                            if (cardDealer.cardDeclared == controlledPlayer.playerHand[i].cardNumber)
+                            {
+                                cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                                controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
+                                controlledPlayer.playerHand.RemoveAt(i);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    randomNumb = Mathf.Min(Random.Range(1, 4), controlledPlayer.playerHand.Count);
+                    for (int i = 0; i < randomNumb; i++)
+                    {
+                        cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                        controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
+                        controlledPlayer.playerHand.RemoveAt(i);
+                    }
+                }
+            }
+            else
+            {
+                cardDealer.GetGamePileToLiar(controlledPlayer.playerID);
+            }
+        }
+
+        ArrangeCards();
+        cardDealer.PlayerTurnControl();
+    }
+
+
     private void ArrangeCards()
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
