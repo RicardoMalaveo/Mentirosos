@@ -248,7 +248,13 @@ public class CardDealer : MonoBehaviour
 
         for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
         {
+            int SpecialCardValue;
             Debug.Log(CurrentGamePile[i]);
+            /*if (CurrentGamePile[i].cardIsSpecial = true)
+            {
+                SpecialCardValue = CurrentGamePile[i].cardNumber;
+                CurrentGamePile[i].cardNumber = actualPlayedCard.cardNumber;
+            }*/
             CurrentCard = CurrentGamePile[i];
             if (actualPlayedCard.cardNumber != CurrentCard.cardNumber || cardDeclared != 0)
             {
