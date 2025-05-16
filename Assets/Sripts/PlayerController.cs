@@ -124,8 +124,8 @@ public class PlayerController : MonoBehaviour
             cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i]);
             controlledPlayer.RemoveCard(cardsToPlay[i]);
             cardsToPlay.RemoveAt(i);
-            ArrangeCards();
         }
+        ArrangeCards();
     }
 
 
@@ -187,7 +187,9 @@ public class PlayerController : MonoBehaviour
             controlledPlayer.playerHand[i].transform.position = newPosition;
             controlledPlayer.playerHand[i].transform.localRotation = Quaternion.identity;
             controlledPlayer.playerHand[i].SetInteractable(controlledPlayer.isHumanPlayer);
+            controlledPlayer.playerHand[i].isRaised = false;
             controlledPlayer.playerHand[i].UpdateLocalPosition();
+            cardsToPlay.Clear();
         }
     }
 

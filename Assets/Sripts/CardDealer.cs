@@ -88,39 +88,38 @@ public class CardDealer : MonoBehaviour
 
     public void GetGamePileToLiar(int playerId)
     {
-        if (didLastPlayerLied)
+        if(playerId != LastPlayer)
         {
-            CurrentGamePlayers[LastPlayer].playerHand.AddRange(CurrentGamePile);
-            for (int i = 0; i < CurrentGamePile.Count; i++)
+            if (didLastPlayerLied)
             {
-                CurrentGamePile[i].transform.SetParent(playerHands[LastPlayer]);
-                CurrentGamePile[i].transform.localPosition = Vector3.zero;
-                CurrentGamePile[i].transform.localRotation = Quaternion.identity;
+                CurrentGamePlayers[LastPlayer].playerHand.AddRange(CurrentGamePile);
+                for (int i = 0; i < CurrentGamePile.Count; i++)
+                {
+                    CurrentGamePile[i].transform.SetParent(playerHands[LastPlayer]);
+                    CurrentGamePile[i].transform.localPosition = Vector3.zero;
+                    CurrentGamePile[i].transform.localRotation = Quaternion.identity;
+                    CurrentGamePile[i].isRaised = false;
+                }
             }
-
-            if (LastPlayer == 0)
+            else
+            {
+                CurrentGamePlayers[playerId].playerHand.AddRange(CurrentGamePile);
+                for (int i = 0; i < CurrentGamePile.Count; i++)
+                {
+                    CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
+                    CurrentGamePile[i].transform.localPosition = Vector3.zero;
+                    CurrentGamePile[i].transform.localRotation = Quaternion.identity;
+                    CurrentGamePile[i].isRaised = false;
+                }
+            }
+            if (LastPlayer == 0 || playerId == 0)
             {
                 playerController.ArrangeCards();
             }
-        }
-        else
-        {
-            CurrentGamePlayers[playerId].playerHand.AddRange(CurrentGamePile);
-            for (int i = 0; i < CurrentGamePile.Count; i++)
-            {
-                CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
-                CurrentGamePile[i].transform.localPosition = Vector3.zero;
-                CurrentGamePile[i].transform.localRotation = Quaternion.identity;
-            }
-        }
 
-        if (LastPlayer == 0 && didLastPlayerLied)
-        {
-            playerController.ArrangeCards();
+            CurrentGamePile.Clear();
+            ResetTable(playerId);
         }
-
-        CurrentGamePile.Clear();
-        ResetTable(playerId);
     }
 
 
