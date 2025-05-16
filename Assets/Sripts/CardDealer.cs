@@ -177,14 +177,16 @@ public class CardDealer : MonoBehaviour
         CurrentCard = null;
         amountOfCardsPlayed = 0;
         totalAmountOfCardsInThePile = 0;
+
         if(didLastPlayerLied)
         {
-            CurrentPlayer =LastPlayer;
+            CurrentPlayer = LastPlayer;
         }
         else
         {
             CurrentPlayer = playerId;
         }
+        didLastPlayerLied = false;
     }
 
 
