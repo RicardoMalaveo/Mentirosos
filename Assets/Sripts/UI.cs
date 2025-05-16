@@ -5,8 +5,6 @@ public class UI : MonoBehaviour
     [SerializeField] private CardDealer cardDealer;
 
 
-
-
     public void DeclaredNumber1()
     {
         cardDealer.cardDeclared = 1;

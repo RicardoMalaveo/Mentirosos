@@ -9,7 +9,7 @@ public class ManoloAI : MonoBehaviour
     private float manoloRisk = 0.5f; // a este numero se suma o se resta, este numero representa un rango de 100%, siempre empieza en 50% "neutral".
 
     [Header("Player Info")]
-    [SerializeField] private int controlledPlayerID = 0;
+    [SerializeField] private int controlledPlayerID;
     [SerializeField] private CardDealer cardDealer;
 
     [Header("Card Spacing")]
@@ -34,9 +34,9 @@ public class ManoloAI : MonoBehaviour
         ArrangeCards();
     }
 
-    //private void ManoloBehavior()
-    //{
-    //}
+    private void ManoloBehavior()
+    {
+    }
 
     public void PlayCard(Card card)
     {
@@ -51,17 +51,5 @@ public class ManoloAI : MonoBehaviour
             float ZPos = i * cardSpacingZ;
             controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0);
         }
-    }
-    public void AddCardToHand(Card card)
-    {
-        controlledPlayer.AddCard(card);
-        card.transform.SetParent(transform);
-        ArrangeCards();
-    }
-
-    public void RemoveCardFromHand(Card card)
-    {
-        controlledPlayer.RemoveCard(card);
-        ArrangeCards();
     }
 }
