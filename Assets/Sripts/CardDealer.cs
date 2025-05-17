@@ -6,13 +6,13 @@ using static DeckInfo;
 public class CardDealer : MonoBehaviour
 {
     [Header("Game State Info")]
-    [SerializeField] private bool IsFirstTurn;
+    [SerializeField] public bool IsFirstTurn;
 
     [Header("Players")]
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Player playerInfo;
-    [SerializeField] private int CurrentPlayer;
-    [SerializeField] private int LastPlayer;
+    [SerializeField] public int CurrentPlayer;
+    [SerializeField] public int lastPlayer;
     [SerializeField] private bool didLastPlayerLied;
 
     [Header("Deck")]
@@ -22,7 +22,7 @@ public class CardDealer : MonoBehaviour
 
 
     [Header("Game Pile")]
-    [SerializeField] private Card actualPlayedCard;
+    [SerializeField] public Card actualPlayedCard;
     [SerializeField] public int cardDeclared;
     [SerializeField] private Card CurrentCard;
     [SerializeField] private int amountOfCardsPlayed;
@@ -74,12 +74,12 @@ public class CardDealer : MonoBehaviour
         else if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
         {
             CurrentPlayer = 0;
-            LastPlayer += 1;
+            lastPlayer = 2;
         }
         else
         {
             CurrentPlayer++;
-            LastPlayer = CurrentPlayer - 1;
+            lastPlayer = CurrentPlayer - 1;
         }
         GetCurrentGamePileAmounts();
     }
@@ -88,14 +88,14 @@ public class CardDealer : MonoBehaviour
 
     public void GetGamePileToLiar(int playerId)
     {
-        if(playerId != LastPlayer)
+        if (playerId != lastPlayer)
         {
             if (didLastPlayerLied)
             {
-                CurrentGamePlayers[LastPlayer].playerHand.AddRange(CurrentGamePile);
+                CurrentGamePlayers[lastPlayer].playerHand.AddRange(CurrentGamePile);
                 for (int i = 0; i < CurrentGamePile.Count; i++)
                 {
-                    CurrentGamePile[i].transform.SetParent(playerHands[LastPlayer]);
+                    CurrentGamePile[i].transform.SetParent(playerHands[lastPlayer]);
                     CurrentGamePile[i].transform.localPosition = Vector3.zero;
                     CurrentGamePile[i].transform.localRotation = Quaternion.identity;
                     CurrentGamePile[i].isRaised = false;
@@ -112,7 +112,7 @@ public class CardDealer : MonoBehaviour
                     CurrentGamePile[i].isRaised = false;
                 }
             }
-            if (LastPlayer == 0 || playerId == 0)
+            if (lastPlayer == 0 || playerId == 0)
             {
                 playerController.ArrangeCards();
             }
@@ -128,7 +128,7 @@ public class CardDealer : MonoBehaviour
 
     public void AddToDiscardedGamePile(List<Card> discardedCards) //envia 4 cartas seleccionadas con el mismo numero a la pila descartada.
     {
-        if(playerController.cardsToPlay.Count >3)
+        if (playerController.cardsToPlay.Count > 3)
         {
             bool validDiscardedGroup = false;
             for (int i = 0; i < playerController.cardsToPlay.Count; i++)
@@ -156,7 +156,7 @@ public class CardDealer : MonoBehaviour
 
                 for (int x = playerController.cardsToPlay.Count - 1; x >= 0; x--)
                 {
-                   CurrentGamePlayers[CurrentPlayer].RemoveCard(playerController.cardsToPlay[x]);
+                    CurrentGamePlayers[CurrentPlayer].RemoveCard(playerController.cardsToPlay[x]);
                 }
                 Debug.Log("cards added to the discarded pile");
             }
@@ -178,9 +178,9 @@ public class CardDealer : MonoBehaviour
         amountOfCardsPlayed = 0;
         totalAmountOfCardsInThePile = 0;
 
-        if(didLastPlayerLied)
+        if (didLastPlayerLied)
         {
-            CurrentPlayer = LastPlayer;
+            CurrentPlayer = lastPlayer;
         }
         else
         {
@@ -248,13 +248,7 @@ public class CardDealer : MonoBehaviour
 
         for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
         {
-            int SpecialCardValue;
             Debug.Log(CurrentGamePile[i]);
-            /*if (CurrentGamePile[i].cardIsSpecial = true)
-            {
-                SpecialCardValue = CurrentGamePile[i].cardNumber;
-                CurrentGamePile[i].cardNumber = actualPlayedCard.cardNumber;
-            }*/
             CurrentCard = CurrentGamePile[i];
             if (actualPlayedCard.cardNumber != CurrentCard.cardNumber || cardDeclared != 0)
             {
