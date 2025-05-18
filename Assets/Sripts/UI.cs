@@ -1,10 +1,15 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class UI : MonoBehaviour
 {
     [SerializeField] private CardDealer cardDealer;
-
-
+    public TextMeshProUGUI playingNumberText;
+    private void Update()
+    {
+        playingNumberText.text = "Playign Card: " + cardDealer.cardDeclared.ToString();
+    }
     public void DeclaredNumber1()
     {
         cardDealer.cardDeclared = 1;

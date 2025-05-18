@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour
 
     void PlaySelectedCards()
     {
+        AudioManager.Instance.PlaySFX("PlayCards");
         for (int i = cardsToPlay.Count - 1; i >= 0; i--)
         {
             cardDealer.AddCardsToCurrentGamePile(cardsToPlay[i]);
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 targetPosition;
         Vector3 automaticTargetPosition;
+        AudioManager.Instance.PlaySFX("SelectCard");
 
         if (selectedCard.isRaised)
         {
@@ -172,7 +174,6 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
             if (controlledPlayer.playerHand[i] == null) continue;
-
             float positionOffset = startOffset + i * cardSpacingY;
             Vector3 newPosition = cardDealer.playerHands[controlledPlayer.playerID].localPosition + direction * positionOffset;
             controlledPlayer.playerHand[i].transform.position = newPosition;
