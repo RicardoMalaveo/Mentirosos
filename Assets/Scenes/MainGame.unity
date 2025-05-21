@@ -572,8 +572,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledPlayerID: 1
   cardDealer: {fileID: 517464723}
+  myTurn: 0
+  checkedCardsToDiscard: 0
   cardSpacingX: 0.025
   cardSpacingZ: -0.001
+  timer: 0
+  cardsToPlay: []
   controlledPlayer:
     playerID: 1
     playerHand: []
@@ -624,8 +628,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlledPlayerID: 2
   cardDealer: {fileID: 517464723}
+  myTurn: 0
+  checkedCardsToDiscard: 0
   cardSpacingX: 0.025
   cardSpacingZ: -0.001
+  timer: 0
+  cardsToPlay: []
   controlledPlayer:
     playerID: 2
     playerHand: []
