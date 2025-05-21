@@ -128,12 +128,12 @@ public class CardDealer : MonoBehaviour
 
     public void AddToDiscardedGamePile(List<Card> discardedCards) //envia 4 cartas seleccionadas con el mismo numero a la pila descartada.
     {
-        if (playerController.cardsToPlay.Count > 3)
+        if (discardedCards.Count > 3)
         {
             bool validDiscardedGroup = false;
-            for (int i = 0; i < playerController.cardsToPlay.Count; i++)
+            for (int i = 0; i < discardedCards.Count; i++)
             {
-                if (playerController.cardsToPlay[0].cardNumber == playerController.cardsToPlay[i].cardNumber)
+                if (discardedCards[0].cardNumber == discardedCards[i].cardNumber)
                 {
                     validDiscardedGroup = true;
                 }
@@ -248,7 +248,6 @@ public class CardDealer : MonoBehaviour
 
         for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
         {
-            Debug.Log(CurrentGamePile[i]);
             CurrentCard = CurrentGamePile[i];
             if (actualPlayedCard.cardNumber != CurrentCard.cardNumber || cardDeclared != 0)
             {
