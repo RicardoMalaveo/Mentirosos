@@ -570,14 +570,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3542be80a0ffe6f4f853cd4c16c5913e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manoloRisk: 0.5
+  deckValue: 0
   controlledPlayerID: 1
   cardDealer: {fileID: 517464723}
   myTurn: 0
   checkedCardsToDiscard: 0
+  deckCalculated: 0
+  declaredCardRisk: 0
   cardSpacingX: 0.025
   cardSpacingZ: -0.001
   timer: 0
   cardsToPlay: []
+  cardsValue: []
   controlledPlayer:
     playerID: 1
     playerHand: []
@@ -626,14 +631,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3542be80a0ffe6f4f853cd4c16c5913e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manoloRisk: 0.5
+  deckValue: 0
   controlledPlayerID: 2
   cardDealer: {fileID: 517464723}
   myTurn: 0
   checkedCardsToDiscard: 0
+  deckCalculated: 0
+  declaredCardRisk: 0
   cardSpacingX: 0.025
   cardSpacingZ: -0.001
   timer: 0
   cardsToPlay: []
+  cardsValue: []
   controlledPlayer:
     playerID: 2
     playerHand: []
@@ -19632,7 +19642,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 882612912}
         m_TargetAssemblyTypeName: UI, Assembly-CSharp
-        m_MethodName: DeclaredNumber1
+        m_MethodName: DeclaredNumber10
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

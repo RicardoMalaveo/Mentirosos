@@ -18,6 +18,8 @@ public class ManoloAI : MonoBehaviour
     [SerializeField] private bool myTurn = false;
     [SerializeField] private bool checkedCardsToDiscard = false;
     [SerializeField] private bool deckCalculated = false;
+    [SerializeField] private bool cardsPlayed = false;
+    [SerializeField] private bool hasCardsWithTheDeclaredNumber;
     [SerializeField] private float declaredCardRisk;
 
 
@@ -64,7 +66,6 @@ public class ManoloAI : MonoBehaviour
 
         if (cardDealer.CurrentPlayer == controlledPlayerID && myTurn) 
         {
-
             timer += Time.deltaTime;
             startTurn();
         }
@@ -79,13 +80,49 @@ public class ManoloAI : MonoBehaviour
 
     private void ManoloRiskCalculator()
     {
-        if(!cardDealer.IsFirstTurn)
+        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
-            for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+            for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
             {
-                if(cardDealer.cardDeclared == controlledPlayer.playerHand[i].cardNumber)
+                if (controlledPlayer.playerHand[i].cardNumber == controlledPlayer.playerHand[x].cardNumber)
                 {
-                    cardsValue.Add(controlledPlayer.playerHand[i]);
+                    cardsValue.Add(controlledPlayer.playerHand[x]);
+                }
+            }
+
+            if (cardsValue.Count > 1)
+            {
+                for (int y = 0; y < cardsValue.Count; y++)
+                {
+                    cardsValue[y].cardValue = cardsValue.Count;
+                }
+            }
+
+            deckValue += controlledPlayer.playerHand[i].cardValue;
+            cardsValue.Clear();
+        }
+
+        for (int y = 0; y < controlledPlayer.playerHand.Count; y++)
+        {
+            if (controlledPlayer.playerHand[y].cardNumber == cardDealer.cardDeclared)
+            {
+                hasCardsWithTheDeclaredNumber = true;
+                y = controlledPlayer.playerHand.Count;
+            }
+            else
+            {
+                hasCardsWithTheDeclaredNumber = false;
+            }
+
+        }
+
+        if (!cardDealer.IsFirstTurn)
+        {
+            for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
+            {
+                if(cardDealer.cardDeclared == controlledPlayer.playerHand[x].cardNumber)
+                {
+                    cardsValue.Add(controlledPlayer.playerHand[x]);
                 }
             }
             declaredCardRisk = cardsValue.Count;
@@ -95,28 +132,6 @@ public class ManoloAI : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
-            {
-                for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
-                {
-                    if (controlledPlayer.playerHand[i].cardNumber == controlledPlayer.playerHand[x].cardNumber)
-                    {
-                        cardsValue.Add(controlledPlayer.playerHand[x]);
-                    }
-                }
-
-                if (cardsValue.Count > 1)
-                {
-                    for (int y = 0; y < cardsValue.Count; y++)
-                    {
-                        cardsValue[y].cardValue = cardsValue.Count;
-                    }
-                }
-
-                deckValue += controlledPlayer.playerHand[i].cardValue;
-                cardsValue.Clear();
-            }
-
             manoloRisk -= deckValue / 100;
             Debug.Log("first play");
         }
@@ -134,13 +149,14 @@ public class ManoloAI : MonoBehaviour
     private void startTurn()
     {
 
-        if (timer > 2F)
+        if (timer > 2F && !cardsPlayed)
         {
+            ChoosingAndPlayingCards();
             Debug.Log("choosing cards to play");
             Debug.Log(ManoloBehavior(manoloRisk));
             Debug.Log(manoloRisk);
+            cardsPlayed = true;
         }
-
     }
 
 
@@ -148,22 +164,71 @@ public class ManoloAI : MonoBehaviour
 
     void ChoosingAndPlayingCards()
     {
-        if (ManoloBehavior(manoloRisk))
+        int randomAmount;
+        int randomCardNumber;
+        int randomPosicion;
+
+        if (cardDealer.IsFirstTurn)
         {
-           int randomNum = Mathf.Min(Random.Range(1, controlledPlayer.playerHand.Count), controlledPlayer.playerHand.Count);
-            for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+            if (ManoloBehavior(manoloRisk))
             {
-                if (controlledPlayer.playerHand[randomNum].cardNumber == controlledPlayer.playerHand[i].cardNumber)
+                randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
+                for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
                 {
-                    cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
-                    controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
-                    controlledPlayer.playerHand.RemoveAt(i);
+                    if (controlledPlayer.playerHand[randomPosicion].cardNumber == controlledPlayer.playerHand[i].cardNumber)
+                    {
+                        cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                        controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
+                        controlledPlayer.playerHand.RemoveAt(i);
+                    }
                 }
+            }
+            else
+            {
+                randomAmount = Random.Range(1, 5);
+                
+                randomCardNumber = Random.Range(1, 13);
+                for (int i = 0; i < randomAmount; i++)
+                {
+                    randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
+                    cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[randomPosicion]);
+                    controlledPlayer.RemoveCard(controlledPlayer.playerHand[randomPosicion]);
+                    controlledPlayer.playerHand.RemoveAt(randomPosicion);
+                }
+
+                cardDealer.cardDeclared = randomCardNumber;
             }
         }
         else
         {
+            if (ManoloBehavior(manoloRisk) && hasCardsWithTheDeclaredNumber)
+            {
+                for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+                {
+                    if (cardDealer.actualPlayedCard.cardNumber == controlledPlayer.playerHand[i].cardNumber)
+                    {
+                        cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                        controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
+                        controlledPlayer.playerHand.RemoveAt(i);
+                    }
+                }
+            }
+            else
+            {
+                randomAmount = Random.Range(1, 5);
 
+                randomCardNumber = Random.Range(1, 13);
+
+                for (int i = 0; i < randomAmount; i++)
+                {
+                    randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
+                    cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[randomPosicion]);
+                    controlledPlayer.RemoveCard(controlledPlayer.playerHand[randomPosicion]);
+                    controlledPlayer.playerHand.RemoveAt(randomPosicion);
+                }
+
+                cardDealer.cardDeclared = randomCardNumber;
+            }
         }
     }
 
@@ -206,6 +271,7 @@ public class ManoloAI : MonoBehaviour
         timer = 0;
         myTurn = false;
         checkedCardsToDiscard = false;
+        cardsPlayed = false;
     }
 
     //private void ManolosTurn()
