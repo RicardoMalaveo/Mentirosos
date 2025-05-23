@@ -20,6 +20,7 @@ public class ManoloAI : MonoBehaviour
     [SerializeField] private bool deckCalculated = false;
     [SerializeField] private bool cardsPlayed = false;
     [SerializeField] private bool hasCardsWithTheDeclaredNumber;
+    [SerializeField] private bool lastPlayerMightBeLying= false;
     [SerializeField] private float declaredCardRisk;
 
 
@@ -37,11 +38,11 @@ public class ManoloAI : MonoBehaviour
     void Awake()
     {
         InitializeController();
+        ArrangeCards();
     }
     private void InitializeController()
     {
         controlledPlayer = cardDealer.CurrentGamePlayers.Find(player => player.playerID == controlledPlayerID);
-        ArrangeCards();
     }
 
 
@@ -83,19 +84,12 @@ public class ManoloAI : MonoBehaviour
     {
         CalculateCardsOnHandValue();
         DeckCheckerForDeclaredCardNumber();
+        CalculateIfLastPlayerIsLying();
 
 
 
         if (!cardDealer.IsFirstTurn)
         {
-            for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
-            {
-                if(cardDealer.cardDeclared == controlledPlayer.playerHand[x].cardNumber)
-                {
-                    cardsValue.Add(controlledPlayer.playerHand[x]);
-                }
-            }
-            declaredCardRisk = cardsValue.Count;
             manoloRisk += declaredCardRisk / 6;
             cardsValue.Clear();
             Debug.Log("second play");
@@ -137,32 +131,30 @@ public class ManoloAI : MonoBehaviour
         int randomCardNumber;
         int randomPosicion;
 
-        if (cardDealer.IsFirstTurn)
+        if (cardDealer.IsFirstTurn) //solo entra aqui si es el primer turno.
         {
-            if (ManoloBehavior(manoloRisk))
+            if (ManoloBehavior(manoloRisk)) //en este caso el riesgo se calcula evaluando el valor del las cartas en mano, si el valor es bajo, es mas probable que diga la verdad
             {
-                randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
+                randomPosicion = Random.Range(0, controlledPlayer.playerHand.Count);
                 for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
                 {
                     if (controlledPlayer.playerHand[randomPosicion].cardNumber == controlledPlayer.playerHand[i].cardNumber)
                     {
                         cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
                         listOfCardsPlayed.Add(controlledPlayer.playerHand[i]);
-                        controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
                         controlledPlayer.playerHand.RemoveAt(i);
                     }
                 }
             }
-            else
+            else //si el valor de las cartas en mano es alto, es mas probably que mienta, seleccione una cantidad de cartas al azar y posiciones al azar.
             {
                 randomAmount = Random.Range(1, 5);
                 
                 randomCardNumber = Random.Range(1, 13);
                 for (int i = 0; i < randomAmount; i++)
                 {
-                    randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
+                    randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count);
                     cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[randomPosicion]);
-                    controlledPlayer.RemoveCard(controlledPlayer.playerHand[randomPosicion]);
                     listOfCardsPlayed.Add(controlledPlayer.playerHand[randomPosicion]);
                     controlledPlayer.playerHand.RemoveAt(randomPosicion);
                 }
@@ -180,7 +172,6 @@ public class ManoloAI : MonoBehaviour
                     {
                         cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
                         listOfCardsPlayed.Add(controlledPlayer.playerHand[i]);
-                        controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
                         controlledPlayer.playerHand.RemoveAt(i);
                     }
                 }
@@ -193,17 +184,16 @@ public class ManoloAI : MonoBehaviour
 
                 for (int i = 0; i < randomAmount; i++)
                 {
-                    randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
+                    randomPosicion = Random.Range(0, controlledPlayer.playerHand.Count);
                     cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[randomPosicion]);
                     listOfCardsPlayed.Add(controlledPlayer.playerHand[randomPosicion]);
-                    controlledPlayer.RemoveCard(controlledPlayer.playerHand[randomPosicion]);
                     controlledPlayer.playerHand.RemoveAt(randomPosicion);
                 }
-
-                cardDealer.cardDeclared = randomCardNumber;
             }
         }
     }
+
+
     void CalculateCardsOnHandValue()
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
@@ -244,6 +234,19 @@ public class ManoloAI : MonoBehaviour
             }
         }
     }
+
+   void CalculateIfLastPlayerIsLying()
+    {
+        for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
+        {
+            if (cardDealer.cardDeclared == controlledPlayer.playerHand[x].cardNumber)
+            {
+                cardsValue.Add(controlledPlayer.playerHand[x]);
+            }
+        }
+        declaredCardRisk = cardsValue.Count;
+    }
+
     void ArrangeCards()
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)

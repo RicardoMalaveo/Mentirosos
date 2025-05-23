@@ -58,6 +58,11 @@ public class CardDealer : MonoBehaviour
         cardsToPlay.transform.localPosition = Vector3.zero;
         cardsToPlay.transform.localRotation = Quaternion.identity;
         actualPlayedCard = CurrentGamePile.First();
+
+        if(cardDeclared == 0 && IsFirstTurn)
+        {
+            cardDeclared = actualPlayedCard.cardNumber;
+        }
     }
 
 
@@ -187,6 +192,7 @@ public class CardDealer : MonoBehaviour
             CurrentPlayer = playerId;
         }
         didLastPlayerLied = false;
+        IsFirstTurn = true;
     }
 
 
