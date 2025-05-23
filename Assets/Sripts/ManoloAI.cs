@@ -81,41 +81,10 @@ public class ManoloAI : MonoBehaviour
 
     private void ManoloRiskCalculator()
     {
-        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
-        {
-            for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
-            {
-                if (controlledPlayer.playerHand[i].cardNumber == controlledPlayer.playerHand[x].cardNumber)
-                {
-                    cardsValue.Add(controlledPlayer.playerHand[x]);
-                }
-            }
+        CalculateCardsOnHandValue();
+        DeckCheckerForDeclaredCardNumber();
 
-            if (cardsValue.Count > 1)
-            {
-                for (int y = 0; y < cardsValue.Count; y++)
-                {
-                    cardsValue[y].cardValue = cardsValue.Count;
-                }
-            }
 
-            deckValue += controlledPlayer.playerHand[i].cardValue;
-            cardsValue.Clear();
-        }
-
-        for (int y = 0; y < controlledPlayer.playerHand.Count; y++)
-        {
-            if (controlledPlayer.playerHand[y].cardNumber == cardDealer.cardDeclared)
-            {
-                hasCardsWithTheDeclaredNumber = true;
-                y = controlledPlayer.playerHand.Count;
-            }
-            else
-            {
-                hasCardsWithTheDeclaredNumber = false;
-            }
-
-        }
 
         if (!cardDealer.IsFirstTurn)
         {
@@ -235,7 +204,46 @@ public class ManoloAI : MonoBehaviour
             }
         }
     }
+    void CalculateCardsOnHandValue()
+    {
+        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+        {
+            for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
+            {
+                if (controlledPlayer.playerHand[i].cardNumber == controlledPlayer.playerHand[x].cardNumber)
+                {
+                    cardsValue.Add(controlledPlayer.playerHand[x]);
+                }
+            }
 
+            if (cardsValue.Count > 1)
+            {
+                for (int y = 0; y < cardsValue.Count; y++)
+                {
+                    cardsValue[y].cardValue = cardsValue.Count;
+                }
+            }
+
+            deckValue += controlledPlayer.playerHand[i].cardValue;
+            cardsValue.Clear();
+        }
+    }
+
+    void DeckCheckerForDeclaredCardNumber()
+    {
+        for (int y = 0; y < controlledPlayer.playerHand.Count; y++) //indica si manolo tiene cartas con el mismo numero
+        {
+            if (controlledPlayer.playerHand[y].cardNumber == cardDealer.cardDeclared)
+            {
+                hasCardsWithTheDeclaredNumber = true;
+                y = controlledPlayer.playerHand.Count;
+            }
+            else
+            {
+                hasCardsWithTheDeclaredNumber = false;
+            }
+        }
+    }
     void ArrangeCards()
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
