@@ -30,6 +30,7 @@ public class ManoloAI : MonoBehaviour
     [SerializeField] private float timer;
     [SerializeField] List<Card> cardsToPlay;
     [SerializeField] List<Card> cardsValue;
+    [SerializeField] List<Card> listOfCardsPlayed;
 
 
     public Player controlledPlayer;
@@ -70,7 +71,7 @@ public class ManoloAI : MonoBehaviour
             startTurn();
         }
 
-        if(timer > 10F && myTurn)
+        if(timer > 6F && myTurn)
         {
             finishTurn();
             Debug.Log("done");
@@ -148,7 +149,6 @@ public class ManoloAI : MonoBehaviour
 
     private void startTurn()
     {
-
         if (timer > 2F && !cardsPlayed)
         {
             ChoosingAndPlayingCards();
@@ -178,6 +178,7 @@ public class ManoloAI : MonoBehaviour
                     if (controlledPlayer.playerHand[randomPosicion].cardNumber == controlledPlayer.playerHand[i].cardNumber)
                     {
                         cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                        listOfCardsPlayed.Add(controlledPlayer.playerHand[i]);
                         controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
                         controlledPlayer.playerHand.RemoveAt(i);
                     }
@@ -193,6 +194,7 @@ public class ManoloAI : MonoBehaviour
                     randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
                     cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[randomPosicion]);
                     controlledPlayer.RemoveCard(controlledPlayer.playerHand[randomPosicion]);
+                    listOfCardsPlayed.Add(controlledPlayer.playerHand[randomPosicion]);
                     controlledPlayer.playerHand.RemoveAt(randomPosicion);
                 }
 
@@ -205,9 +207,10 @@ public class ManoloAI : MonoBehaviour
             {
                 for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
                 {
-                    if (cardDealer.actualPlayedCard.cardNumber == controlledPlayer.playerHand[i].cardNumber)
+                    if (cardDealer.cardDeclared == controlledPlayer.playerHand[i].cardNumber)
                     {
                         cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
+                        listOfCardsPlayed.Add(controlledPlayer.playerHand[i]);
                         controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
                         controlledPlayer.playerHand.RemoveAt(i);
                     }
@@ -223,6 +226,7 @@ public class ManoloAI : MonoBehaviour
                 {
                     randomPosicion = Random.Range(1, controlledPlayer.playerHand.Count + 1);
                     cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[randomPosicion]);
+                    listOfCardsPlayed.Add(controlledPlayer.playerHand[randomPosicion]);
                     controlledPlayer.RemoveCard(controlledPlayer.playerHand[randomPosicion]);
                     controlledPlayer.playerHand.RemoveAt(randomPosicion);
                 }
