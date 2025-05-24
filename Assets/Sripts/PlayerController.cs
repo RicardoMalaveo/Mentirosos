@@ -62,9 +62,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// mainplayer 
+            cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
         }
-
     }
 
 

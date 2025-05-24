@@ -33,13 +33,15 @@ public class ManoloAI : MonoBehaviour
     [SerializeField] List<Card> cardsValue;
     [SerializeField] List<Card> listOfCardsPlayed;
 
-
     public Player controlledPlayer;
+
+
     void Awake()
     {
         InitializeController();
         ArrangeCards();
     }
+
     private void InitializeController()
     {
         controlledPlayer = cardDealer.CurrentGamePlayers.Find(player => player.playerID == controlledPlayerID);
@@ -80,7 +82,7 @@ public class ManoloAI : MonoBehaviour
     }
 
 
-    private void ManoloRiskCalculator()
+    private void ManoloRiskCalculator() //ejecuta varias funciones, dependiendo del caso el valor de manolo risk sera mas o menos alto.
     {
         CalculateCardsOnHandValue();
         DeckCheckerForDeclaredCardNumber();
@@ -110,9 +112,9 @@ public class ManoloAI : MonoBehaviour
         return Random.Range(0f, 1f) < clampedProb;
     }
 
-    private void startTurn()
+    private void startTurn() //crea un pequeño retraso que permite que el jugador principal acuse al jugador anterior.
     {
-        if (timer > 2F && !cardsPlayed)
+        if (timer > 3F && !cardsPlayed)
         {
             ChoosingAndPlayingCards();
             Debug.Log("choosing cards to play");
@@ -125,7 +127,7 @@ public class ManoloAI : MonoBehaviour
 
 
 
-    void ChoosingAndPlayingCards()
+    void ChoosingAndPlayingCards() //basado en multiples variables, manolo decidira como jugar.
     {
         int randomAmount;
         int randomCardNumber;
@@ -194,7 +196,7 @@ public class ManoloAI : MonoBehaviour
     }
 
 
-    void CalculateCardsOnHandValue()
+    void CalculateCardsOnHandValue() //da un valor a las cartas en mano dependiendo de cuantas veces se repitan.
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
@@ -219,9 +221,9 @@ public class ManoloAI : MonoBehaviour
         }
     }
 
-    void DeckCheckerForDeclaredCardNumber()
+    void DeckCheckerForDeclaredCardNumber() //indica si manolo tiene cartas con el mismo numero, ayuda a tomar una decision en cuanto a que carta jugar.
     {
-        for (int y = 0; y < controlledPlayer.playerHand.Count; y++) //indica si manolo tiene cartas con el mismo numero
+        for (int y = 0; y < controlledPlayer.playerHand.Count; y++) 
         {
             if (controlledPlayer.playerHand[y].cardNumber == cardDealer.cardDeclared)
             {
@@ -235,7 +237,7 @@ public class ManoloAI : MonoBehaviour
         }
     }
 
-   void CalculateIfLastPlayerIsLying()
+   void CalculateIfLastPlayerIsLying() //devuelve un valor basado en cuantas cartas posee con el mismo numero que la carta declarada.
     {
         for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
         {
@@ -247,7 +249,7 @@ public class ManoloAI : MonoBehaviour
         declaredCardRisk = cardsValue.Count;
     }
 
-    void ArrangeCards()
+    void ArrangeCards() //posiciona las cartas en la mano del jugador con una separacion.
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
@@ -257,7 +259,7 @@ public class ManoloAI : MonoBehaviour
         }
     }
 
-    void DiscardCards()
+    void DiscardCards() //descarta cartas cuando tiene 4 con el mismo numero.
     {
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
@@ -272,6 +274,11 @@ public class ManoloAI : MonoBehaviour
             if (cardsToPlay.Count > 3)
             {
                 cardDealer.AddToDiscardedGamePile(cardsToPlay);
+                for (int y = 0; y < cardsToPlay.Count; y++)
+                {
+                    controlledPlayer.playerHand.Remove(cardsToPlay[y]);
+                }
+                    cardsToPlay.RemoveAt(i);
             }
             cardsToPlay.Clear();
         }
@@ -280,11 +287,14 @@ public class ManoloAI : MonoBehaviour
         checkedCardsToDiscard = true;
     }
 
-    void finishTurn()
+    void finishTurn() //termina el turno
     {
         cardDealer.PlayerTurnControl();
+        declaredCardRisk = 0;
         timer = 0;
         myTurn = false;
+        hasCardsWithTheDeclaredNumber = false;
+        deckCalculated = false;
         checkedCardsToDiscard = false;
         cardsPlayed = false;
     }
@@ -303,12 +313,9 @@ public class ManoloAI : MonoBehaviour
     //                {
     //                    cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
     //                    controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
-    //                    controlledPlayer.playerHand.RemoveAt(i);
     //                }
     //            }
-
     //        }
-
     //    }
     //    else
     //    {
@@ -324,7 +331,6 @@ public class ManoloAI : MonoBehaviour
     //                        {
     //                            cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
     //                            controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
-    //                            controlledPlayer.playerHand.RemoveAt(i);
     //                        }
     //                    }
     //                }
@@ -336,7 +342,6 @@ public class ManoloAI : MonoBehaviour
     //                        {
     //                            cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
     //                            controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
-    //                            controlledPlayer.playerHand.RemoveAt(i);
     //                        }
     //                    }
     //                }
@@ -348,7 +353,6 @@ public class ManoloAI : MonoBehaviour
     //                {
     //                    cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[i]);
     //                    controlledPlayer.RemoveCard(controlledPlayer.playerHand[i]);
-    //                    controlledPlayer.playerHand.RemoveAt(i);
     //                }
     //            }
     //        }

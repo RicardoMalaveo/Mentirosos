@@ -13085,6 +13085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardDealer: {fileID: 517464723}
+  mainPlayer: {fileID: 0}
   playingNumberText: {fileID: 488012241}
 --- !u!1 &895812368
 GameObject:
@@ -20937,7 +20938,7 @@ Transform:
   m_GameObject: {fileID: 1855756574}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.8433915, z: 0.53729963, w: 0}
-  m_LocalPosition: {x: 0, y: 0.177, z: -0.649}
+  m_LocalPosition: {x: 0, y: 0.177, z: -0.371}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -6,7 +6,7 @@ using static DeckInfo;
 public class CardDealer : MonoBehaviour
 {
     [Header("Game State Info")]
-    [SerializeField] public bool IsFirstTurn;
+    [SerializeField] public bool IsFirstTurn; //indica si es el primer turno
 
     [Header("Players")]
     [SerializeField] private PlayerController playerController;
@@ -51,7 +51,7 @@ public class CardDealer : MonoBehaviour
 
 
 
-    public void AddCardsToCurrentGamePile(Card cardsToPlay)
+    public void AddCardsToCurrentGamePile(Card cardsToPlay) //envia cartas a la pila de juego
     {
         CurrentGamePile.Add(cardsToPlay);
         cardsToPlay.transform.SetParent(mainPile);
@@ -91,7 +91,7 @@ public class CardDealer : MonoBehaviour
 
 
 
-    public void GetGamePileToLiar(int playerId)
+    public void GetGamePileToLiar(int playerId) //se ejecuta cuando alguien acusa, envia las cartas dependiendo de quien haya acusado o si ha mentido
     {
         if (playerId != lastPlayer)
         {
@@ -175,7 +175,7 @@ public class CardDealer : MonoBehaviour
 
 
 
-    void ResetTable(int playerId)
+    void ResetTable(int playerId) // cambia los valores de la ronda para que el juego pueda iniciar nuevamente luego de que alguien haya sido acusado.
     {
         actualPlayedCard = null;
         cardDeclared = 0;

@@ -5,7 +5,15 @@ using UnityEngine.SocialPlatforms.Impl;
 public class UI : MonoBehaviour
 {
     [SerializeField] private CardDealer cardDealer;
+    [SerializeField] private PlayerController mainPlayer;
     public TextMeshProUGUI playingNumberText;
+
+    private void accusar()
+    {
+        cardDealer.GetGamePileToLiar(mainPlayer.controlledPlayer.playerID);
+    }
+
+
     private void Update()
     {
         playingNumberText.text = "Playign Card: " + cardDealer.cardDeclared.ToString();
