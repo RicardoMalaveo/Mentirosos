@@ -10991,7 +10991,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Playign Card:'
+  m_text: 'Card Declared:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11456,6 +11456,7 @@ MonoBehaviour:
   CurrentPlayer: 0
   lastPlayer: 0
   didLastPlayerLied: 0
+  someoneGotAccused: 0
   deckInfo: {fileID: 517464721}
   mainPile: {fileID: 1002698207}
   discardedPile: {fileID: 669734069}
@@ -11470,6 +11471,9 @@ MonoBehaviour:
   - {fileID: 1855756575}
   - {fileID: 241988742}
   - {fileID: 244682605}
+  manoloScript:
+  - {fileID: 241988743}
+  - {fileID: 244682606}
   CurrentGamePlayers:
   - playerID: 0
     playerHand: []

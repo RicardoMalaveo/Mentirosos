@@ -14,6 +14,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] public int CurrentPlayer;
     [SerializeField] public int lastPlayer;
     [SerializeField] private bool didLastPlayerLied;
+    [SerializeField] public bool someoneGotAccused = false;
 
     [Header("Deck")]
     public DeckInfo deckInfo;
@@ -34,6 +35,7 @@ public class CardDealer : MonoBehaviour
     public Transform[] playerHands;
 
     [Header("Player List")]
+    [SerializeField] List<ManoloAI> manoloScript;
     public List<Player> CurrentGamePlayers = new List<Player>();
     private List<GameObject> instantiatedDeck = new List<GameObject>(); //Lista de cartas instanciadas en escena, estará vacia hasta que se cree el deck
     [SerializeField] private List<Card> DiscardedGamePile = new List<Card>(); //Lista de cartas descartadas definitivamente en el juego.
@@ -59,10 +61,14 @@ public class CardDealer : MonoBehaviour
         cardsToPlay.transform.localRotation = Quaternion.identity;
         actualPlayedCard = CurrentGamePile.First();
 
-        if(cardDeclared == 0 && IsFirstTurn)
+        if(cardDeclared == 0)
         {
             cardDeclared = actualPlayedCard.cardNumber;
         }
+
+        GetCurrentGamePileAmounts();
+        LiarChecker();
+
     }
 
 
@@ -73,8 +79,16 @@ public class CardDealer : MonoBehaviour
     {
         if (IsFirstTurn)
         {
-            CurrentPlayer = 1;
-            IsFirstTurn = false;
+            if(CurrentPlayer >= CurrentGamePlayers.Count - 1)
+            {
+                IsFirstTurn = false;
+                CurrentPlayer = 0;
+            }
+            else
+            {
+                IsFirstTurn = false;
+                CurrentPlayer += 1;
+            }
         }
         else if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
         {
@@ -86,7 +100,6 @@ public class CardDealer : MonoBehaviour
             CurrentPlayer++;
             lastPlayer = CurrentPlayer - 1;
         }
-        GetCurrentGamePileAmounts();
     }
 
 
@@ -95,35 +108,45 @@ public class CardDealer : MonoBehaviour
     {
         if (playerId != lastPlayer)
         {
+            someoneGotAccused = true;
+
+            for (int i = 0; i < manoloScript.Count; i++)
+            {
+                manoloScript[i].finishTurn();
+                manoloScript[i].listOfCardsPlayed.Clear();
+            }
+
             if (didLastPlayerLied)
             {
-                CurrentGamePlayers[lastPlayer].playerHand.AddRange(CurrentGamePile);
                 for (int i = 0; i < CurrentGamePile.Count; i++)
                 {
                     CurrentGamePile[i].transform.SetParent(playerHands[lastPlayer]);
                     CurrentGamePile[i].transform.localPosition = Vector3.zero;
                     CurrentGamePile[i].transform.localRotation = Quaternion.identity;
                     CurrentGamePile[i].isRaised = false;
+                    CurrentGamePlayers[lastPlayer].playerHand.Add(CurrentGamePile[i]);
                 }
+                CurrentGamePile.Clear();
+                ResetTable(playerId);
             }
             else
             {
-                CurrentGamePlayers[playerId].playerHand.AddRange(CurrentGamePile);
                 for (int i = 0; i < CurrentGamePile.Count; i++)
                 {
                     CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
                     CurrentGamePile[i].transform.localPosition = Vector3.zero;
                     CurrentGamePile[i].transform.localRotation = Quaternion.identity;
                     CurrentGamePile[i].isRaised = false;
+                    CurrentGamePlayers[playerId].playerHand.Add(CurrentGamePile[i]);
                 }
+                CurrentGamePile.Clear();
+                ResetTable(playerId);
             }
+
             if (lastPlayer == 0 || playerId == 0)
             {
                 playerController.ArrangeCards();
             }
-
-            CurrentGamePile.Clear();
-            ResetTable(playerId);
         }
     }
 
@@ -193,6 +216,7 @@ public class CardDealer : MonoBehaviour
         }
         didLastPlayerLied = false;
         IsFirstTurn = true;
+        someoneGotAccused = false;
     }
 
 
@@ -239,7 +263,7 @@ public class CardDealer : MonoBehaviour
 
 
 
-    void GetCurrentGamePileAmounts() //indica el total de cartas en la pila en juego, indica cuantas cartas jugo el ultimo jugador, indica si el ultimo jugador a mentido
+    void GetCurrentGamePileAmounts() //indica el total de cartas en la pila en juego
     {
         if (IsFirstTurn)
         {
@@ -251,21 +275,21 @@ public class CardDealer : MonoBehaviour
             amountOfCardsPlayed = CurrentGamePile.Count - totalAmountOfCardsInThePile;
             totalAmountOfCardsInThePile = CurrentGamePile.Count;
         }
+    }
 
+    
+
+    private void LiarChecker() //indica cuantas cartas jugo el ultimo jugador, indica si el ultimo jugador a mentido
+    {
         for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
         {
             CurrentCard = CurrentGamePile[i];
-            if (actualPlayedCard.cardNumber != CurrentCard.cardNumber || cardDeclared != 0)
+            if (cardDeclared != CurrentCard.cardNumber)
             {
-                if (cardDeclared != CurrentCard.cardNumber)
-                {
-                    didLastPlayerLied = true;
-                    i = CurrentGamePile.Count - 1;
-                }
-                else
-                {
-                    didLastPlayerLied = false;
-                }
+                didLastPlayerLied = true;
+                i = CurrentGamePile.Count - 1;
+     
+
             }
             else
             {

@@ -16,7 +16,7 @@ public class UI : MonoBehaviour
 
     private void Update()
     {
-        playingNumberText.text = "Playign Card: " + cardDealer.cardDeclared.ToString();
+        playingNumberText.text = "Card Declared: " + cardDealer.cardDeclared.ToString();
     }
     public void DeclaredNumber1()
     {

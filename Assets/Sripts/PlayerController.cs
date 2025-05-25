@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerInput();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && cardsToPlay.Count>0 && cardDealer.CurrentPlayer==0)
         {
             PlaySelectedCards();
             cardDealer.PlayerTurnControl();
