@@ -98,7 +98,7 @@ public class ManoloAI : MonoBehaviour
         }
         else
         {
-            manoloRisk =  0.2F + manoloRisk - (deckValue / 100);
+            manoloRisk =  0.1F + manoloRisk - (deckValue / 100);
             cardsValue.Clear();
         }
 
@@ -120,12 +120,10 @@ public class ManoloAI : MonoBehaviour
             accusing = true;
         }
 
-        if (timer > 3F && !cardsPlayed)
+        if (timer > 3F && !cardsPlayed && controlledPlayer.playerHand.Count>0)
         {
             ChoosingAndPlayingCards();
             cardsPlayed = true;
-            cardDealer.LiarChecker();
-            cardDealer.GetCurrentGamePileAmounts();
         }
     }
 
@@ -255,9 +253,15 @@ public class ManoloAI : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < listOfCardsPlayed.Count; i++)
+        {
+            if (controlledPlayer.playerHand[i].cardNumber == cardDealer.cardDeclared)
+            {
+                cardsWithDeclaredNumber += 1;
+            }
+        }
 
-
-        if(cardsWithDeclaredNumber>0)
+        if (cardsWithDeclaredNumber>0)
         {
             hasCardsWithTheDeclaredNumber = true;
         }
@@ -298,7 +302,8 @@ public class ManoloAI : MonoBehaviour
 
     public void finishTurn() //termina el turno
     {
-        if(!cardDealer.someoneGotAccused)
+        accusing = false;
+        if (!cardDealer.someoneGotAccused)
         {
             cardDealer.PlayerTurnControl();
         }
@@ -311,7 +316,6 @@ public class ManoloAI : MonoBehaviour
         deckCalculated = false;
         checkedCardsToDiscard = false;
         cardsPlayed = false;
-        accusing = false;
         ArrangeCards();
     }
 

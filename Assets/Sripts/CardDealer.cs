@@ -15,6 +15,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] public int CurrentPlayer;
     [SerializeField] public int lastPlayer;
     [SerializeField] private bool didLastPlayerLied;
+    [SerializeField] public bool aPlayerRanOutOfCards;
     [SerializeField] public bool someoneGotAccused = false;
 
     [Header("Deck")]
@@ -29,7 +30,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private Card CurrentCard;
     public int amountOfCardsPlayed;
     public int totalAmountOfCardsInThePile;
-    [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
+    [SerializeField] public List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
 
     [Header("Player Configuration")]
     public int playerCount = 3;
@@ -103,12 +104,16 @@ public class CardDealer : MonoBehaviour
             CurrentPlayer++;
             lastPlayer = CurrentPlayer - 1;
         }
+        LiarChecker();
+        GetCurrentGamePileAmounts();
+        CheckIfThereArePlayersWithNoCards();
     }
 
 
 
     public void GetGamePileToLiar(int playerId) //se ejecuta cuando alguien acusa, envia las cartas dependiendo de quien haya acusado o si ha mentido
     {
+        uiComponet.playerID = playerId;
         if (playerId != lastPlayer)
         {
             uiComponet.StartCoroutine(uiComponet.Mentiroso());
@@ -300,6 +305,18 @@ public class CardDealer : MonoBehaviour
                 didLastPlayerLied = false;
             }
             Debug.Log(CurrentCard);
+        }
+    }
+
+    void CheckIfThereArePlayersWithNoCards() //verifica si algun jugador no tiene cartas
+    {
+        for (int i = 0; i < CurrentGamePlayers.Count; i++)
+        {
+            if (CurrentGamePlayers[i].playerHand.Count == 0)
+            {
+                aPlayerRanOutOfCards = true;
+                uiComponet.playerIDWithNoCards = i;
+            }
         }
     }
 }
