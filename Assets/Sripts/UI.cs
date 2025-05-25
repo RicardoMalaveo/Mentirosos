@@ -30,7 +30,7 @@ public class UI : MonoBehaviour
         }
 
 
-        if(cardDealer.CurrentPlayer==0)
+        if(cardDealer.CurrentPlayer==0 && cardDealer.IsFirstTurn)
         {
             numPad.SetActive(true);
         }

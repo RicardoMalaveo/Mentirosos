@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using static DeckInfo;
+using System.ComponentModel;
 
 public class CardDealer : MonoBehaviour
 {
@@ -40,7 +41,8 @@ public class CardDealer : MonoBehaviour
     private List<GameObject> instantiatedDeck = new List<GameObject>(); //Lista de cartas instanciadas en escena, estará vacia hasta que se cree el deck
     [SerializeField] private List<Card> DiscardedGamePile = new List<Card>(); //Lista de cartas descartadas definitivamente en el juego.
 
-
+    [Header("UI")]
+    [SerializeField] private UI uiComponet;
 
 
     void Start()
@@ -48,6 +50,11 @@ public class CardDealer : MonoBehaviour
         IsFirstTurn = true;
         CreateAndShuffleDeck();
         DealCards();
+
+        for (int i = 0; i < manoloScript.Count; i++)
+        {
+            manoloScript[i].ArrangeCards();
+        }
     }
 
 
@@ -104,6 +111,7 @@ public class CardDealer : MonoBehaviour
     {
         if (playerId != lastPlayer)
         {
+            uiComponet.StartCoroutine(uiComponet.Mentiroso());
             someoneGotAccused = true;
 
             for (int i = 0; i < manoloScript.Count; i++)

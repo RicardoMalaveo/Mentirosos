@@ -63,7 +63,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            uiComponet.StartCoroutine(uiComponet.Mentiroso());
             cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
         }
     }

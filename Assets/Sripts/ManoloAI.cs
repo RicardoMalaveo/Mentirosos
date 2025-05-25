@@ -20,8 +20,10 @@ public class ManoloAI : MonoBehaviour
     [SerializeField] private bool deckCalculated = false;
     [SerializeField] private bool cardsPlayed = false;
     [SerializeField] private bool hasCardsWithTheDeclaredNumber;
-    [SerializeField] private bool lastPlayerMightBeLying= false;
-    [SerializeField] private float declaredCardRisk;
+    [SerializeField] private bool accusing = false;
+    [SerializeField] private bool lastPlayerMightBeLying = false;
+    [SerializeField] private float probabilityOfLastPlayerLying = 0;
+    [SerializeField] private float cardsWithDeclaredNumber;
 
 
     [Header("Card Spacing")]
@@ -53,7 +55,6 @@ public class ManoloAI : MonoBehaviour
         if (cardDealer.CurrentPlayer == controlledPlayerID && !myTurn)
         {
             DiscardCards();
-
             Debug.Log("turn started");
         }
 
@@ -71,10 +72,11 @@ public class ManoloAI : MonoBehaviour
         if (cardDealer.CurrentPlayer == controlledPlayerID && myTurn) 
         {
             timer += Time.deltaTime;
+
             startTurn();
         }
 
-        if(timer > 4F && myTurn)
+        if(timer > 5F && myTurn)
         {
             finishTurn();
             Debug.Log("done");
@@ -86,18 +88,17 @@ public class ManoloAI : MonoBehaviour
     {
         CalculateCardsOnHandValue();
         DeckCheckerForDeclaredCardNumber();
-        CalculateIfLastPlayerIsLying();
 
 
 
         if (!cardDealer.IsFirstTurn)
         {
-            manoloRisk += declaredCardRisk / 6;
+            manoloRisk += cardsWithDeclaredNumber / 6;
             cardsValue.Clear();
         }
         else
         {
-            manoloRisk =  0.2F + manoloRisk - (deckValue / 200);
+            manoloRisk =  0.2F + manoloRisk - (deckValue / 100);
             cardsValue.Clear();
         }
 
@@ -113,6 +114,12 @@ public class ManoloAI : MonoBehaviour
 
     private void startTurn() //crea un pequeño retraso que permite que el jugador principal acuse al jugador anterior.
     {
+        if(!accusing )
+        {
+            AccuseOfLying();
+            accusing = true;
+        }
+
         if (timer > 3F && !cardsPlayed)
         {
             ChoosingAndPlayingCards();
@@ -200,6 +207,18 @@ public class ManoloAI : MonoBehaviour
         }
     }
 
+    public void AccuseOfLying()
+    {
+        probabilityOfLastPlayerLying = 1.2F / (5F - cardsWithDeclaredNumber);
+        float clampedProb = Mathf.Clamp01(probabilityOfLastPlayerLying);
+        lastPlayerMightBeLying = Random.Range(0f, 1f) < clampedProb;
+        Debug.Log(lastPlayerMightBeLying);
+
+        if(lastPlayerMightBeLying)
+        {
+            cardDealer.GetGamePileToLiar(controlledPlayer.playerID);
+        }
+    }
 
     void CalculateCardsOnHandValue() //da un valor a las cartas en mano dependiendo de cuantas veces se repitan.
     {
@@ -232,37 +251,22 @@ public class ManoloAI : MonoBehaviour
         {
             if (controlledPlayer.playerHand[y].cardNumber == cardDealer.cardDeclared)
             {
-                hasCardsWithTheDeclaredNumber = true;
-                y = controlledPlayer.playerHand.Count;
+                cardsWithDeclaredNumber += 1;
             }
-            else
-            {
-                hasCardsWithTheDeclaredNumber = false;
-            }
+        }
+
+
+
+        if(cardsWithDeclaredNumber>0)
+        {
+            hasCardsWithTheDeclaredNumber = true;
+        }
+        else
+        {
+            hasCardsWithTheDeclaredNumber = false;
         }
     }
 
-   void CalculateIfLastPlayerIsLying() //devuelve un valor basado en cuantas cartas posee con el mismo numero que la carta declarada.
-    {
-        for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
-        {
-            if (cardDealer.cardDeclared == controlledPlayer.playerHand[x].cardNumber)
-            {
-                cardsValue.Add(controlledPlayer.playerHand[x]);
-            }
-        }
-        declaredCardRisk = cardsValue.Count;
-    }
-
-    void ArrangeCards() //posiciona las cartas en la mano del jugador con una separacion.
-    {
-        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
-        {
-            float xPos = i * cardSpacingX;
-            float ZPos = i * cardSpacingZ;
-            controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0);
-        }
-    }
 
     void DiscardCards() //descarta cartas cuando tiene 4 con el mismo numero.
     {
@@ -283,7 +287,6 @@ public class ManoloAI : MonoBehaviour
                 {
                     controlledPlayer.playerHand.Remove(cardsToPlay[y]);
                 }
-                Debug.Log("discarding 4 cards");
             }
             cardsToPlay.Clear();
         }
@@ -300,7 +303,7 @@ public class ManoloAI : MonoBehaviour
             cardDealer.PlayerTurnControl();
         }
 
-        declaredCardRisk = 0;
+        cardsWithDeclaredNumber = 0;
         timer = 0;
         deckValue = 0;
         myTurn = false;
@@ -308,5 +311,18 @@ public class ManoloAI : MonoBehaviour
         deckCalculated = false;
         checkedCardsToDiscard = false;
         cardsPlayed = false;
+        accusing = false;
+        ArrangeCards();
+    }
+
+
+    public void ArrangeCards() //posiciona las cartas en la mano del jugador con una separacion.
+    {
+        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
+        {
+            float xPos = i * cardSpacingX;
+            float ZPos = i * cardSpacingZ;
+            controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0);
+        }
     }
 }
