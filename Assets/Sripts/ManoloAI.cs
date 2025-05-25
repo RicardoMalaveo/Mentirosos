@@ -97,7 +97,7 @@ public class ManoloAI : MonoBehaviour
         }
         else
         {
-            manoloRisk -= deckValue / 200;
+            manoloRisk =  0.2F + manoloRisk - (deckValue / 200);
             cardsValue.Clear();
         }
 
@@ -117,6 +117,8 @@ public class ManoloAI : MonoBehaviour
         {
             ChoosingAndPlayingCards();
             cardsPlayed = true;
+            cardDealer.LiarChecker();
+            cardDealer.GetCurrentGamePileAmounts();
         }
     }
 

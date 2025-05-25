@@ -26,8 +26,8 @@ public class CardDealer : MonoBehaviour
     [SerializeField] public Card actualPlayedCard;
     [SerializeField] public int cardDeclared;
     [SerializeField] private Card CurrentCard;
-    [SerializeField] private int amountOfCardsPlayed;
-    [SerializeField] private int totalAmountOfCardsInThePile;
+    public int amountOfCardsPlayed;
+    public int totalAmountOfCardsInThePile;
     [SerializeField] private List<Card> CurrentGamePile = new List<Card>(); //Lista de cartas en la pila del juego actual.
 
     [Header("Player Configuration")]
@@ -65,10 +65,6 @@ public class CardDealer : MonoBehaviour
         {
             cardDeclared = actualPlayedCard.cardNumber;
         }
-
-        GetCurrentGamePileAmounts();
-        LiarChecker();
-
     }
 
 
@@ -263,7 +259,7 @@ public class CardDealer : MonoBehaviour
 
 
 
-    void GetCurrentGamePileAmounts() //indica el total de cartas en la pila en juego
+    public void GetCurrentGamePileAmounts() //indica el total de cartas en la pila en juego
     {
         if (IsFirstTurn)
         {
@@ -279,7 +275,7 @@ public class CardDealer : MonoBehaviour
 
     
 
-    private void LiarChecker() //indica cuantas cartas jugo el ultimo jugador, indica si el ultimo jugador a mentido
+    public void LiarChecker() //indica cuantas cartas jugo el ultimo jugador, indica si el ultimo jugador a mentido
     {
         for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
         {

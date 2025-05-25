@@ -1,13 +1,15 @@
 using UnityEngine;
+using System.Collections;
 using TMPro;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class UI : MonoBehaviour
 {
     [SerializeField] private CardDealer cardDealer;
     [SerializeField] private PlayerController mainPlayer;
     public TextMeshProUGUI playingNumberText;
-
+    public TextMeshProUGUI amountOfCardsOnTheTable;
+    public TextMeshProUGUI mentiroso;
+    public GameObject numPad;
     private void accusar()
     {
         cardDealer.GetGamePileToLiar(mainPlayer.controlledPlayer.playerID);
@@ -16,8 +18,36 @@ public class UI : MonoBehaviour
 
     private void Update()
     {
-        playingNumberText.text = "Card Declared: " + cardDealer.cardDeclared.ToString();
+        if(cardDealer.cardDeclared !=0)
+        {
+            playingNumberText.text = "Número de carta declarado: " + cardDealer.cardDeclared.ToString() + " x " + cardDealer.amountOfCardsPlayed.ToString();
+            amountOfCardsOnTheTable.text = "Cantidad de cartas jugadas: " + cardDealer.totalAmountOfCardsInThePile.ToString(); ;
+        }
+        else
+        {
+            playingNumberText.text = "Número de carta declarado: No se ha declarado ninguna carta";
+            amountOfCardsOnTheTable.text = "Cartas en juego: no hay cartas en juego";
+        }
+
+
+        if(cardDealer.CurrentPlayer==0)
+        {
+            numPad.SetActive(true);
+        }
+        else
+        {
+            numPad.SetActive(false);
+        }
     }
+
+
+    public IEnumerator Mentiroso()
+    {
+        mentiroso.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1F);
+        mentiroso.gameObject.SetActive(false);
+    }
+
     public void DeclaredNumber1()
     {
         cardDealer.cardDeclared = 1;

@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Player Configuration")]
     [SerializeField] private CardDealer cardDealer;
+    [SerializeField] private UI uiComponet;
 
     [Header("Card Spacing")]
     [SerializeField] private float cardSpacingY = 0.05f;
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
+            uiComponet.StartCoroutine(uiComponet.Mentiroso());
             cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
         }
     }
@@ -116,6 +118,9 @@ public class PlayerController : MonoBehaviour
             controlledPlayer.RemoveCard(cardsToPlay[i]);
             cardsToPlay.RemoveAt(i);
         }
+
+        cardDealer.LiarChecker();
+        cardDealer.GetCurrentGamePileAmounts();
         ArrangeCards();
     }
 
