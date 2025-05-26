@@ -31,13 +31,13 @@ public class UI : MonoBehaviour
     {
         if(cardDealer.cardDeclared !=0)
         {
-            playingNumberText.text = "Número de carta declarada: " + cardDealer.cardDeclared.ToString() + " x " + cardDealer.amountOfCardsPlayed.ToString() + "Cartas";
-            amountOfCardsOnTheTable.text = "Cartas en juego: " + cardDealer.totalAmountOfCardsInThePile.ToString(); ;
+            playingNumberText.text = "Declared Card Number: " + cardDealer.cardDeclared.ToString() + " x " + cardDealer.amountOfCardsPlayed.ToString() + " Card";
+            amountOfCardsOnTheTable.text = "Current Cards in Play: " + cardDealer.totalAmountOfCardsInThePile.ToString(); ;
         }
         else
         {
-            playingNumberText.text = "Número de carta declarada: No se ha declarado ninguna carta";
-            amountOfCardsOnTheTable.text = "Cartas en juego: no hay cartas en juego";
+            playingNumberText.text = "Declared Card Number: No Declared";
+            amountOfCardsOnTheTable.text = "Current Cards in Play: No Cards";
         }
 
 
@@ -52,15 +52,15 @@ public class UI : MonoBehaviour
 
         if(cardDealer.CurrentPlayer==0)
         {
-            turnos.text = "!Es tu turno!";
+            turnos.text = "Your Turn!";
         }
         else if(cardDealer.CurrentPlayer ==1)
         {
-            turnos.text = "!Es el turno del Manolo!";
+            turnos.text = "First Manolo's Turn";
         }
         else if (cardDealer.CurrentPlayer == 2)
         {
-            turnos.text = "!Es el turno del otro Manolo!";
+            turnos.text = "Second Manolo's Turn";
         }
 
         if(cardDealer.aPlayerRanOutOfCards)
@@ -82,39 +82,39 @@ public class UI : MonoBehaviour
     {
         if(playerID ==0)
         {
-            currentAcuser = "Tu";
+            currentAcuser = "You";
         }
         else if (playerID ==1)
         {
-            currentAcuser = "Manolo";
+            currentAcuser = "First Manolo";
         }
         else if (playerID == 2)
         {
-            currentAcuser = "otro Manolo";
+            currentAcuser = "Second Manolo";
         }
 
 
         if(cardDealer.lastPlayer == 0)
         {
-            players = "Ti";
+            players = "you";
         }
         else if(cardDealer.lastPlayer == 1)
         {
-            players = "Manolo";
+            players = "first Manolo";
         }
         else if (cardDealer.lastPlayer == 2)
         {
-            players = "otro Manolo";
+            players = "second Manolo";
         }
 
 
         if(playerID == 0)
         {
-            quienAcusaAquien.text = currentAcuser + " acusas al " + players + " de";
+            quienAcusaAquien.text = currentAcuser + " acuse to " + players + " of";
         }
         else
         {
-            quienAcusaAquien.text = currentAcuser + " acusa al " + players + " de";
+            quienAcusaAquien.text = currentAcuser + " acuses to " + players + " of";
         }
      }
      
