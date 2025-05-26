@@ -312,7 +312,7 @@ public class CardDealer : MonoBehaviour
     {
         for (int i = 0; i < CurrentGamePlayers.Count; i++)
         {
-            if (CurrentGamePlayers[i].playerHand.Count == 0)
+            if (CurrentGamePlayers[i].playerHand.Count == 0 && i == CurrentPlayer)
             {
                 aPlayerRanOutOfCards = true;
                 uiComponet.playerIDWithNoCards = i;
