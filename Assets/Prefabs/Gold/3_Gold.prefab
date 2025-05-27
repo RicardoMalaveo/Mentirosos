@@ -60,7 +60,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: 3_Gold
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
+    - {fileID: 7680886578242502009, guid: 5e9571c99f10c534b81150c8e729a47d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

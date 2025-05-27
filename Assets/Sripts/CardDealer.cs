@@ -64,12 +64,24 @@ public class CardDealer : MonoBehaviour
     public void AddCardsToCurrentGamePile(Card cardsToPlay) //envia cartas a la pila de juego
     {
         CurrentGamePile.Add(cardsToPlay);
-        cardsToPlay.transform.SetParent(mainPile);
-        cardsToPlay.transform.localPosition = Vector3.zero;
-        cardsToPlay.transform.localRotation = Quaternion.identity;
+
+        CardAnimation animation = cardsToPlay.GetComponent<CardAnimation>();//Accedemos al componenete CardAnimation de cardsToPLay esto para ver si la carta que vamos a jugar
+        //tiene una animación en este caso si tiene el script CardAnimation con los parámetros de la animación
+        if (animation != null)//Si lo tiene le diremos que el componente transform de cardsToPlay(La carta que vamos a juagar) será el primer valor
+            //en este caso al ver el script CardAnimation vemos que el primer valor es el startPos,y le diremos que en este caso mainPile es el segundo valor (endPos)
+        {
+            animation.AnimateCard(cardsToPlay.transform, mainPile); //Los valores para la función de AnimateCard que describo arriba
+        }
+        else //Si no contiene una animación simplemente la ponemos sin animación en la pila
+        {
+            cardsToPlay.transform.SetParent(mainPile);
+            cardsToPlay.transform.localPosition = Vector3.zero;
+            cardsToPlay.transform.localRotation = Quaternion.identity;
+        }
+
         actualPlayedCard = CurrentGamePile.First();
 
-        if(cardDeclared == 0)
+        if (cardDeclared == 0)
         {
             cardDeclared = actualPlayedCard.cardNumber;
         }

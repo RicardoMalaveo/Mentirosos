@@ -60,7 +60,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: 1_Goblets
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3317858077138348958, guid: 607d1e048a654714cb459bea836cc971, type: 3}
+    - {fileID: 7122357990331877235, guid: 607d1e048a654714cb459bea836cc971, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

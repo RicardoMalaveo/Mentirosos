@@ -60,7 +60,8 @@ PrefabInstance:
       propertyPath: cardSuits
       value: Gold
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -940302278155879322, guid: 9bf28bdfdabc86244b12f2bb0225850f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
