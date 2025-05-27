@@ -71,6 +71,7 @@ public class CardDealer : MonoBehaviour
             //en este caso al ver el script CardAnimation vemos que el primer valor es el startPos,y le diremos que en este caso mainPile es el segundo valor (endPos)
         {
             animation.AnimateCard(cardsToPlay.transform, mainPile); //Los valores para la función de AnimateCard que describo arriba
+            cardsToPlay.transform.SetParent(mainPile);
         }
         else //Si no contiene una animación simplemente la ponemos sin animación en la pila
         {

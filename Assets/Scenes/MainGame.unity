@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.17442569, g: 0.14396185, b: 0.18238991, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.389
+  m_FogDensity: 0.098
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.10900332, g: 0.049246453, b: 0.18867922, a: 1}
@@ -5100,7 +5100,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 50.5, y: -52.5}
-  m_SizeDelta: {x: 610, y: 1033.6353}
+  m_SizeDelta: {x: 610, y: 1034}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &170479815
 MonoBehaviour:
