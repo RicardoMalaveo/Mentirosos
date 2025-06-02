@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.UIElements;
+using NUnit.Framework;
 
 public class UI : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class UI : MonoBehaviour
     public GameObject gameUI;
     public GameObject defeat;
     public GameObject victory;
+    public Cinematic cinematic;
     private void accusar()
     {
         cardDealer.GetGamePileToLiar(mainPlayer.controlledPlayer.playerID);
@@ -72,9 +74,12 @@ public class UI : MonoBehaviour
 
     public IEnumerator Mentiroso()
     {
+        AudioManager.Instance.PlaySFX("Mentiroso");
         GetPlayersInvolveInAccusing();
         mentiroso.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5F);
+        //Hay que ajustar la duración de la cinematica a la duración de la acusación
+        //cinematic.ActivarCinematica();
+        yield return new WaitForSeconds(1.5F); //Habrá que cambiarlo aquí pero manolo sigue jugando 
         mentiroso.gameObject.SetActive(false);
     }
 
@@ -212,5 +217,20 @@ public class UI : MonoBehaviour
     public void DeclaredNumber12()
     {
         cardDealer.cardDeclared = 12;
+    }
+
+    private bool gamePaused = false;
+    public void TogglePause()
+    {
+        if (gamePaused == false)
+        {
+            Time.timeScale = 0f;
+            gamePaused = true;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            gamePaused = false;
+        }
     }
 }

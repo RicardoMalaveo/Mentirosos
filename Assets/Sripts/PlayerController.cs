@@ -121,6 +121,7 @@ public class PlayerController : MonoBehaviour
         cardDealer.LiarChecker();
         cardDealer.GetCurrentGamePileAmounts();
         ArrangeCards();
+        AudioManager.Instance.PlaySFX("NextPlayer");
     }
 
 

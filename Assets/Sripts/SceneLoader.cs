@@ -11,4 +11,10 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+    public void ExitGame()
+    {
+        Debug.Log("Saliendo del juego...");
+        UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
 }

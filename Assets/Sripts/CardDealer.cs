@@ -70,7 +70,7 @@ public class CardDealer : MonoBehaviour
         if (animation != null)//Si lo tiene le diremos que el componente transform de cardsToPlay(La carta que vamos a juagar) será el primer valor
             //en este caso al ver el script CardAnimation vemos que el primer valor es el startPos,y le diremos que en este caso mainPile es el segundo valor (endPos)
         {
-            animation.AnimateCard(cardsToPlay.transform, mainPile); //Los valores para la función de AnimateCard que describo arriba
+            animation.AnimateCard(cardsToPlay.transform, mainPile, 1f, new Vector3(0f, 0f, 180f)); //Los valores para la función de AnimateCard que describo arriba
             cardsToPlay.transform.SetParent(mainPile);
         }
         else //Si no contiene una animación simplemente la ponemos sin animación en la pila
@@ -143,6 +143,13 @@ public class CardDealer : MonoBehaviour
                 for (int i = 0; i < CurrentGamePile.Count; i++)
                 {
                     CurrentGamePile[i].transform.SetParent(playerHands[lastPlayer]);
+                    /*CardAnimation animation = CurrentGamePile[i].GetComponent<CardAnimation>();
+                    if (animation != null)
+                    {Vector3 parentEuler = playerHands[lastPlayer].rotation.eulerAngles;
+                        animation.AnimateCard(CurrentGamePile[i].transform, playerHands[lastPlayer], 1f, parentEuler);
+                        CurrentGamePile[i].transform.SetParent(mainPile);
+                    }
+                    */
                     CurrentGamePile[i].transform.localPosition = Vector3.zero;
                     CurrentGamePile[i].transform.localRotation = Quaternion.identity;
                     CurrentGamePile[i].isRaised = false;
