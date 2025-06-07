@@ -218,19 +218,12 @@ public class UI : MonoBehaviour
     {
         cardDealer.cardDeclared = 12;
     }
-
-    private bool gamePaused = false;
-    public void TogglePause()
+    public void PauseOFF()
     {
-        if (gamePaused == false)
-        {
-            Time.timeScale = 0f;
-            gamePaused = true;
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            gamePaused = false;
-        }
+        Time.timeScale = 1f;
+    }
+    public void PauseON()
+    {
+        Time.timeScale = 0f;
     }
 }
