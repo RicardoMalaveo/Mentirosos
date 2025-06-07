@@ -55,6 +55,7 @@ public class ManoloAI : MonoBehaviour
         if (cardDealer.CurrentPlayer == controlledPlayerID && !myTurn)
         {
             DiscardCards();
+            ArrangeCards();
             Debug.Log("turn started");
         }
 
@@ -62,6 +63,7 @@ public class ManoloAI : MonoBehaviour
         if (checkedCardsToDiscard && !cardDealer.someoneGotAccused)
         {
             myTurn = true;
+            ArrangeCards();
         }
 
         if(!deckCalculated && myTurn)
@@ -78,6 +80,7 @@ public class ManoloAI : MonoBehaviour
 
         if(timer > 5F && myTurn)
         {
+            ArrangeCards();
             finishTurn();
             Debug.Log("done");
         }
@@ -123,6 +126,8 @@ public class ManoloAI : MonoBehaviour
         if (timer > 3F && !cardsPlayed && controlledPlayer.playerHand.Count>0)
         {
             ChoosingAndPlayingCards();
+            ArrangeCards();
+            cardDealer.LiarChecker();
             cardsPlayed = true;
         }
     }

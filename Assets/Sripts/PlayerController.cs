@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
         {
             PlaySelectedCards();
             cardDealer.PlayerTurnControl();
+
         }
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
+            ArrangeCards();
         }
     }
 
@@ -105,6 +107,7 @@ public class PlayerController : MonoBehaviour
             cardsToPlay[i].isRaised = false;
             cardsToPlay.RemoveAt(i);
         }
+        ArrangeCards();
     }
 
 

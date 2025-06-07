@@ -85,6 +85,11 @@ public class CardDealer : MonoBehaviour
         {
             cardDeclared = actualPlayedCard.cardNumber;
         }
+
+        for (int i = 0; i < manoloScript.Count; i++)
+        {
+            manoloScript[i].ArrangeCards();
+        }
     }
 
 
@@ -93,6 +98,7 @@ public class CardDealer : MonoBehaviour
 
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
+        GetCurrentGamePileAmounts();
         if (IsFirstTurn)
         {
             if(CurrentPlayer >= CurrentGamePlayers.Count - 1)
@@ -116,8 +122,13 @@ public class CardDealer : MonoBehaviour
             CurrentPlayer++;
             lastPlayer = CurrentPlayer - 1;
         }
+        
+        if(CurrentPlayer ==0)
+        {
+            playerController.ArrangeCards();
+        }
+
         LiarChecker();
-        GetCurrentGamePileAmounts();
         CheckIfThereArePlayersWithNoCards();
     }
 
@@ -126,6 +137,7 @@ public class CardDealer : MonoBehaviour
     public void GetGamePileToLiar(int playerId) //se ejecuta cuando alguien acusa, envia las cartas dependiendo de quien haya acusado o si ha mentido
     {
         uiComponet.playerID = playerId;
+
         if (playerId != lastPlayer)
         {
             uiComponet.StartCoroutine(uiComponet.Mentiroso());
@@ -249,6 +261,11 @@ public class CardDealer : MonoBehaviour
         didLastPlayerLied = false;
         IsFirstTurn = true;
         someoneGotAccused = false;
+
+        if(CurrentPlayer ==0)
+        {
+            playerController.ArrangeCards();
+        }
     }
 
 

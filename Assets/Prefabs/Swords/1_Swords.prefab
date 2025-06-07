@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9022340827354833486, guid: 4b07ddc341cda964d99a2be9eac76435, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9022340827354833486, guid: 4b07ddc341cda964d99a2be9eac76435, type: 3}
       propertyPath: m_LocalPosition.z
@@ -176,3 +176,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   cards: {fileID: 7783627049192468375}
+  playerControllerScript: {fileID: 0}
+  manoloAIScript: {fileID: 0}
