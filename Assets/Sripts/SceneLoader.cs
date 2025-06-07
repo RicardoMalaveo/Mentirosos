@@ -13,8 +13,6 @@ public class SceneLoader : MonoBehaviour
     }
     public void ExitGame()
     {
-        Debug.Log("Saliendo del juego...");
-        UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
     }
 }

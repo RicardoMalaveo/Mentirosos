@@ -127,7 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe3c3a1746eb6e46a8c6e50f8f661d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDuration: 1
   moveCurve:
     serializedVersion: 2
     m_Curve:
@@ -176,4 +175,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  finalEulerRotation: {x: 0, y: 0, z: 180}
+  cards: {fileID: 5236036848806576716}

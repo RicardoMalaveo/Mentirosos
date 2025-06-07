@@ -65,19 +65,18 @@ public class CardDealer : MonoBehaviour
     {
         CurrentGamePile.Add(cardsToPlay);
 
-        CardAnimation animation = cardsToPlay.GetComponent<CardAnimation>();//Accedemos al componenete CardAnimation de cardsToPLay esto para ver si la carta que vamos a jugar
-        //tiene una animación en este caso si tiene el script CardAnimation con los parámetros de la animación
-        if (animation != null)//Si lo tiene le diremos que el componente transform de cardsToPlay(La carta que vamos a juagar) será el primer valor
-            //en este caso al ver el script CardAnimation vemos que el primer valor es el startPos,y le diremos que en este caso mainPile es el segundo valor (endPos)
+        CardAnimation animation = cardsToPlay.GetComponent<CardAnimation>();
+        if (animation != null)
         {
-            animation.AnimateCard(cardsToPlay.transform, mainPile, 1f, new Vector3(0f, 0f, 180f)); //Los valores para la función de AnimateCard que describo arriba
+            animation.AnimateCard(cardsToPlay.transform, mainPile, 0.5f, new Vector3(0f, 0f, 180F));
             cardsToPlay.transform.SetParent(mainPile);
         }
-        else //Si no contiene una animación simplemente la ponemos sin animación en la pila
+        else
         {
+            cardsToPlay.transform.localRotation = Quaternion.identity;
             cardsToPlay.transform.SetParent(mainPile);
             cardsToPlay.transform.localPosition = Vector3.zero;
-            cardsToPlay.transform.localRotation = Quaternion.identity;
+            
         }
 
         actualPlayedCard = CurrentGamePile.First();
@@ -142,18 +141,17 @@ public class CardDealer : MonoBehaviour
             {
                 for (int i = 0; i < CurrentGamePile.Count; i++)
                 {
-                    CurrentGamePile[i].transform.SetParent(playerHands[lastPlayer]);
-                    /*CardAnimation animation = CurrentGamePile[i].GetComponent<CardAnimation>();
-                    if (animation != null)
-                    {Vector3 parentEuler = playerHands[lastPlayer].rotation.eulerAngles;
-                        animation.AnimateCard(CurrentGamePile[i].transform, playerHands[lastPlayer], 1f, parentEuler);
-                        CurrentGamePile[i].transform.SetParent(mainPile);
-                    }
-                    */
-                    CurrentGamePile[i].transform.localPosition = Vector3.zero;
-                    CurrentGamePile[i].transform.localRotation = Quaternion.identity;
-                    CurrentGamePile[i].isRaised = false;
+                    CardAnimation animation = CurrentGamePile[i].GetComponent<CardAnimation>();
+                    Vector3 parentEuler = playerHands[lastPlayer].rotation.eulerAngles;
+                    animation.AnimateCard(CurrentGamePile[i].transform, playerHands[lastPlayer], 0.5f, parentEuler);
                     CurrentGamePlayers[lastPlayer].playerHand.Add(CurrentGamePile[i]);
+                    CurrentGamePile[i].transform.SetParent(playerHands[lastPlayer]);
+                    
+                    
+                    //CurrentGamePile[i].transform.localPosition = Vector3.zero;
+                    //CurrentGamePile[i].transform.localRotation = Quaternion.identity;
+                    //CurrentGamePile[i].isRaised = false;
+                    //CurrentGamePlayers[lastPlayer].playerHand.Add(CurrentGamePile[i]);
                 }
                 CurrentGamePile.Clear();
                 ResetTable(playerId);
@@ -162,11 +160,16 @@ public class CardDealer : MonoBehaviour
             {
                 for (int i = 0; i < CurrentGamePile.Count; i++)
                 {
-                    CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
-                    CurrentGamePile[i].transform.localPosition = Vector3.zero;
-                    CurrentGamePile[i].transform.localRotation = Quaternion.identity;
-                    CurrentGamePile[i].isRaised = false;
+                    CardAnimation animation = CurrentGamePile[i].GetComponent<CardAnimation>();
+                    Vector3 parentEuler = playerHands[playerId].rotation.eulerAngles;
+                    animation.AnimateCard(CurrentGamePile[i].transform, playerHands[playerId], 0.5f, parentEuler);
                     CurrentGamePlayers[playerId].playerHand.Add(CurrentGamePile[i]);
+                    CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
+                    //CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
+                    //CurrentGamePile[i].transform.localPosition = Vector3.zero;
+                    //CurrentGamePile[i].transform.localRotation = Quaternion.identity;
+                    //CurrentGamePile[i].isRaised = false;
+                    //CurrentGamePlayers[playerId].playerHand.Add(CurrentGamePile[i]);
                 }
                 CurrentGamePile.Clear();
                 ResetTable(playerId);
