@@ -362,7 +362,6 @@ public class CardDealer : MonoBehaviour
             {
                 didLastPlayerLied = false;
             }
-            Debug.Log(CurrentCard);
         }
     }
 

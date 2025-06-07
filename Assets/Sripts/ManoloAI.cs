@@ -52,36 +52,45 @@ public class ManoloAI : MonoBehaviour
 
     void Update()
     {
-        if (cardDealer.CurrentPlayer == controlledPlayerID && !myTurn)
+        if(controlledPlayer.playerHand.Count ==0)
         {
-            DiscardCards();
-            ArrangeCards();
-            Debug.Log("turn started");
-        }
-
-
-        if (checkedCardsToDiscard && !cardDealer.someoneGotAccused)
-        {
-            myTurn = true;
-        }
-
-        if(!deckCalculated && myTurn)
-        {
-            ManoloRiskCalculator();
-        }
-
-        if (cardDealer.CurrentPlayer == controlledPlayerID && myTurn) 
-        {
-            timer += Time.deltaTime;
-
-            startTurn();
-        }
-
-        if(timer > 4.2F && cardsPlayed == true)
-        {
-            ArrangeCards();
+            Debug.Log("no cards left");
             finishTurn();
-            Debug.Log("done");
+        }
+        else
+        {
+
+            if (cardDealer.CurrentPlayer == controlledPlayerID && !myTurn)
+            {
+                DiscardCards();
+                ArrangeCards();
+                Debug.Log("turn started");
+            }
+
+
+            if (checkedCardsToDiscard && !cardDealer.someoneGotAccused)
+            {
+                myTurn = true;
+            }
+
+            if (!deckCalculated && myTurn)
+            {
+                ManoloRiskCalculator();
+            }
+
+            if (cardDealer.CurrentPlayer == controlledPlayerID && myTurn)
+            {
+                timer += Time.deltaTime;
+
+                startTurn();
+            }
+
+            if (timer > 4.2F && cardsPlayed == true)
+            {
+                ArrangeCards();
+                finishTurn();
+                Debug.Log("done");
+            }
         }
     }
 
@@ -152,11 +161,18 @@ public class ManoloAI : MonoBehaviour
                         controlledPlayer.playerHand.RemoveAt(i);
                     }
                 }
+
+                Debug.Log("honesto");
             }
             else //si el valor de las cartas en mano es alto, es mas probably que mienta, seleccione una cantidad de cartas al azar y posiciones al azar.
             {
                 randomAmount = Random.Range(1, 5);
-                
+
+                if (randomAmount > controlledPlayer.playerHand.Count)
+                {
+                    randomAmount = controlledPlayer.playerHand.Count;
+                }
+
                 randomCardNumber = Random.Range(1, 13);
                 for (int i = 0; i < randomAmount; i++)
                 {
@@ -167,6 +183,8 @@ public class ManoloAI : MonoBehaviour
                 }
 
                 cardDealer.cardDeclared = randomCardNumber;
+
+                Debug.Log("Mintiendo");
             }
         }
         else
@@ -186,8 +204,12 @@ public class ManoloAI : MonoBehaviour
             else
             {
                 randomAmount = Random.Range(1, 5);
+                if (randomAmount > controlledPlayer.playerHand.Count)
+                {
+                    randomAmount = controlledPlayer.playerHand.Count;
+                }
 
-                if(controlledPlayer.playerHand.Count <1)
+                if (controlledPlayer.playerHand.Count <1)
                 {
                     cardDealer.AddCardsToCurrentGamePile(controlledPlayer.playerHand[0]);
                     listOfCardsPlayed.Add(controlledPlayer.playerHand[0]);
@@ -259,13 +281,13 @@ public class ManoloAI : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < listOfCardsPlayed.Count; i++)
-        {
-            if (controlledPlayer.playerHand[i].cardNumber == cardDealer.cardDeclared)
-            {
-                cardsWithDeclaredNumber += 1;
-            }
-        }
+        //for (int i = 0; i < listOfCardsPlayed.Count; i++)
+        //{
+        //    if (controlledPlayer.playerHand[i].cardNumber == cardDealer.cardDeclared)
+        //    {
+        //        cardsWithDeclaredNumber += 1;
+        //    }
+        //}
 
         if (cardsWithDeclaredNumber>0)
         {
