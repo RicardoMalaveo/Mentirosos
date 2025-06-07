@@ -27,8 +27,8 @@ public class ManoloAI : MonoBehaviour
 
 
     [Header("Card Spacing")]
-    [SerializeField] private float cardSpacingX = 1.5f;
-    [SerializeField] private float cardSpacingZ = 0.001f;
+    [SerializeField] private float cardSpacingY = 0.05f;
+    [SerializeField] private Vector3 direction = new Vector3(0, 0, 0);
 
     [SerializeField] private float timer;
     [SerializeField] List<Card> cardsToPlay;
@@ -63,7 +63,6 @@ public class ManoloAI : MonoBehaviour
         if (checkedCardsToDiscard && !cardDealer.someoneGotAccused)
         {
             myTurn = true;
-            ArrangeCards();
         }
 
         if(!deckCalculated && myTurn)
@@ -78,7 +77,7 @@ public class ManoloAI : MonoBehaviour
             startTurn();
         }
 
-        if(timer > 5F && myTurn)
+        if(timer > 4.2F && cardsPlayed == true)
         {
             ArrangeCards();
             finishTurn();
@@ -117,18 +116,16 @@ public class ManoloAI : MonoBehaviour
 
     private void startTurn() //crea un pequeño retraso que permite que el jugador principal acuse al jugador anterior.
     {
-        if(!accusing )
+        if(!accusing && timer >2.5F )
         {
             AccuseOfLying();
             accusing = true;
         }
 
-        if (timer > 3F && !cardsPlayed && controlledPlayer.playerHand.Count>0)
+        if (timer > 4F && !cardsPlayed && controlledPlayer.playerHand.Count>0)
         {
             ChoosingAndPlayingCards();
-            ArrangeCards();
-            cardDealer.LiarChecker();
-            cardsPlayed = true;
+
         }
     }
 
@@ -208,6 +205,10 @@ public class ManoloAI : MonoBehaviour
                 }
             }
         }
+
+        ArrangeCards();
+        cardDealer.LiarChecker();
+        cardsPlayed = true;
     }
 
     public void AccuseOfLying()
@@ -327,11 +328,21 @@ public class ManoloAI : MonoBehaviour
 
     public void ArrangeCards() //posiciona las cartas en la mano del jugador con una separacion.
     {
+
+        float totalSpread = (controlledPlayer.playerHand.Count - 1) * cardSpacingY;
+        float startOffset = -totalSpread / 2f;
+
         for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
-            float xPos = i * cardSpacingX;
-            float ZPos = i * cardSpacingZ;
-            controlledPlayer.playerHand[i].transform.localPosition = new Vector3(xPos, ZPos, 0);
+            if (controlledPlayer.playerHand[i] == null) continue;
+            float positionOffset = startOffset + i * cardSpacingY;
+            Vector3 newPosition = cardDealer.playerHands[controlledPlayer.playerID].localPosition + direction * positionOffset;
+            controlledPlayer.playerHand[i].transform.position = newPosition;
+            controlledPlayer.playerHand[i].transform.localRotation = Quaternion.identity;
+            controlledPlayer.playerHand[i].UpdateLocalPosition();
+            cardsToPlay.Clear();
         }
     }
+
+
 }

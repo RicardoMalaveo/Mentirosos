@@ -6371,7 +6371,7 @@ Transform:
   m_GameObject: {fileID: 241988741}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5938583, y: -0.29315254, z: 0.24598415, w: 0.70773286}
-  m_LocalPosition: {x: -0.56, y: 0.22, z: 0.36}
+  m_LocalPosition: {x: -0.435, y: 0.22, z: 0.656}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6402,8 +6402,8 @@ MonoBehaviour:
   lastPlayerMightBeLying: 0
   probabilityOfLastPlayerLying: 0
   cardsWithDeclaredNumber: 0
-  cardSpacingX: 0.025
-  cardSpacingZ: -0.001
+  cardSpacingY: -0.09
+  direction: {x: 0.3, y: 0, z: 0.32}
   timer: 0
   cardsToPlay: []
   cardsValue: []
@@ -6438,7 +6438,7 @@ Transform:
   m_GameObject: {fileID: 244682604}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5938583, y: 0.29315254, z: -0.24598415, w: 0.70773286}
-  m_LocalPosition: {x: 0.273, y: 0.22, z: 0.62}
+  m_LocalPosition: {x: 0.415, y: 0.22, z: 0.667}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6469,8 +6469,8 @@ MonoBehaviour:
   lastPlayerMightBeLying: 0
   probabilityOfLastPlayerLying: 0
   cardsWithDeclaredNumber: 0
-  cardSpacingX: 0.025
-  cardSpacingZ: -0.001
+  cardSpacingY: 0.05
+  direction: {x: 0.64, y: 0, z: -0.58}
   timer: 0
   cardsToPlay: []
   cardsValue: []
@@ -16388,7 +16388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.004, y: 0.938}
   m_AnchorMax: {x: 0.058333326, y: 0.99259275}
-  m_AnchoredPosition: {x: -0.27453613, y: -0.20410156}
+  m_AnchoredPosition: {x: -0.27441406, y: -0.20410156}
   m_SizeDelta: {x: 0.10839844, y: 0.21051025}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &306526536

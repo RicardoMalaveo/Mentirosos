@@ -23,10 +23,6 @@ public class UI : MonoBehaviour
     public GameObject defeat;
     public GameObject victory;
     public Cinematic cinematic;
-    private void accusar()
-    {
-        cardDealer.GetGamePileToLiar(mainPlayer.controlledPlayer.playerID);
-    }
 
 
     private void Update()
@@ -79,7 +75,7 @@ public class UI : MonoBehaviour
         mentiroso.gameObject.SetActive(true);
         //Hay que ajustar la duración de la cinematica a la duración de la acusación
         //cinematic.ActivarCinematica();
-        yield return new WaitForSeconds(1.5F); //Habrá que cambiarlo aquí pero manolo sigue jugando 
+        yield return new WaitForSeconds(1F); //Habrá que cambiarlo aquí pero manolo sigue jugando 
         mentiroso.gameObject.SetActive(false);
     }
 

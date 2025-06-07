@@ -7,7 +7,7 @@ public class CardAnimation : MonoBehaviour
     public AnimationCurve rotationCurve;
     public Card cards;
 
-    [SerializeField] public PlayerController playerControllerScript;
+    [SerializeField] private PlayerController playerControllerScript;
 
     private bool isAnimating = false;
 

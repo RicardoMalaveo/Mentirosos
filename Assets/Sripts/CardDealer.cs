@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static DeckInfo;
 using System.ComponentModel;
+using System.Collections;
 
 public class CardDealer : MonoBehaviour
 {
@@ -68,7 +69,7 @@ public class CardDealer : MonoBehaviour
         CardAnimation animation = cardsToPlay.GetComponent<CardAnimation>();
         if (animation != null)
         {
-            animation.AnimateCard(cardsToPlay.transform, mainPile, 0.5f, new Vector3(0f, 0f, 180F));
+            animation.AnimateCard(cardsToPlay.transform, mainPile, 0.75f, new Vector3(0f, 0f, 180F));
             cardsToPlay.transform.SetParent(mainPile);
         }
         else
@@ -76,7 +77,7 @@ public class CardDealer : MonoBehaviour
             cardsToPlay.transform.localRotation = Quaternion.identity;
             cardsToPlay.transform.SetParent(mainPile);
             cardsToPlay.transform.localPosition = Vector3.zero;
-            
+
         }
 
         actualPlayedCard = CurrentGamePile.First();
@@ -98,10 +99,11 @@ public class CardDealer : MonoBehaviour
 
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
-        GetCurrentGamePileAmounts();
+        LiarChecker();
+        CheckIfThereArePlayersWithNoCards();
         if (IsFirstTurn)
         {
-            if(CurrentPlayer >= CurrentGamePlayers.Count - 1)
+            if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
             {
                 IsFirstTurn = false;
                 CurrentPlayer = 0;
@@ -122,13 +124,14 @@ public class CardDealer : MonoBehaviour
             CurrentPlayer++;
             lastPlayer = CurrentPlayer - 1;
         }
-        
-        if(CurrentPlayer ==0)
+
+        if (CurrentPlayer == 0)
         {
             playerController.ArrangeCards();
         }
 
         LiarChecker();
+        GetCurrentGamePileAmounts();
         CheckIfThereArePlayersWithNoCards();
     }
 
@@ -155,11 +158,11 @@ public class CardDealer : MonoBehaviour
                 {
                     CardAnimation animation = CurrentGamePile[i].GetComponent<CardAnimation>();
                     Vector3 parentEuler = playerHands[lastPlayer].rotation.eulerAngles;
-                    animation.AnimateCard(CurrentGamePile[i].transform, playerHands[lastPlayer], 0.5f, parentEuler);
+                    animation.AnimateCard(CurrentGamePile[i].transform, playerHands[lastPlayer], 0.75f, parentEuler);
                     CurrentGamePlayers[lastPlayer].playerHand.Add(CurrentGamePile[i]);
                     CurrentGamePile[i].transform.SetParent(playerHands[lastPlayer]);
-                    
-                    
+
+
                     //CurrentGamePile[i].transform.localPosition = Vector3.zero;
                     //CurrentGamePile[i].transform.localRotation = Quaternion.identity;
                     //CurrentGamePile[i].isRaised = false;
@@ -167,6 +170,7 @@ public class CardDealer : MonoBehaviour
                 }
                 CurrentGamePile.Clear();
                 ResetTable(playerId);
+                StartCoroutine(ArrangeCardsForPlayer(lastPlayer));
             }
             else
             {
@@ -174,7 +178,7 @@ public class CardDealer : MonoBehaviour
                 {
                     CardAnimation animation = CurrentGamePile[i].GetComponent<CardAnimation>();
                     Vector3 parentEuler = playerHands[playerId].rotation.eulerAngles;
-                    animation.AnimateCard(CurrentGamePile[i].transform, playerHands[playerId], 0.5f, parentEuler);
+                    animation.AnimateCard(CurrentGamePile[i].transform, playerHands[playerId], 0.75f, parentEuler);
                     CurrentGamePlayers[playerId].playerHand.Add(CurrentGamePile[i]);
                     CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
                     //CurrentGamePile[i].transform.SetParent(playerHands[playerId]);
@@ -185,16 +189,30 @@ public class CardDealer : MonoBehaviour
                 }
                 CurrentGamePile.Clear();
                 ResetTable(playerId);
+                StartCoroutine(ArrangeCardsForPlayer(playerId));
             }
 
             if (lastPlayer == 0 || playerId == 0)
             {
                 playerController.ArrangeCards();
             }
+
+
         }
     }
 
-
+    public IEnumerator ArrangeCardsForPlayer(int playerID)
+    {
+        yield return new WaitForSeconds(0.76F);
+        if (playerID ==0)
+        {
+            playerController.ArrangeCards();
+        }
+        else
+        {
+            manoloScript[playerID-1].ArrangeCards();
+        }
+    }
 
 
 
@@ -262,7 +280,7 @@ public class CardDealer : MonoBehaviour
         IsFirstTurn = true;
         someoneGotAccused = false;
 
-        if(CurrentPlayer ==0)
+        if (CurrentPlayer == 0)
         {
             playerController.ArrangeCards();
         }
@@ -326,9 +344,9 @@ public class CardDealer : MonoBehaviour
         }
     }
 
-    
 
-    public void LiarChecker() //indica cuantas cartas jugo el ultimo jugador, indica si el ultimo jugador a mentido
+
+    public void LiarChecker() // indica si el ultimo jugador a mentido
     {
         for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
         {
@@ -337,7 +355,7 @@ public class CardDealer : MonoBehaviour
             {
                 didLastPlayerLied = true;
                 i = CurrentGamePile.Count - 1;
-     
+
 
             }
             else
