@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Card : MonoBehaviour //Esta clase es un objeto en el juego, es la que añadimos como instancias en el juego
+public class Card : MonoBehaviour
 {
     public int cardNumber;
     public string cardSuits;

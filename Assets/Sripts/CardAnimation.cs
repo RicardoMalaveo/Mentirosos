@@ -7,8 +7,6 @@ public class CardAnimation : MonoBehaviour
     public AnimationCurve rotationCurve;
     public Card cards;
 
-    [SerializeField] private PlayerController playerControllerScript;
-
     private bool isAnimating = false;
 
     public void AnimateCard(Transform startPos, Transform endPos, float duration, Vector3 finalEulerRotation)
