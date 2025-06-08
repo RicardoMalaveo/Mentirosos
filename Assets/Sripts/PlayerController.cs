@@ -51,24 +51,24 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerInput();
-        if (Input.GetKeyDown(KeyCode.Space) && cardsToPlay.Count>0 && cardDealer.CurrentPlayer==0 )
-        {
-            PlaySelectedCards();
-            checkedCardsToDiscard = false;
-            cardDealer.PlayerTurnControl();
+        //if (Input.GetKeyDown(KeyCode.Space) && cardsToPlay.Count>0 && cardDealer.CurrentPlayer==0 )
+        //{
+        //    PlaySelectedCards();
+        //    checkedCardsToDiscard = false;
+        //    cardDealer.PlayerTurnControl();
 
-        }
+        //}
 
         if (cardDealer.CurrentPlayer == 0 && !checkedCardsToDiscard)
         {
             DiscardCards();
         }
 
-        if (Input.GetKeyDown(KeyCode.A) && !cardDealer.gamePileEmpty && cardDealer.lastPlayer != 0)
-        {
-            cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
-            ArrangeCards();
-        }
+        //if (Input.GetKeyDown(KeyCode.A) && !cardDealer.gamePileEmpty && cardDealer.lastPlayer != 0)
+        //{
+        //    cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
+        //    ArrangeCards();
+        //}
     }
 
 
@@ -124,6 +124,17 @@ public class PlayerController : MonoBehaviour
         cardsToPlay.Clear();
         ArrangeCards();
         checkedCardsToDiscard = true;
+    }
+
+    public void Play()
+    {
+        if (cardsToPlay.Count > 0 && cardDealer.CurrentPlayer == 0)
+        {
+            PlaySelectedCards();
+            checkedCardsToDiscard = false;
+            cardDealer.PlayerTurnControl();
+
+        }
     }
 
     void PlaySelectedCards()

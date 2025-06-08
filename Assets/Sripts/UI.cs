@@ -22,11 +22,22 @@ public class UI : MonoBehaviour
     public GameObject gameUI;
     public GameObject defeat;
     public GameObject victory;
+    public GameObject accuse;
+    public GameObject playButton;
     public Cinematic cinematic;
 
 
     private void Update()
     {
+        if(cardDealer.LastPlayerCanBeAccused)
+        {
+            accuse.SetActive(true);
+        }
+        else
+        {
+            accuse.SetActive(false);
+        }
+
         if(cardDealer.cardDeclared !=0)
         {
             playingNumberText.text = "Declared Card Number: " + cardDealer.cardDeclared.ToString() + " x " + cardDealer.amountOfCardsPlayed.ToString() + " Card";
@@ -51,14 +62,37 @@ public class UI : MonoBehaviour
         if(cardDealer.CurrentPlayer==0)
         {
             turnos.text = "Your Turn!";
+
+            if(mainPlayer.cardsToPlay.Count >0)
+            {
+                playButton.SetActive(true);
+            }
+            else
+            {
+                playButton.SetActive(false);
+            }
+
+
+            //if(cardDealer.IsFirstTurn || cardDealer.lastPlayer ==0)
+            //{
+            //    accuse.SetActive(false);
+            //}
+            //else
+            //{ 
+            //    accuse.SetActive(true);
+            //}
         }
         else if(cardDealer.CurrentPlayer ==1)
         {
             turnos.text = "First Manolo's Turn";
+            playButton.SetActive(false);
+            //accuse.SetActive(true);
         }
         else if (cardDealer.CurrentPlayer == 2)
         {
             turnos.text = "Second Manolo's Turn";
+            playButton.SetActive(false);
+            //accuse.SetActive(true);
         }
 
         if(cardDealer.aPlayerRanOutOfCards)
@@ -162,8 +196,15 @@ public class UI : MonoBehaviour
 
 
 
+    public void Accuse()
+    {
+        cardDealer.GetGamePileToLiar(mainPlayer.controlledPlayer.playerID);
+    }
 
-
+    public void play()
+    {
+        mainPlayer.Play();
+    }
 
 
     public void DeclaredNumber1()

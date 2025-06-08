@@ -87,6 +87,7 @@ public class ManoloAI : MonoBehaviour
             if (timer > 4.2F && cardsPlayed == true)
             {
                 ArrangeCards();
+                cardDealer.LastPlayerCanBeAccused = true;
                 finishTurn();
             }
         }
@@ -129,10 +130,17 @@ public class ManoloAI : MonoBehaviour
             accusing = true;
         }
 
+        if(timer >3.5F)
+        {
+            if(cardDealer.LastPlayerCanBeAccused)
+            {
+                cardDealer.LastPlayerCanBeAccused = false;
+            }
+        }
+
         if (timer > 4F && !cardsPlayed && controlledPlayer.playerHand.Count>0)
         {
             ChoosingAndPlayingCards();
-
         }
     }
 

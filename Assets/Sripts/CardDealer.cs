@@ -18,7 +18,8 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private bool didLastPlayerLied;
     [SerializeField] public bool aPlayerRanOutOfCards;
     [SerializeField] public bool someoneGotAccused = false;
-    [SerializeField] public bool gamePileEmpty = true; 
+    [SerializeField] public bool gamePileEmpty = true;
+    [SerializeField] public bool LastPlayerCanBeAccused = false;
 
     [Header("Deck")]
     public DeckInfo deckInfo;
@@ -139,6 +140,7 @@ public class CardDealer : MonoBehaviour
 
     public void GetGamePileToLiar(int playerId) //se ejecuta cuando alguien acusa, envia las cartas dependiendo de quien haya acusado o si ha mentido
     {
+        LastPlayerCanBeAccused = false;
         uiComponet.playerID = playerId;
 
         if (playerId != lastPlayer)
