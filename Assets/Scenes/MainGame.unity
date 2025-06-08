@@ -6392,6 +6392,7 @@ MonoBehaviour:
   deckValue: 0
   controlledPlayerID: 1
   cardDealer: {fileID: 517464723}
+  playerController: {fileID: 1855756576}
   myTurn: 0
   checkedCardsToDiscard: 0
   deckCalculated: 0
@@ -6401,6 +6402,8 @@ MonoBehaviour:
   lastPlayerMightBeLying: 0
   probabilityOfLastPlayerLying: 0
   cardsWithDeclaredNumber: 0
+  NoCardsLeft: 0
+  cardsInHand: 1
   cardSpacingY: -0.09
   direction: {x: 0.3, y: 0, z: 0.32}
   timer: 0
@@ -6459,6 +6462,7 @@ MonoBehaviour:
   deckValue: 0
   controlledPlayerID: 2
   cardDealer: {fileID: 517464723}
+  playerController: {fileID: 1855756576}
   myTurn: 0
   checkedCardsToDiscard: 0
   deckCalculated: 0
@@ -6468,6 +6472,8 @@ MonoBehaviour:
   lastPlayerMightBeLying: 0
   probabilityOfLastPlayerLying: 0
   cardsWithDeclaredNumber: 0
+  NoCardsLeft: 0
+  cardsInHand: 1
   cardSpacingY: 0.05
   direction: {x: 0.64, y: 0, z: -0.58}
   timer: 0
@@ -17245,81 +17251,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: -180}
---- !u!1 &392221439
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 392221440}
-  - component: {fileID: 392221442}
-  - component: {fileID: 392221441}
-  m_Layer: 5
-  m_Name: Defeat
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &392221440
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392221439}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.17, y: 1.17, z: 1.17}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 882612911}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 63, y: 150}
-  m_SizeDelta: {x: 1920, y: 1080}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &392221441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392221439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 309fafdbd5ab3d444867d4266fec0e9b, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &392221442
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392221439}
-  m_CullTransparentMesh: 1
 --- !u!1001 &404442963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18192,6 +18123,7 @@ MonoBehaviour:
   someoneGotAccused: 0
   gamePileEmpty: 1
   LastPlayerCanBeAccused: 0
+  roundsWithAPlayerWithNoCards: 0
   deckInfo: {fileID: 517464721}
   mainPile: {fileID: 1002698207}
   discardedPile: {fileID: 669734069}
@@ -21047,7 +20979,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4283743820
-  m_fontColor: {r: 0.2988163, g: 0.745283, b: 0.3307155, a: 1}
+  m_fontColor: {r: 0.25164652, g: 0.6132076, b: 0.2770192, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -21615,7 +21547,6 @@ RectTransform:
   - {fileID: 2039254445}
   - {fileID: 338031140}
   - {fileID: 1944008925}
-  - {fileID: 392221440}
   - {fileID: 1666495551}
   - {fileID: 1753031091}
   m_Father: {fileID: 0}
@@ -21639,6 +21570,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardDealer: {fileID: 517464723}
   mainPlayer: {fileID: 1855756576}
+  firstManolo: {fileID: 241988743}
+  secondManolo: {fileID: 244682606}
   playingNumberText: {fileID: 488012241}
   amountOfCardsOnTheTable: {fileID: 726462876}
   mentiroso: {fileID: 632448284}
@@ -21646,12 +21579,11 @@ MonoBehaviour:
   quienAcusaAquien: {fileID: 1998456726}
   players: 
   playerID: 0
-  playerIDWithNoCards: 0
   currentAcuser: 
   numPad: {fileID: 1666495550}
   endGamePanel: {fileID: 2039254444}
   gameUI: {fileID: 1721686246}
-  defeat: {fileID: 392221439}
+  defeat: {fileID: 1944008924}
   victory: {fileID: 338031137}
   accuse: {fileID: 928924602}
   playButton: {fileID: 915625652}
@@ -33186,6 +33118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardDealer: {fileID: 517464723}
   uiComponet: {fileID: 882612912}
+  NoCardsLeft: 0
+  cardsInHand: 1
   cardSpacingY: 0.05
   direction: {x: 0.84, y: 0, z: -0.01}
   cardLayer:
@@ -33716,7 +33650,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278206207
-  m_fontColor: {r: 1, g: 0.24298395, b: 0, a: 1}
+  m_fontColor: {r: 0.8207547, g: 0.31969354, b: 0.15873085, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

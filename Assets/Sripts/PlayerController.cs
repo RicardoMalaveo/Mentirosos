@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CardDealer cardDealer;
     [SerializeField] private UI uiComponet;
 
+    [SerializeField] public bool NoCardsLeft;
+    [SerializeField] public bool cardsInHand = true;
+
     [Header("Card Spacing")]
     [SerializeField] private float cardSpacingY = 0.05f;
     [SerializeField] private Vector3 direction = new Vector3(0, 0, 0);
@@ -51,24 +54,25 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerInput();
-        //if (Input.GetKeyDown(KeyCode.Space) && cardsToPlay.Count>0 && cardDealer.CurrentPlayer==0 )
-        //{
-        //    PlaySelectedCards();
-        //    checkedCardsToDiscard = false;
-        //    cardDealer.PlayerTurnControl();
-
-        //}
 
         if (cardDealer.CurrentPlayer == 0 && !checkedCardsToDiscard)
         {
             DiscardCards();
         }
 
-        //if (Input.GetKeyDown(KeyCode.A) && !cardDealer.gamePileEmpty && cardDealer.lastPlayer != 0)
-        //{
-        //    cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
-        //    ArrangeCards();
-        //}
+        if(controlledPlayer.playerHand.Count == 0)
+        {
+            cardsInHand = false;
+        }
+        else
+        {
+            cardsInHand = true;
+        }
+
+        if(cardDealer.CurrentPlayer == 0 && !cardsInHand)
+        {
+            NoCardsLeft = true;
+        }
     }
 
 

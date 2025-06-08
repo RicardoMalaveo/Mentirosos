@@ -8,6 +8,8 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private CardDealer cardDealer;
     [SerializeField] private PlayerController mainPlayer;
+    [SerializeField] private ManoloAI firstManolo;
+    [SerializeField] private ManoloAI secondManolo;
     public TextMeshProUGUI playingNumberText;
     public TextMeshProUGUI amountOfCardsOnTheTable;
     public TextMeshProUGUI mentiroso;
@@ -15,7 +17,6 @@ public class UI : MonoBehaviour
     public TextMeshProUGUI quienAcusaAquien;
     public string players;
     public int playerID;
-    public int playerIDWithNoCards;
     public string currentAcuser;
     public GameObject numPad;
     public GameObject endGamePanel;
@@ -84,8 +85,9 @@ public class UI : MonoBehaviour
             playButton.SetActive(false);
         }
 
-        if(cardDealer.aPlayerRanOutOfCards)
+        if(mainPlayer.NoCardsLeft || firstManolo.NoCardsLeft || secondManolo.NoCardsLeft)
         {
+            mentiroso.gameObject.SetActive(false);
             EndGame();
         }
     }
@@ -146,7 +148,7 @@ public class UI : MonoBehaviour
 
     void EndGame()
     {
-        if(playerIDWithNoCards ==0) //el jugador ha ganado
+        if(mainPlayer.NoCardsLeft) //el jugador ha ganado
         {
             endGamePanel.SetActive(true);
             gameUI.SetActive(false);

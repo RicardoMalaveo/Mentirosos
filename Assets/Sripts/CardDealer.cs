@@ -102,7 +102,6 @@ public class CardDealer : MonoBehaviour
 
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
-        CheckIfThereArePlayersWithNoCards();
         if (IsFirstTurn)
         {
             if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
@@ -136,7 +135,6 @@ public class CardDealer : MonoBehaviour
 
         GetCurrentGamePileAmounts();
         LiarChecker();
-        CheckIfThereArePlayersWithNoCards();
     }
 
 
@@ -207,7 +205,10 @@ public class CardDealer : MonoBehaviour
                 playerController.ArrangeCards();
             }
 
-
+            if(!playerController.cardsInHand && CurrentPlayer!=0)
+            {
+                    playerController.NoCardsLeft = true;
+            }
         }
     }
 
@@ -367,23 +368,6 @@ public class CardDealer : MonoBehaviour
 
             CurrentCard = CurrentGamePile[i];
             Debug.Log(cardDeclared + " comparada con " + CurrentCard.cardNumber);
-        }
-    }
-
-    void CheckIfThereArePlayersWithNoCards() //verifica si algun jugador no tiene cartas
-    {
-        for (int i = 0; i < CurrentGamePlayers.Count; i++)
-        {
-            if (CurrentGamePlayers[i].playerHand.Count == 0 && i == CurrentPlayer)
-            {
-                roundsWithAPlayerWithNoCards++;
-            }
-
-            if (roundsWithAPlayerWithNoCards > 1)
-            {
-                aPlayerRanOutOfCards = true;
-                uiComponet.playerIDWithNoCards = i;
-            }
         }
     }
 }

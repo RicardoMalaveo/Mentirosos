@@ -14,6 +14,7 @@ public class ManoloAI : MonoBehaviour
     [SerializeField] private float deckValue = 0;
     [SerializeField] private int controlledPlayerID;
     [SerializeField] private CardDealer cardDealer;
+    [SerializeField] private PlayerController playerController;
 
     [SerializeField] private bool myTurn = false;
     [SerializeField] private bool checkedCardsToDiscard = false;
@@ -25,6 +26,8 @@ public class ManoloAI : MonoBehaviour
     [SerializeField] private float probabilityOfLastPlayerLying = 0;
     [SerializeField] private float cardsWithDeclaredNumber;
 
+    [SerializeField] public bool NoCardsLeft;
+    [SerializeField] public bool cardsInHand = true;
 
     [Header("Card Spacing")]
     [SerializeField] private float cardSpacingY = 0.05f;
@@ -52,9 +55,19 @@ public class ManoloAI : MonoBehaviour
 
     void Update()
     {
-        if(controlledPlayer.playerHand.Count ==0)
+
+        if(controlledPlayer.playerHand.Count !=0)
         {
-            Debug.Log("no cards left");
+            cardsInHand = true;
+        }
+
+        if(!playerController.cardsInHand)
+        {
+            ForcedAccuse();
+        }
+        else if ( !cardsInHand  && cardDealer.CurrentPlayer == controlledPlayerID)
+        {
+            NoCardsLeft = true;
             finishTurn();
         }
         else
@@ -89,6 +102,11 @@ public class ManoloAI : MonoBehaviour
                 ArrangeCards();
                 cardDealer.LastPlayerCanBeAccused = true;
                 finishTurn();
+
+                if (controlledPlayer.playerHand.Count == 0)
+                {
+                    cardsInHand = false;
+                }
             }
         }
     }
@@ -249,6 +267,11 @@ public class ManoloAI : MonoBehaviour
         {
             cardDealer.GetGamePileToLiar(controlledPlayer.playerID);
         }
+    }
+
+    void ForcedAccuse()
+    {
+        cardDealer.GetGamePileToLiar(controlledPlayer.playerID);
     }
 
     void CalculateCardsOnHandValue() //da un valor a las cartas en mano dependiendo de cuantas veces se repitan.
