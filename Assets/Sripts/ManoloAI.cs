@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using static DeckInfo;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+
 
 
 public class ManoloAI : MonoBehaviour
@@ -164,7 +164,7 @@ public class ManoloAI : MonoBehaviour
             }
             else //si el valor de las cartas en mano es alto, es mas probably que mienta, seleccione una cantidad de cartas al azar y posiciones al azar.
             {
-                randomAmount = Random.Range(1, 5);
+                randomAmount = Random.Range(1, 4);
 
                 if (randomAmount > controlledPlayer.playerHand.Count)
                 {
@@ -201,7 +201,7 @@ public class ManoloAI : MonoBehaviour
             }
             else
             {
-                randomAmount = Random.Range(1, 5);
+                randomAmount = Random.Range(1, 4);
                 if (randomAmount > controlledPlayer.playerHand.Count)
                 {
                     randomAmount = controlledPlayer.playerHand.Count;

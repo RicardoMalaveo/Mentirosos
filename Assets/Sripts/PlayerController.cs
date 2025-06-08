@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask cardLayer;
 
     [Header("Card Selection")]
+    [SerializeField] private bool checkedCardsToDiscard = false;
     [SerializeField] private float cardRaise = 0.015f;
     [SerializeField] private float moveDuration = 0.1f;
 
@@ -53,13 +54,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && cardsToPlay.Count>0 && cardDealer.CurrentPlayer==0)
         {
             PlaySelectedCards();
+            checkedCardsToDiscard = false;
             cardDealer.PlayerTurnControl();
 
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (cardDealer.CurrentPlayer == 0 && !checkedCardsToDiscard)
         {
-            DiscardSelectCards();
+            DiscardCards();
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -96,20 +98,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
-
-    void DiscardSelectCards()
+    public void DiscardCards() //descarta cartas cuando tiene 4 con el mismo numero.
     {
-        cardDealer.AddToDiscardedGamePile(cardsToPlay);
-        for (int i = cardsToPlay.Count - 1; i >= 0; i--)
+        for (int i = 0; i < controlledPlayer.playerHand.Count; i++)
         {
-            cardsToPlay[i].isRaised = false;
-            cardsToPlay.RemoveAt(i);
-        }
-        ArrangeCards();
-    }
+            for (int x = 0; x < controlledPlayer.playerHand.Count; x++)
+            {
+                if (controlledPlayer.playerHand[i].cardNumber == controlledPlayer.playerHand[x].cardNumber)
+                {
+                    cardsToPlay.Add(controlledPlayer.playerHand[x]);
+                }
+            }
 
+            if (cardsToPlay.Count > 3)
+            {
+                cardDealer.AddToDiscardedGamePile(cardsToPlay);
+                for (int y = 0; y < cardsToPlay.Count; y++)
+                {
+                    controlledPlayer.playerHand.Remove(cardsToPlay[y]);
+                }
+            }
+            cardsToPlay.Clear();
+        }
+
+        cardsToPlay.Clear();
+        ArrangeCards();
+        checkedCardsToDiscard = true;
+    }
 
     void PlaySelectedCards()
     {
@@ -141,7 +156,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (cardsToPlay.Count >= 4)
+            if (cardsToPlay.Count >= 3)
             {
                 autoSelectedCard = cardsToPlay[0];
                 automaticTargetPosition = autoSelectedCard.initialLocalPosition;
@@ -204,9 +219,6 @@ public class PlayerController : MonoBehaviour
         }
         selectedCard.transform.localPosition = targetPosition;
     }
-
-
-
 
 
     private IEnumerator AutomaticMoveCard(Vector3 automaticTargetPosition)

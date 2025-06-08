@@ -212,6 +212,7 @@ public class CardDealer : MonoBehaviour
         if (playerID ==0)
         {
             playerController.ArrangeCards();
+            playerController.DiscardCards();
         }
         else
         {
@@ -244,9 +245,11 @@ public class CardDealer : MonoBehaviour
                 DiscardedGamePile.AddRange(discardedCards);
                 for (int i = 0; i < DiscardedGamePile.Count; i++)
                 {
+                    CardAnimation animation = DiscardedGamePile[i].GetComponent<CardAnimation>();
+                    animation.AnimateCard(playerHands[CurrentPlayer].transform, discardedPile, 0.75f, new Vector3(0F, 0F, 0F));
                     DiscardedGamePile[i].transform.SetParent(discardedPile);
-                    DiscardedGamePile[i].transform.localPosition = Vector3.zero;
-                    DiscardedGamePile[i].transform.localRotation = Quaternion.identity;
+                    //DiscardedGamePile[i].transform.localPosition = Vector3.zero;
+                    //DiscardedGamePile[i].transform.localRotation = Quaternion.identity;
                 }
 
                 for (int x = playerController.cardsToPlay.Count - 1; x >= 0; x--)

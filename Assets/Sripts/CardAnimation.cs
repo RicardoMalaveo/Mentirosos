@@ -11,7 +11,7 @@ public class CardAnimation : MonoBehaviour
 
     public void AnimateCard(Transform startPos, Transform endPos, float duration, Vector3 finalEulerRotation)
     {
-            StartCoroutine(AnimateMovement(startPos.position,endPos.position,duration,Quaternion.Euler(finalEulerRotation)));
+        StartCoroutine(AnimateMovement(startPos.position,endPos.position,duration,Quaternion.Euler(finalEulerRotation)));
     }
 
     private IEnumerator AnimateMovement(Vector3 from, Vector3 to, float duration, Quaternion finalRotation) 
@@ -33,6 +33,10 @@ public class CardAnimation : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+        
+        transform.position = to;
+        transform.rotation = finalRotation;
+
         isAnimating = false;
     }
 }
