@@ -107,7 +107,7 @@ public class ManoloAI : MonoBehaviour
         }
         else
         {
-            manoloRisk =  0.1F + manoloRisk - (deckValue / 100);
+            manoloRisk =  0.3F + manoloRisk - (deckValue / 150);
             cardsValue.Clear();
         }
 

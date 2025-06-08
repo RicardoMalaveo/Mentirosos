@@ -50,6 +50,7 @@ public class CardDealer : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1F;
         IsFirstTurn = true;
         CreateAndShuffleDeck();
         DealCards();

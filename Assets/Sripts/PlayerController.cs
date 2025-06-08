@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PlayerInput();
-        if (Input.GetKeyDown(KeyCode.Space) && cardsToPlay.Count>0 && cardDealer.CurrentPlayer==0)
+        if (Input.GetKeyDown(KeyCode.Space) && cardsToPlay.Count>0 && cardDealer.CurrentPlayer==0 )
         {
             PlaySelectedCards();
             checkedCardsToDiscard = false;
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
             DiscardCards();
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && !cardDealer.gamePileEmpty && cardDealer.lastPlayer != 0)
         {
             cardDealer.GetGamePileToLiar(controlledPlayer.playerID);// funcion para ejecutar. 
             ArrangeCards();

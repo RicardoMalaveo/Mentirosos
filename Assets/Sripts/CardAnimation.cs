@@ -7,7 +7,6 @@ public class CardAnimation : MonoBehaviour
     public AnimationCurve rotationCurve;
     public Card cards;
 
-    private bool isAnimating = false;
 
     public void AnimateCard(Transform startPos, Transform endPos, float duration, Vector3 finalEulerRotation)
     {
@@ -16,7 +15,6 @@ public class CardAnimation : MonoBehaviour
 
     private IEnumerator AnimateMovement(Vector3 from, Vector3 to, float duration, Quaternion finalRotation) 
     { 
-        isAnimating = true;
         float time = 0f; 
         Quaternion startRotation = transform.rotation;
 
@@ -36,7 +34,5 @@ public class CardAnimation : MonoBehaviour
         
         transform.position = to;
         transform.rotation = finalRotation;
-
-        isAnimating = false;
     }
 }
