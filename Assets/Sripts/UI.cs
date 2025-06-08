@@ -29,7 +29,7 @@ public class UI : MonoBehaviour
 
     private void Update()
     {
-        if(cardDealer.LastPlayerCanBeAccused)
+        if(cardDealer.LastPlayerCanBeAccused && cardDealer.lastPlayer !=0)
         {
             accuse.SetActive(true);
         }
@@ -72,27 +72,16 @@ public class UI : MonoBehaviour
                 playButton.SetActive(false);
             }
 
-
-            //if(cardDealer.IsFirstTurn || cardDealer.lastPlayer ==0)
-            //{
-            //    accuse.SetActive(false);
-            //}
-            //else
-            //{ 
-            //    accuse.SetActive(true);
-            //}
         }
         else if(cardDealer.CurrentPlayer ==1)
         {
             turnos.text = "First Manolo's Turn";
             playButton.SetActive(false);
-            //accuse.SetActive(true);
         }
         else if (cardDealer.CurrentPlayer == 2)
         {
             turnos.text = "Second Manolo's Turn";
             playButton.SetActive(false);
-            //accuse.SetActive(true);
         }
 
         if(cardDealer.aPlayerRanOutOfCards)

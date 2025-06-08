@@ -20,6 +20,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] public bool someoneGotAccused = false;
     [SerializeField] public bool gamePileEmpty = true;
     [SerializeField] public bool LastPlayerCanBeAccused = false;
+    [SerializeField] public int roundsWithAPlayerWithNoCards;
 
     [Header("Deck")]
     public DeckInfo deckInfo;
@@ -101,6 +102,7 @@ public class CardDealer : MonoBehaviour
 
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
+        CheckIfThereArePlayersWithNoCards();
         if (IsFirstTurn)
         {
             if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
@@ -373,6 +375,11 @@ public class CardDealer : MonoBehaviour
         for (int i = 0; i < CurrentGamePlayers.Count; i++)
         {
             if (CurrentGamePlayers[i].playerHand.Count == 0 && i == CurrentPlayer)
+            {
+                roundsWithAPlayerWithNoCards++;
+            }
+
+            if (roundsWithAPlayerWithNoCards > 1)
             {
                 aPlayerRanOutOfCards = true;
                 uiComponet.playerIDWithNoCards = i;
