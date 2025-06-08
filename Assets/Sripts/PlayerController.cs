@@ -120,9 +120,6 @@ public class PlayerController : MonoBehaviour
             controlledPlayer.RemoveCard(cardsToPlay[i]);
             cardsToPlay.RemoveAt(i);
         }
-
-        cardDealer.LiarChecker();
-        cardDealer.GetCurrentGamePileAmounts();
         ArrangeCards();
         AudioManager.Instance.PlaySFX("NextPlayer");
     }

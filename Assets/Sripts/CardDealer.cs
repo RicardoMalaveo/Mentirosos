@@ -18,6 +18,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] private bool didLastPlayerLied;
     [SerializeField] public bool aPlayerRanOutOfCards;
     [SerializeField] public bool someoneGotAccused = false;
+    [SerializeField] public bool gamePileEmpty = true; 
 
     [Header("Deck")]
     public DeckInfo deckInfo;
@@ -96,11 +97,8 @@ public class CardDealer : MonoBehaviour
 
 
 
-
     public void PlayerTurnControl()        //se decide de quien es el turno
     {
-        LiarChecker();
-        CheckIfThereArePlayersWithNoCards();
         if (IsFirstTurn)
         {
             if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
@@ -117,24 +115,25 @@ public class CardDealer : MonoBehaviour
         else if (CurrentPlayer >= CurrentGamePlayers.Count - 1)
         {
             CurrentPlayer = 0;
-            lastPlayer = 2;
+            lastPlayer = CurrentGamePlayers.Count - 1;
         }
         else
         {
-            CurrentPlayer++;
-            lastPlayer = CurrentPlayer - 1;
+            if(CurrentPlayer == lastPlayer)
+            {
+                CurrentPlayer++;
+            }
+            else
+            {
+                CurrentPlayer++;
+                lastPlayer = CurrentPlayer - 1;
+            }
         }
 
-        if (CurrentPlayer == 0)
-        {
-            playerController.ArrangeCards();
-        }
-
-        LiarChecker();
         GetCurrentGamePileAmounts();
+        LiarChecker();
         CheckIfThereArePlayersWithNoCards();
     }
-
 
 
     public void GetGamePileToLiar(int playerId) //se ejecuta cuando alguien acusa, envia las cartas dependiendo de quien haya acusado o si ha mentido
@@ -168,9 +167,12 @@ public class CardDealer : MonoBehaviour
                     //CurrentGamePile[i].isRaised = false;
                     //CurrentGamePlayers[lastPlayer].playerHand.Add(CurrentGamePile[i]);
                 }
+
                 CurrentGamePile.Clear();
                 ResetTable(playerId);
                 StartCoroutine(ArrangeCardsForPlayer(lastPlayer));
+
+                CurrentPlayer = lastPlayer;
             }
             else
             {
@@ -190,6 +192,9 @@ public class CardDealer : MonoBehaviour
                 CurrentGamePile.Clear();
                 ResetTable(playerId);
                 StartCoroutine(ArrangeCardsForPlayer(playerId));
+
+                lastPlayer = CurrentPlayer;
+                CurrentPlayer = playerId;
             }
 
             if (lastPlayer == 0 || playerId == 0)
@@ -267,19 +272,10 @@ public class CardDealer : MonoBehaviour
         CurrentCard = null;
         amountOfCardsPlayed = 0;
         totalAmountOfCardsInThePile = 0;
-
-        if (didLastPlayerLied)
-        {
-            CurrentPlayer = lastPlayer;
-        }
-        else
-        {
-            CurrentPlayer = playerId;
-        }
         didLastPlayerLied = false;
         IsFirstTurn = true;
         someoneGotAccused = false;
-
+        gamePileEmpty = true;
         if (CurrentPlayer == 0)
         {
             playerController.ArrangeCards();
@@ -332,10 +328,11 @@ public class CardDealer : MonoBehaviour
 
     public void GetCurrentGamePileAmounts() //indica el total de cartas en la pila en juego
     {
-        if (IsFirstTurn)
+        if (gamePileEmpty)
         {
             totalAmountOfCardsInThePile = CurrentGamePile.Count;
             amountOfCardsPlayed = totalAmountOfCardsInThePile;
+            gamePileEmpty = false;
         }
         else
         {
@@ -344,24 +341,24 @@ public class CardDealer : MonoBehaviour
         }
     }
 
-
-
-    public void LiarChecker() // indica si el ultimo jugador a mentido
+    public void LiarChecker() //indica si el ultimo jugador a mentido
     {
         for (int i = totalAmountOfCardsInThePile - amountOfCardsPlayed; i < CurrentGamePile.Count; i++)
         {
-            CurrentCard = CurrentGamePile[i];
-            if (cardDeclared != CurrentCard.cardNumber)
+            if(cardDeclared == CurrentGamePile[i].cardNumber)
             {
-                didLastPlayerLied = true;
-                i = CurrentGamePile.Count - 1;
-
-
+                didLastPlayerLied = false;
+                Debug.Log("the last player is telling the truth");
             }
             else
             {
-                didLastPlayerLied = false;
+                didLastPlayerLied = true;
+                i = CurrentGamePile.Count-1;
+                Debug.Log("Last player is lying");
             }
+
+            CurrentCard = CurrentGamePile[i];
+            Debug.Log(cardDeclared + " comparada con " + CurrentCard.cardNumber);
         }
     }
 

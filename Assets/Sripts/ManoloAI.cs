@@ -64,7 +64,6 @@ public class ManoloAI : MonoBehaviour
             {
                 DiscardCards();
                 ArrangeCards();
-                Debug.Log("turn started");
             }
 
 
@@ -89,7 +88,6 @@ public class ManoloAI : MonoBehaviour
             {
                 ArrangeCards();
                 finishTurn();
-                Debug.Log("done");
             }
         }
     }
@@ -229,7 +227,6 @@ public class ManoloAI : MonoBehaviour
         }
 
         ArrangeCards();
-        cardDealer.LiarChecker();
         cardsPlayed = true;
     }
 
@@ -365,6 +362,4 @@ public class ManoloAI : MonoBehaviour
             cardsToPlay.Clear();
         }
     }
-
-
 }
