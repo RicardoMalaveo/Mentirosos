@@ -949,12 +949,12 @@ RectTransform:
   - {fileID: 1716220810}
   - {fileID: 1403867342}
   - {fileID: 830857328}
+  - {fileID: 1047145723}
   - {fileID: 1963048402}
   - {fileID: 1546818806}
   - {fileID: 777717500}
   - {fileID: 646419498}
   - {fileID: 2036796757}
-  - {fileID: 1047145723}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6347,7 +6347,7 @@ GameObject:
   - component: {fileID: 1047145723}
   - component: {fileID: 1047145725}
   - component: {fileID: 1047145724}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: TITLE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
